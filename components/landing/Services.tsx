@@ -13,42 +13,42 @@ const services = [
   {
     Icon: Building2,
     title: 'Amministrazione',
-    desc: 'Gestione completa della proprieta condominiale con massima trasparenza.',
+    desc: 'Gestione completa della proprieta condominiale, convocazioni assembleari e verbalizzazione.',
   },
   {
     Icon: BookOpen,
     title: 'Contabilita',
-    desc: 'Bilanci, rendiconti e gestione finanziaria con report chiari e accessibili.',
+    desc: 'Bilanci preventivi e consuntivi, gestione finanziaria con reportistica chiara e accessibile.',
   },
   {
     Icon: Users,
     title: 'Assemblee',
-    desc: 'Organizzazione e verbalizzazione di assemblee ordinarie e straordinarie.',
+    desc: 'Organizzazione, convocazione e verbalizzazione professionale di assemblee ordinarie e straordinarie.',
   },
   {
     Icon: Wrench,
     title: 'Manutenzione',
-    desc: 'Coordinamento interventi, ditte affidabili e monitoraggio lavori.',
+    desc: "Coordinamento degli interventi di manutenzione ordinaria e straordinaria con ditte qualificate.",
   },
   {
     Icon: FileText,
     title: 'Pratiche Burocratiche',
-    desc: 'Gestione di tutte le pratiche amministrative e normative.',
+    desc: 'Gestione di tutte le pratiche amministrative, catastali e normative richieste.',
   },
   {
     Icon: Scale,
     title: 'Supporto Legale',
-    desc: 'Consulenza per controversie condominiali e recupero crediti.',
+    desc: 'Consulenza e assistenza per controversie condominiali, recupero crediti e mediazioni.',
   },
   {
     Icon: FolderOpen,
     title: 'Documentazione Digitale',
-    desc: 'Archivio digitale accessibile 24/7 con tutti i documenti condominiali.',
+    desc: 'Archivio digitale sicuro, accessibile 24/7 con tutti i documenti del condominio.',
   },
   {
     Icon: Headphones,
     title: 'Assistenza Tecnica',
-    desc: 'Supporto tecnico specializzato per ogni esigenza del condominio.',
+    desc: 'Supporto tecnico specializzato e reperibilita per emergenze condominiali.',
   },
 ]
 
@@ -58,7 +58,7 @@ export function Services() {
       <div className="max-w-6xl mx-auto px-6">
         <div className="text-center mb-16">
           <p
-            className="text-sm font-medium tracking-widest uppercase mb-3"
+            className="text-sm font-medium uppercase mb-3"
             style={{ color: 'var(--gold)', letterSpacing: '0.2em' }}
           >
             Cosa offriamo
@@ -69,30 +69,28 @@ export function Services() {
           >
             I nostri servizi
           </h2>
-          <p className="text-[var(--ink)]/60 max-w-xl mx-auto">
-            Una soluzione completa per la gestione del vostro condominio.
+          <p className="max-w-xl mx-auto" style={{ color: 'rgba(26,20,16,0.55)', fontSize: '1rem' }}>
+            Una soluzione completa e professionale per ogni aspetto della gestione condominiale.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {services.map(({ Icon, title, desc }) => (
             <div
               key={title}
-              className="group p-6 rounded-2xl border border-[var(--cream-dark)] hover:border-[var(--gold)] hover:shadow-lg transition-all duration-300 bg-white/60"
+              className="service-card p-6 rounded-2xl transition-all duration-300 cursor-default bg-white"
+              style={{ border: '1px solid var(--cream-dark)' }}
             >
               <div
-                className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-colors"
+                className="w-11 h-11 rounded-xl flex items-center justify-center mb-4"
                 style={{ backgroundColor: 'var(--cream-dark)' }}
               >
-                <Icon size={22} style={{ color: 'var(--gold)' }} />
+                <Icon size={20} style={{ color: 'var(--gold)' }} />
               </div>
-              <h3
-                className="font-semibold mb-2 text-base"
-                style={{ color: 'var(--navy)' }}
-              >
+              <h3 className="font-semibold mb-2" style={{ color: 'var(--navy)', fontSize: '0.9rem' }}>
                 {title}
               </h3>
-              <p className="text-sm leading-relaxed" style={{ color: 'var(--ink)', opacity: 0.65 }}>
+              <p style={{ color: 'rgba(26,20,16,0.58)', fontSize: '0.82rem', lineHeight: 1.6 }}>
                 {desc}
               </p>
             </div>

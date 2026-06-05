@@ -31,14 +31,16 @@ export function Navbar() {
       }}
     >
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2">
+        <Link href="/" className="flex flex-col leading-none">
           <span
-            className="text-xl font-bold"
+            className="text-lg font-bold"
             style={{ fontFamily: 'var(--font-playfair)', color: 'var(--gold)' }}
           >
-            Rocca
+            Rocca Amministrazioni
           </span>
-          <span className="text-sm text-white/70 hidden sm:block">Amministrazioni</span>
+          <span className="text-xs text-white/45 hidden sm:block tracking-wider">
+            Gestione Condominiale · Bologna
+          </span>
         </Link>
 
         <nav className="hidden md:flex items-center gap-6">

@@ -44,3 +44,17 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .animate-fade-in-up { animation: none; }
 }
+
+.footer-link {
+  color: rgba(255,255,255,0.45);
+  transition: color 0.2s;
+}
+.footer-link:hover {
+  color: rgba(255,255,255,0.8);
+}
+
+.service-card:hover {
+  border-color: var(--gold) !important;
+  box-shadow: 0 8px 24px rgba(201,169,110,0.12);
+  transform: translateY(-2px);
+}
