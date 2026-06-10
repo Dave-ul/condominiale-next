@@ -71,7 +71,7 @@ export default function AuthPage() {
   }
 
   const inputClass =
-    'w-full px-4 py-2.5 rounded-lg border border-[var(--cream-dark)] bg-white text-sm focus:outline-none focus:border-[var(--gold)] transition-colors'
+    'w-full px-4 py-2.5 border border-[var(--cream-dark)] bg-white text-sm focus:outline-none focus:border-[var(--navy)] transition-colors'
 
   return (
     <div
@@ -90,7 +90,7 @@ export default function AuthPage() {
           </Link>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-[var(--cream-dark)]">
+        <div className="bg-white border-2 border-[var(--navy)] overflow-hidden">
           <div className="px-8 pt-8 pb-2">
             <p
               className="text-2xl font-bold mb-1"

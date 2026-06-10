@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rocca Amministrazioni – Gestione Condominiale Bologna</title>
+  <meta name="description" content="Amministrazione condominiale professionale a Bologna e provincia. Gestione digitale, assemblee, contabilita e assistenza 24h." />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Rocca Amministrazioni – Gestione Condominiale Bologna" />
+  <meta property="og:description" content="Amministrazione condominiale professionale a Bologna e provincia." />
+  <link rel="canonical" href="https://roccaamministrazioni.it/" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "Rocca Amministrazioni",
+    "description": "Studio professionale per l'amministrazione condominiale a Bologna e provincia",
+    "founder": { "@type": "Person", "name": "Luigi Rocca" },
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Via Don Giovanni Minzoni 1",
+      "postalCode": "40067",
+      "addressLocality": "Rastignano",
+      "addressRegion": "BO",
+      "addressCountry": "IT"
+    },
+    "telephone": "+393383742204",
+    "email": "pluigi.rocca@yahoo.com",
+    "areaServed": "Bologna",
+    "url": "https://roccaamministrazioni.it"
+  }
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #F7F4EF;
+      --navy: #0D1B2A;
+      --gold: #C9A96E;
+      --ink: #1A1410;
+      --gold-light: #D4B88A;
+      --cream-dark: #EDE8DF;
+      --serif: 'Playfair Display', Georgia, serif;
+      --sans: 'Inter', system-ui, sans-serif;
+      --nav-h: 72px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--sans); background: var(--cream); color: var(--ink); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; }
+
+    /* ── UTILITIES ── */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+    .section-tag { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.75rem; display: block; }
+    .section-title { font-family: var(--serif); font-size: clamp(1.875rem, 3.5vw, 2.75rem); font-weight: 700; line-height: 1.2; margin-bottom: 1rem; }
+    .section-lead { max-width: 540px; color: rgba(26,20,16,.58); line-height: 1.75; font-size: 0.9375rem; }
+    .center { text-align: center; }
+    .center .section-lead { margin: 0 auto 3rem; }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+      padding: .7rem 1.75rem; border-radius: 9999px; font-family: var(--sans);
+      font-size: .875rem; font-weight: 600; cursor: pointer; text-decoration: none;
+      border: none; transition: background .2s, color .2s, border-color .2s, transform .15s;
+      white-space: nowrap;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary   { background: var(--gold); color: var(--navy); }
+    .btn-primary:hover { background: var(--gold-light); }
+    .btn-ghost     { background: transparent; border: 1.5px solid var(--navy); color: var(--navy); }
+    .btn-ghost:hover { background: var(--cream-dark); }
+    .btn-ghost-w   { background: transparent; border: 1.5px solid rgba(255,255,255,.4); color: #fff; }
+    .btn-ghost-w:hover { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.7); }
+    .btn-lg { padding: .875rem 2.25rem; font-size: 1rem; }
+    .btn-sm { padding: .5rem 1.25rem; font-size: .8125rem; }
+
+    /* ── NAVBAR ── */
+    #navbar {
+      position: fixed; top: 0; inset-inline: 0; z-index: 100;
+      height: var(--nav-h);
+      transition: background .35s ease, box-shadow .35s ease;
+    }
+    #navbar.solid { background: var(--navy); box-shadow: 0 2px 28px rgba(0,0,0,.28); }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto; padding: 0 2rem;
+      height: 100%; display: flex; align-items: center; justify-content: space-between; gap: 2rem;
+    }
+    .nav-logo {
+      display: flex; flex-direction: column; line-height: 1.15; text-decoration: none;
+    }
+    .nav-logo-name { font-family: var(--serif); font-size: 1.25rem; font-weight: 700; color: var(--gold); }
+    .nav-logo-sub  { font-size: .65rem; color: rgba(255,255,255,.4); letter-spacing: .1em; text-transform: uppercase; font-weight: 400; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: .875rem; color: rgba(255,255,255,.78); text-decoration: none;
+      transition: color .2s; position: relative; padding-bottom: .1rem;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -2px; left: 0; right: 0; height: 2px;
+      background: var(--gold); transform: scaleX(0); transition: transform .2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+    .nav-links a.active::after { transform: scaleX(1); }
+    .nav-right { display: flex; align-items: center; gap: 1.25rem; flex-shrink: 0; }
+    .nav-phone { display: flex; align-items: center; gap: .4rem; font-size: .8125rem; color: rgba(255,255,255,.65); text-decoration: none; transition: color .2s; }
+    .nav-phone:hover { color: #fff; }
+    .nav-phone svg { flex-shrink: 0; }
+    .hamburger { display: none; background: none; border: none; cursor: pointer; color: #fff; padding: .25rem; line-height: 0; }
+
+    /* mobile menu */
+    #mobile-menu {
+      display: none; flex-direction: column;
+      background: var(--navy); padding: 1.25rem 2rem 1.75rem;
+      border-top: 1px solid rgba(255,255,255,.07);
+    }
+    #mobile-menu.open { display: flex; }
+    #mobile-menu a {
+      color: rgba(255,255,255,.8); text-decoration: none; padding: .75rem 0;
+      border-bottom: 1px solid rgba(255,255,255,.07); font-size: .9375rem;
+    }
+    #mobile-menu a:last-of-type { border-bottom: none; margin-bottom: .75rem; }
+    #mobile-menu .btn { text-align: center; justify-content: center; }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh; display: flex; align-items: center;
+      position: relative; overflow: hidden;
+      background:
+        linear-gradient(rgba(13,27,42,.82) 0%, rgba(13,27,42,.72) 45%, rgba(13,27,42,.9) 100%),
+        repeating-linear-gradient(0deg, transparent 0, transparent 59px, rgba(201,169,110,.05) 59px, rgba(201,169,110,.05) 60px),
+        repeating-linear-gradient(90deg, transparent 0, transparent 79px, rgba(201,169,110,.04) 79px, rgba(201,169,110,.04) 80px),
+        radial-gradient(ellipse 80% 70% at 25% 55%, #13304d 0%, transparent 65%),
+        #0D1B2A;
+    }
+    .hero-body {
+      position: relative; z-index: 2;
+      width: 100%; max-width: 900px; margin: 0 auto;
+      padding: calc(var(--nav-h) + 5rem) 2rem 6rem;
+      text-align: center;
+    }
+    .hero-eyebrow { font-size: .72rem; font-weight: 600; letter-spacing: .25em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem; }
+    .hero-title { font-family: var(--serif); font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 700; color: #fff; line-height: 1.13; margin-bottom: 1.5rem; }
+    .hero-title em { font-style: italic; color: var(--gold); }
+    .hero-desc { font-size: 1.125rem; color: rgba(255,255,255,.62); max-width: 560px; margin: 0 auto 2.75rem; line-height: 1.75; }
+    .hero-ctas { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 4.5rem; }
+    .hero-stats {
+      display: grid; grid-template-columns: repeat(3, 1fr); max-width: 480px; margin: 0 auto;
+      background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12);
+      border-radius: 1rem; backdrop-filter: blur(10px);
+      overflow: hidden;
+    }
+    .stat { padding: 1.5rem 1rem; text-align: center; }
+    .stat + .stat { border-left: 1px solid rgba(255,255,255,.1); }
+    .stat-n { font-family: var(--serif); font-size: 2rem; font-weight: 700; color: var(--gold); line-height: 1; }
+    .stat-l { font-size: .68rem; color: rgba(255,255,255,.42); margin-top: .3rem; letter-spacing: .04em; }
+    .hero-scroll {
+      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      z-index: 2; color: rgba(255,255,255,.3); font-size: .72rem; letter-spacing: .12em;
+      text-transform: uppercase; display: flex; flex-direction: column; align-items: center; gap: .5rem;
+    }
+    .hero-scroll-line {
+      width: 1px; height: 2.5rem;
+      background: linear-gradient(to bottom, rgba(201,169,110,.5), transparent);
+      animation: scrollpulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollpulse { 0%,100%{opacity:.3} 50%{opacity:1} }
+    .hero-fade { position: absolute; bottom: 0; inset-inline: 0; height: 100px; background: linear-gradient(to top, var(--cream), transparent); z-index: 1; }
+
+    /* ── CHI SIAMO ── */
+    #chi-siamo { padding: 7rem 0; background: var(--navy); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    .about-text .section-title { color: #fff; }
+    .about-text .section-lead { color: rgba(255,255,255,.52); max-width: 100%; }
+    .about-quote {
+      font-family: var(--serif); font-size: 1.0625rem; font-style: italic;
+      color: rgba(255,255,255,.68); padding-left: 1.25rem;
+      border-left: 3px solid var(--gold); margin: 1.5rem 0;
+      line-height: 1.65;
+    }
+    .cred-list { list-style: none; display: flex; flex-direction: column; gap: .625rem; margin: 1.5rem 0; }
+    .cred-list li { display: flex; align-items: flex-start; gap: .75rem; color: rgba(255,255,255,.62); font-size: .875rem; line-height: 1.5; }
+    .cred-list li::before { content: ''; width: 1.125rem; height: 1.125rem; background: rgba(201,169,110,.15); border-radius: 50%; flex-shrink: 0; margin-top: .1rem;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23C9A96E' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+      background-size: 65%; background-repeat: no-repeat; background-position: center; }
+    .badges { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.75rem; }
+    .badge {
+      display: inline-flex; align-items: center; gap: .35rem;
+      padding: .35rem .875rem; border-radius: 9999px; font-size: .72rem; font-weight: 500;
+      background: rgba(201,169,110,.1); border: 1px solid rgba(201,169,110,.22); color: var(--gold);
+    }
+    .about-visual { position: relative; }
+    .about-img-box {
+      border-radius: 1.25rem; overflow: hidden; aspect-ratio: 4/5; max-height: 500px;
+      background: linear-gradient(155deg, #162d46 0%, #0a1e32 100%);
+      position: relative;
+    }
+    .about-img-grid {
+      position: absolute; inset: 0;
+      background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(201,169,110,.08) 39px, rgba(201,169,110,.08) 40px),
+        repeating-linear-gradient(90deg, transparent, transparent 49px, rgba(201,169,110,.06) 49px, rgba(201,169,110,.06) 50px);
+    }
+    .about-img-grad { position: absolute; inset: 0; background: linear-gradient(to top, rgba(13,27,42,.85) 0%, transparent 55%); }
+    .about-img-caption { position: absolute; bottom: 0; left: 0; right: 0; padding: 1.75rem; }
+    .about-img-caption strong { display: block; font-family: var(--serif); font-size: 1.375rem; color: #fff; font-weight: 700; }
+    .about-img-caption span { color: var(--gold); font-size: .8125rem; }
+    .about-card {
+      position: absolute; bottom: -1.5rem; left: -1.5rem;
+      background: var(--gold); padding: 1.25rem 1.625rem; border-radius: 1rem;
+      box-shadow: 0 10px 32px rgba(0,0,0,.3);
+    }
+    .about-card .ac-n { font-family: var(--serif); font-size: 2.25rem; font-weight: 700; color: var(--navy); line-height: 1; }
+    .about-card .ac-l { font-size: .72rem; font-weight: 600; color: var(--navy); margin-top: .15rem; opacity: .75; }
+
+    /* ── NUMERI ── */
+    #numeri { padding: 4.5rem 0; background: var(--cream); }
+    .numeri-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; max-width: 720px; margin: 0 auto; text-align: center; }
+    .numero-item .n { font-family: var(--serif); font-size: 3.75rem; font-weight: 700; color: var(--navy); line-height: 1; }
+    .numero-item .l { font-size: .875rem; color: rgba(26,20,16,.5); margin-top: .375rem; }
+
+    /* ── SERVIZI ── */
+    #servizi { padding: 7rem 0; background: var(--cream); }
+    .servizi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; }
+    .serv-card {
+      background: #fff; border: 1px solid var(--cream-dark); border-radius: 1.25rem;
+      padding: 1.625rem; transition: border-color .25s, box-shadow .25s, transform .25s;
+    }
+    .serv-card:hover { border-color: var(--gold); box-shadow: 0 8px 32px rgba(201,169,110,.12); transform: translateY(-3px); }
+    .serv-icon {
+      width: 2.75rem; height: 2.75rem; background: var(--cream-dark); border-radius: .625rem;
+      display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;
+    }
+    .serv-icon svg { width: 1.25rem; height: 1.25rem; stroke: var(--gold); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .serv-title { font-weight: 600; font-size: .9rem; color: var(--navy); margin-bottom: .45rem; }
+    .serv-desc { font-size: .8rem; color: rgba(26,20,16,.58); line-height: 1.65; }
+
+    /* ── VANTAGGI ── */
+    #vantaggi { padding: 7rem 0; background: var(--cream-dark); }
+    .vantaggi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .vant-card {
+      background: #fff; border-radius: 1.25rem; padding: 1.875rem;
+      border: 1px solid rgba(201,169,110,.12);
+    }
+    .vant-num { font-family: var(--serif); font-size: 2.25rem; font-weight: 700; color: rgba(201,169,110,.25); margin-bottom: .75rem; line-height: 1; }
+    .vant-title { font-weight: 600; color: var(--navy); margin-bottom: .5rem; font-size: .9375rem; }
+    .vant-desc { font-size: .8125rem; color: rgba(26,20,16,.58); line-height: 1.7; }
+
+    /* ── PORTALE ── */
+    #portale { padding: 7rem 0; background: var(--cream); }
+    .portale-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    .portale-text .section-title { color: var(--navy); }
+    .portale-text .section-lead { max-width: 100%; }
+    .portal-features { list-style: none; display: flex; flex-direction: column; gap: .75rem; margin: 1.75rem 0 2.25rem; }
+    .portal-features li { display: flex; align-items: center; gap: .75rem; font-size: .875rem; color: rgba(26,20,16,.72); }
+    .portal-features li::before {
+      content: ''; width: 1.25rem; height: 1.25rem; border-radius: 50%; flex-shrink: 0;
+      background: rgba(201,169,110,.15);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23C9A96E' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+      background-size: 60%; background-repeat: no-repeat; background-position: center;
+    }
+    /* portal mock */
+    .portal-mock { border-radius: 1.25rem; overflow: hidden; box-shadow: 0 24px 64px rgba(13,27,42,.18); border: 1px solid rgba(201,169,110,.25); }
+    .pm-chrome { background: var(--navy); padding: .75rem 1.25rem; display: flex; align-items: center; justify-content: space-between; }
+    .pm-title { font-family: var(--serif); font-size: .875rem; font-weight: 600; color: var(--gold); }
+    .pm-dots { display: flex; gap: .35rem; }
+    .pm-dot { width: .75rem; height: .75rem; border-radius: 50%; }
+    .pm-body { background: var(--cream); padding: 1.25rem; }
+    .pm-user {
+      background: #fff; border: 1px solid var(--cream-dark); border-radius: .75rem;
+      padding: .75rem 1rem; display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;
+    }
+    .pm-avatar { width: 2.25rem; height: 2.25rem; border-radius: 50%; background: var(--navy); display: grid; place-items: center; font-size: .65rem; font-weight: 700; color: #fff; flex-shrink: 0; }
+    .pm-info { margin-left: .75rem; flex: 1; }
+    .pm-name { font-size: .8125rem; font-weight: 600; color: var(--navy); }
+    .pm-unit { font-size: .7rem; color: rgba(26,20,16,.42); }
+    .pm-online { font-size: .68rem; background: rgba(34,197,94,.1); color: #15803d; padding: .2rem .625rem; border-radius: 9999px; font-weight: 500; }
+    .pm-cards { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
+    .pm-card { background: #fff; border: 1px solid var(--cream-dark); border-radius: .75rem; padding: 1rem; }
+    .pm-card-icon { width: 1.875rem; height: 1.875rem; border-radius: .5rem; display: grid; place-items: center; margin-bottom: .625rem; }
+    .pm-card-label { font-size: .78rem; font-weight: 600; color: var(--navy); }
+    .pm-card-value { font-size: .68rem; color: rgba(26,20,16,.42); margin-top: .125rem; }
+
+    /* ── FAQ ── */
+    #faq { padding: 7rem 0; background: var(--cream); }
+    .faq-wrap { max-width: 780px; margin: 0 auto; }
+    .faq-list { display: flex; flex-direction: column; gap: .75rem; }
+    .faq-item { border: 1px solid var(--cream-dark); border-radius: .875rem; overflow: hidden; transition: border-color .2s; }
+    .faq-item[aria-expanded="true"] { border-color: var(--gold); }
+    .faq-btn {
+      width: 100%; background: #fff; border: none; padding: 1.25rem 1.5rem;
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      cursor: pointer; text-align: left;
+    }
+    .faq-q { font-weight: 500; font-size: .875rem; color: var(--navy); line-height: 1.5; }
+    .faq-icon { flex-shrink: 0; width: 1.25rem; height: 1.25rem; color: var(--gold); transition: transform .25s; }
+    .faq-item[aria-expanded="true"] .faq-icon { transform: rotate(180deg); }
+    .faq-answer { overflow: hidden; max-height: 0; transition: max-height .3s ease; background: #fff; }
+    .faq-item[aria-expanded="true"] .faq-answer { max-height: 200px; }
+    .faq-answer p { padding: 0 1.5rem 1.25rem; font-size: .85rem; color: rgba(26,20,16,.65); line-height: 1.75; }
+
+    /* ── CONTATTI ── */
+    #contatti { padding: 7rem 0; background: var(--navy); }
+    .contatti-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4.5rem; }
+    .contatti-info .section-title { color: #fff; }
+    .contatti-items { display: flex; flex-direction: column; gap: 1.25rem; margin: 2rem 0; }
+    .ci { display: flex; align-items: flex-start; gap: 1rem; }
+    .ci-icon {
+      width: 2.5rem; height: 2.5rem; border-radius: .625rem;
+      background: rgba(201,169,110,.12); display: grid; place-items: center; flex-shrink: 0;
+    }
+    .ci-icon svg { width: 1.1rem; height: 1.1rem; stroke: var(--gold); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .ci-body { color: rgba(255,255,255,.62); font-size: .875rem; line-height: 1.65; padding-top: .4rem; }
+    .ci-body a { color: rgba(255,255,255,.62); text-decoration: none; transition: color .2s; }
+    .ci-body a:hover { color: #fff; }
+    .ci-body em { color: rgba(201,169,110,.8); font-style: normal; }
+    .map-box { border-radius: .875rem; overflow: hidden; border: 1px solid rgba(255,255,255,.1); }
+    /* contact form */
+    .cform { background: var(--cream); padding: 2rem; border-radius: 1.5rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .fg { margin-bottom: 1rem; }
+    .fg label { display: block; font-size: .75rem; font-weight: 500; color: var(--navy); margin-bottom: .375rem; }
+    .fg input, .fg select, .fg textarea {
+      width: 100%; padding: .65rem 1rem;
+      border: 1px solid var(--cream-dark); border-radius: .625rem;
+      background: #fff; font-family: var(--sans); font-size: .875rem; color: var(--ink);
+      outline: none; transition: border-color .2s; appearance: none;
+    }
+    .fg input:focus, .fg select:focus, .fg textarea:focus { border-color: var(--gold); }
+    .fg textarea { resize: vertical; min-height: 118px; }
+    #form-alert { font-size: .8125rem; padding: .7rem 1rem; border-radius: .5rem; margin-bottom: 1rem; display: none; }
+    #form-alert.ok  { display: block; background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; }
+    #form-alert.err { display: block; background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+
+    /* ── FOOTER ── */
+    footer { background: var(--ink); }
+    .footer-top { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.25fr; gap: 3rem; max-width: 1200px; margin: 0 auto; padding: 3.5rem 2rem 2.5rem; }
+    .ft-logo { font-family: var(--serif); font-size: 1.25rem; font-weight: 700; color: var(--gold); margin-bottom: .75rem; }
+    .ft-desc { font-size: .8125rem; color: rgba(255,255,255,.38); line-height: 1.7; margin-bottom: 1rem; }
+    .ft-hours { font-size: .75rem; color: rgba(255,255,255,.28); display: flex; align-items: center; gap: .35rem; }
+    .ft-hours svg { stroke: rgba(255,255,255,.28); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .ft-social { display: flex; gap: .625rem; margin-top: 1.25rem; }
+    .ft-social a {
+      width: 2rem; height: 2rem; border-radius: 50%;
+      background: rgba(255,255,255,.06); display: grid; place-items: center;
+      transition: background .2s; text-decoration: none;
+    }
+    .ft-social a:hover { background: rgba(201,169,110,.2); }
+    .ft-social svg { width: .875rem; height: .875rem; stroke: rgba(255,255,255,.45); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .ft-col-title { font-size: .68rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.32); margin-bottom: 1.25rem; }
+    .ft-links { list-style: none; display: flex; flex-direction: column; gap: .5rem; }
+    .ft-links a { font-size: .8125rem; color: rgba(255,255,255,.42); text-decoration: none; transition: color .2s; }
+    .ft-links a:hover { color: rgba(255,255,255,.8); }
+    .ft-contact-row { display: flex; align-items: flex-start; gap: .625rem; margin-bottom: .875rem; }
+    .ft-contact-row svg { flex-shrink: 0; margin-top: .1rem; stroke: var(--gold); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .ft-contact-row span, .ft-contact-row a { font-size: .8rem; color: rgba(255,255,255,.42); text-decoration: none; line-height: 1.55; transition: color .2s; }
+    .ft-contact-row a:hover { color: rgba(255,255,255,.78); }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,.07); }
+    .footer-bottom-inner { max-width: 1200px; margin: 0 auto; padding: 1.25rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: .75rem; }
+    .ft-copy { font-size: .72rem; color: rgba(255,255,255,.2); }
+    .ft-bottom-link { font-size: .72rem; color: rgba(255,255,255,.2); text-decoration: none; transition: color .2s; }
+    .ft-bottom-link:hover { color: rgba(255,255,255,.5); }
+
+    /* ── SCROLL TOP ── */
+    #back-top {
+      position: fixed; bottom: 2rem; right: 2rem; z-index: 50;
+      width: 2.75rem; height: 2.75rem; border-radius: 50%;
+      background: var(--gold); border: none; cursor: pointer;
+      display: none; align-items: center; justify-content: center;
+      box-shadow: 0 4px 16px rgba(0,0,0,.22); transition: transform .2s, opacity .2s;
+    }
+    #back-top.show { display: flex; }
+    #back-top:hover { transform: translateY(-3px); }
+    #back-top svg { stroke: var(--navy); fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* ── REVEAL ── */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .55s ease, transform .55s ease; }
+    .reveal.in { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) { .reveal { transition: none; } }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      .servizi-grid { grid-template-columns: repeat(2, 1fr); }
+      .vantaggi-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    }
+    @media (max-width: 768px) {
+      .nav-links, .nav-right { display: none; }
+      .hamburger { display: flex; }
+      .about-grid, .portale-grid, .contatti-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .about-visual { order: -1; }
+      .about-card { bottom: -.75rem; left: -.75rem; }
+      .numeri-grid { grid-template-columns: 1fr; max-width: 280px; }
+      .servizi-grid { grid-template-columns: 1fr; }
+      .vantaggi-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr; gap: 2rem; }
+      .footer-bottom-inner { flex-direction: column; text-align: center; }
+      #contatti, #servizi, #vantaggi, #portale, #faq, #chi-siamo { padding: 5rem 0; }
+    }
+    @media (max-width: 480px) {
+      .container { padding: 0 1.25rem; }
+      .hero-body { padding: calc(var(--nav-h) + 3.5rem) 1.25rem 5rem; }
+      .hero-stats { max-width: 100%; }
+      .btn-lg { padding: .8rem 1.75rem; font-size: .9375rem; }
+      .cform { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ NAVBAR ══ -->
+<header id="navbar" role="banner">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo" aria-label="Rocca Amministrazioni – homepage">
+      <span class="nav-logo-name">Rocca Amministrazioni</span>
+      <span class="nav-logo-sub">Gestione Condominiale · Bologna</span>
+    </a>
+    <ul class="nav-links" role="list">
+      <li><a href="#chi-siamo">Chi Siamo</a></li>
+      <li><a href="#servizi">Servizi</a></li>
+      <li><a href="#portale">Portale</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#contatti">Contatti</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="tel:+393383742204" class="nav-phone" aria-label="Chiama il nostro studio">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 14 19.79 19.79 0 0 1 1.62 5.42 2 2 0 0 1 3.6 3.24h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8 10.5a16 16 0 0 0 6 6l.86-.86a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21.72 18z"/></svg>
+        338 374 2204
+      </a>
+      <a href="/portale" class="btn btn-primary btn-sm">Accedi al Portale</a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Apri menu" aria-expanded="false" aria-controls="mobile-menu">
+      <svg id="ham-open" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      <svg id="ham-close" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <nav id="mobile-menu" aria-label="Menu mobile">
+    <a href="#chi-siamo">Chi Siamo</a>
+    <a href="#servizi">Servizi</a>
+    <a href="#portale">Portale</a>
+    <a href="#faq">FAQ</a>
+    <a href="#contatti">Contatti</a>
+    <a href="/portale" class="btn btn-primary" style="margin-top:.5rem">Accedi al Portale</a>
+  </nav>
+</header>
+
+<!-- ══ HERO ══ -->
+<section id="hero" aria-label="Presentazione">
+  <div class="hero-body">
+    <p class="hero-eyebrow">Amministrazione Condominiale · Bologna</p>
+    <h1 class="hero-title">La tua casa in mani <em>professionali</em></h1>
+    <p class="hero-desc">Gestione condominiale trasparente, digitale e sempre disponibile. Oltre 15 anni di esperienza a Bologna e provincia.</p>
+    <div class="hero-ctas">
+      <a href="#contatti" class="btn btn-primary btn-lg">Richiedi un preventivo</a>
+      <a href="/portale" class="btn btn-ghost-w btn-lg">Accedi al portale</a>
+    </div>
+    <div class="hero-stats" role="list">
+      <div class="stat" role="listitem"><div class="stat-n">50+</div><div class="stat-l">Condomini gestiti</div></div>
+      <div class="stat" role="listitem"><div class="stat-n">24h</div><div class="stat-l">Risposta garantita</div></div>
+      <div class="stat" role="listitem"><div class="stat-n">100%</div><div class="stat-l">Gestione digitale</div></div>
+    </div>
+  </div>
+  <div class="hero-scroll" aria-hidden="true"><div class="hero-scroll-line"></div></div>
+  <div class="hero-fade" aria-hidden="true"></div>
+</section>
+
+<!-- ══ CHI SIAMO ══ -->
+<section id="chi-siamo" aria-labelledby="about-title">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <span class="section-tag">Chi siamo</span>
+        <h2 class="section-title" id="about-title">Professionalita al servizio del vostro condominio</h2>
+        <blockquote class="about-quote">
+          "La mia missione e semplificare la vita dei condomini attraverso una gestione trasparente, digitale e sempre disponibile."
+        </blockquote>
+        <p class="section-lead" style="color:rgba(255,255,255,.52)">Luigi Rocca, fondatore e amministratore principale, opera nell'ambito della gestione condominiale da oltre 15 anni a Bologna e provincia. Il nostro studio garantisce professionalita certificata e un approccio moderno alla gestione del patrimonio condominiale.</p>
+      </div>
+      <div class="about-visual reveal">
+        <div class="about-img-box">
+          <div class="about-img-grid" aria-hidden="true"></div>
+          <div class="about-img-grad" aria-hidden="true"></div>
+          <div class="about-img-caption">
+            <strong>Luigi Rocca</strong>
+            <span>Amministratore Condominiale</span>
+          </div>
+        </div>
+        <div class="about-card" aria-hidden="true">
+          <div class="ac-n">50+</div>
+          <div class="ac-l">Condomini gestiti</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ NUMERI ══ -->
+<section id="numeri" aria-label="I nostri numeri">
+  <div class="container">
+    <div class="numeri-grid">
+      <div class="numero-item reveal"><div class="n">50+</div><div class="l">Condomini gestiti</div></div>
+      <div class="numero-item reveal"><div class="n">24h</div><div class="l">Risposta garantita</div></div>
+      <div class="numero-item reveal"><div class="n">100%</div><div class="l">Gestione digitale</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SERVIZI ══ -->
+<section id="servizi" aria-labelledby="servizi-title">
+  <div class="container">
+    <div class="center reveal">
+      <span class="section-tag">Cosa offriamo</span>
+      <h2 class="section-title" id="servizi-title" style="color:var(--navy)">I nostri servizi</h2>
+      <p class="section-lead">Una soluzione completa e professionale per ogni aspetto della gestione condominiale.</p>
+    </div>
+    <div class="servizi-grid">
+      <div class="serv-card reveal">
+        <div class="serv-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+        <div class="serv-title">Amministrazione</div>
+        <div class="serv-desc">Gestione completa della proprieta condominiale con massima trasparenza.</div>
+      </div>
+      <div class="serv-card reveal">
+        <div class="serv-icon"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div>
+        <div class="serv-title">Contabilita</div>
+        <div class="serv-desc">Bilanci, rendiconti e gestione finanziaria con report chiari e accessibili.</div>
+      </div>
+      <div class="serv-card reveal">
+        <div class="serv-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <div class="serv-title">Assemblee</div>
+        <div class="serv-desc">Organizzazione e verbalizzazione di assemblee ordinarie e straordinarie.</div>
+      </div>
+      <div class="serv-card reveal">
+        <div class="serv-icon"><svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div>
+        <div class="serv-title">Manutenzione</div>
+        <div class="serv-desc">Coordinamento interventi, ditte affidabili e monitoraggio lavori.</div>
+      </div>
+      <div class="serv-card reveal">
+        <div class="serv-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+        <div class="serv-title">Pratiche Burocratiche</div>
+        <div class="serv-desc">Gestione di tutte le pratiche amministrative e normative.</div>
+      </div>
+      <div class="serv-card reveal">
+        <div class="serv-icon"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></div>
+        <div class="serv-title">Supporto Legale</div>
+        <div class="serv-desc">Consulenza per controversie condominiali e recupero crediti.</div>
+      </div>
+      <div class="serv-card reveal">
+        <div class="serv-icon"><svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></div>
+        <div class="serv-title">Documentazione Digitale</div>
+        <div class="serv-desc">Archivio digitale accessibile 24/7 con tutti i documenti condominiali.</div>
+      </div>
+      <div class="serv-card reveal">
+        <div class="serv-icon"><svg viewBox="0 0 24 24"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></div>
+        <div class="serv-title">Assistenza Tecnica</div>
+        <div class="serv-desc">Supporto tecnico specializzato per ogni esigenza del condominio.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ VANTAGGI ══ -->
+<section id="vantaggi" aria-labelledby="vantaggi-title">
+  <div class="container">
+    <div class="center reveal">
+      <span class="section-tag">Perche sceglierci</span>
+      <h2 class="section-title" id="vantaggi-title" style="color:var(--navy)">I nostri vantaggi</h2>
+      <p class="section-lead">Scopri perche piu di 50 condomini a Bologna si affidano a noi ogni giorno.</p>
+    </div>
+    <div class="vantaggi-grid">
+      <div class="vant-card reveal"><div class="vant-num">01</div><div class="vant-title">Sempre disponibile</div><div class="vant-desc">Reperibilita 24/7 per emergenze. Non sarete mai soli di fronte a un problema urgente.</div></div>
+      <div class="vant-card reveal"><div class="vant-num">02</div><div class="vant-title">Risposta rapida</div><div class="vant-desc">Garantiamo risposta entro 24 ore per ogni richiesta ordinaria, tempi ridotti per le urgenze.</div></div>
+      <div class="vant-card reveal"><div class="vant-num">03</div><div class="vant-title">Gestione digitale</div><div class="vant-desc">Portale online dedicato per accedere a documenti, pagamenti e comunicazioni ovunque.</div></div>
+      <div class="vant-card reveal"><div class="vant-num">04</div><div class="vant-title">Massima trasparenza</div><div class="vant-desc">Rendicontazione dettagliata e accessibile. Ogni spesa documentata e verificabile.</div></div>
+      <div class="vant-card reveal"><div class="vant-num">05</div><div class="vant-title">Supporto continuo</div><div class="vant-desc">Assistenza professionale per ogni necessita, dalla gestione ordinaria alle problematiche straordinarie.</div></div>
+      <div class="vant-card reveal"><div class="vant-num">06</div><div class="vant-title">Esperienza certificata</div><div class="vant-desc">Oltre 15 anni di esperienza con formazione continua e aggiornamenti normativi costanti.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PORTALE ══ -->
+<section id="portale" aria-labelledby="portale-title">
+  <div class="container">
+    <div class="portale-grid">
+      <div class="portale-text reveal">
+        <span class="section-tag">Portale Condominiale</span>
+        <h2 class="section-title" id="portale-title" style="color:var(--navy)">Tutto il tuo condominio a portata di click</h2>
+        <p class="section-lead">Il portale dedicato permette a ogni condomino di gestire documenti, pagamenti e richieste direttamente dal proprio dispositivo, in qualsiasi momento.</p>
+        <ul class="portal-features" role="list">
+          <li>Accesso 24/7 ai documenti condominiali</li>
+          <li>Pagamento quote e caricamento ricevute</li>
+          <li>Invio segnalazioni e richieste di assistenza</li>
+          <li>Ricezione comunicazioni e circolari</li>
+          <li>Storico assemblee e verbali</li>
+          <li>Trasparenza totale sulla contabilita</li>
+        </ul>
+        <a href="/portale" class="btn btn-primary btn-lg">Accedi al portale</a>
+      </div>
+      <div class="reveal">
+        <div class="portal-mock" role="img" aria-label="Anteprima del portale condominiale">
+          <div class="pm-chrome">
+            <span class="pm-title">Portale Condominiale</span>
+            <div class="pm-dots">
+              <div class="pm-dot" style="background:#ef4444"></div>
+              <div class="pm-dot" style="background:#f59e0b"></div>
+              <div class="pm-dot" style="background:#22c55e"></div>
+            </div>
+          </div>
+          <div class="pm-body">
+            <div class="pm-user">
+              <div style="display:flex;align-items:center;gap:.75rem">
+                <div class="pm-avatar">MR</div>
+                <div class="pm-info"><div class="pm-name">Mario Rossi</div><div class="pm-unit">Interno 3A</div></div>
+              </div>
+              <span class="pm-online">Online</span>
+            </div>
+            <div class="pm-cards">
+              <div class="pm-card">
+                <div class="pm-card-icon" style="background:rgba(29,78,216,.08)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1d4ed8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+                <div class="pm-card-label">Documenti</div><div class="pm-card-value">12 file disponibili</div>
+              </div>
+              <div class="pm-card">
+                <div class="pm-card-icon" style="background:rgba(5,150,105,.08)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+                <div class="pm-card-label">Messaggi</div><div class="pm-card-value">3 nuovi messaggi</div>
+              </div>
+              <div class="pm-card">
+                <div class="pm-card-icon" style="background:rgba(180,83,9,.08)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#b45309" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>
+                <div class="pm-card-label">Pagamenti</div><div class="pm-card-value">€ 180,00 in attesa</div>
+              </div>
+              <div class="pm-card">
+                <div class="pm-card-icon" style="background:rgba(124,58,237,.08)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+                <div class="pm-card-label">Assemblee</div><div class="pm-card-value">Prossima: luglio</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FAQ ══ -->
+<section id="faq" aria-labelledby="faq-title">
+  <div class="container">
+    <div class="center reveal">
+      <span class="section-tag">Domande frequenti</span>
+      <h2 class="section-title" id="faq-title" style="color:var(--navy)">FAQ</h2>
+    </div>
+    <div class="faq-wrap">
+      <div class="faq-list" role="list">
+
+        <div class="faq-item" role="listitem" aria-expanded="false">
+          <button class="faq-btn" aria-expanded="false">
+            <span class="faq-q">Quanto costa il servizio di amministrazione?</span>
+            <svg class="faq-icon" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="faq-answer" role="region"><p>Il costo dipende dalla dimensione del condominio e dai servizi richiesti. Contattaci per un preventivo personalizzato e senza impegno.</p></div>
+        </div>
+
+        <div class="faq-item" role="listitem" aria-expanded="false">
+          <button class="faq-btn" aria-expanded="false">
+            <span class="faq-q">Come posso accedere al portale condominiale?</span>
+            <svg class="faq-icon" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="faq-answer" role="region"><p>Riceverai un'email di invito con le credenziali di accesso. Potrai entrare dal menu in alto o direttamente dalla pagina /portale.</p></div>
+        </div>
+
+        <div class="faq-item" role="listitem" aria-expanded="false">
+          <button class="faq-btn" aria-expanded="false">
+            <span class="faq-q">Come vengono gestite le emergenze notturne?</span>
+            <svg class="faq-icon" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="faq-answer" role="region"><p>Garantiamo reperibilita 24 ore su 24 per emergenze condominiali. Puoi contattarci al numero dedicato o inviare una richiesta urgente dal portale.</p></div>
+        </div>
+
+        <div class="faq-item" role="listitem" aria-expanded="false">
+          <button class="faq-btn" aria-expanded="false">
+            <span class="faq-q">Come avviene la transizione da un'altra amministrazione?</span>
+            <svg class="faq-icon" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="faq-answer" role="region"><p>Ci occupiamo di tutta la transizione, richiedendo la documentazione al precedente amministratore e garantendo continuita nella gestione.</p></div>
+        </div>
+
+        <div class="faq-item" role="listitem" aria-expanded="false">
+          <button class="faq-btn" aria-expanded="false">
+            <span class="faq-q">I documenti condominiali sono accessibili online?</span>
+            <svg class="faq-icon" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="faq-answer" role="region"><p>Si, tramite il portale digitale tutti i condomini possono accedere a verbali, rendiconti, circolari e ogni altro documento in qualsiasi momento.</p></div>
+        </div>
+
+        <div class="faq-item" role="listitem" aria-expanded="false">
+          <button class="faq-btn" aria-expanded="false">
+            <span class="faq-q">Come vengono gestiti i pagamenti delle quote condominiali?</span>
+            <svg class="faq-icon" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="faq-answer" role="region"><p>Predisponiamo i MAV e gestiamo la contabilita. I condomini morosi vengono gestiti con procedure di recupero crediti nel rispetto della normativa vigente.</p></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CONTATTI ══ -->
+<section id="contatti" aria-labelledby="contatti-title">
+  <div class="container">
+    <div class="center reveal" style="margin-bottom:3.5rem">
+      <span class="section-tag">Contattaci</span>
+      <h2 class="section-title" id="contatti-title" style="color:#fff">Parliamo del tuo condominio</h2>
+    </div>
+    <div class="contatti-grid">
+      <div class="reveal">
+        <div class="contatti-items">
+          <div class="ci">
+            <div class="ci-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+            <div class="ci-body">Via Don Giovanni Minzoni 1<br>40067 Rastignano (BO)</div>
+          </div>
+          <div class="ci">
+            <div class="ci-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 14 19.79 19.79 0 0 1 1.62 5.42 2 2 0 0 1 3.6 3.24h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8 10.5a16 16 0 0 0 6 6l.86-.86a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21.72 18z"/></svg></div>
+            <div class="ci-body"><a href="tel:+393383742204">+39 338 374 2204</a></div>
+          </div>
+          <div class="ci">
+            <div class="ci-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+            <div class="ci-body"><a href="mailto:pluigi.rocca@yahoo.com">pluigi.rocca@yahoo.com</a></div>
+          </div>
+          <div class="ci">
+            <div class="ci-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+            <div class="ci-body">Lun–Ven 9:00–13:00 · 15:00–18:30<br><em>Emergenze: 24h su 24</em></div>
+          </div>
+        </div>
+        <div class="map-box">
+          <iframe
+            title="Sede studio Rocca Amministrazioni"
+            src="https://www.openstreetmap.org/export/embed.html?bbox=11.3498%2C44.4185%2C11.3698%2C44.4385&layer=mapnik&marker=44.4285%2C11.3598"
+            width="100%" height="240" style="border:0;display:block;filter:grayscale(35%)" loading="lazy"
+          ></iframe>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="cform">
+          <div id="form-alert" role="alert"></div>
+          <div class="form-row">
+            <div class="fg"><label for="f-nome">Nome *</label><input type="text" id="f-nome" name="name" required autocomplete="given-name" /></div>
+            <div class="fg"><label for="f-cognome">Cognome *</label><input type="text" id="f-cognome" name="surname" required autocomplete="family-name" /></div>
+          </div>
+          <div class="fg"><label for="f-email">Email *</label><input type="email" id="f-email" name="email" required autocomplete="email" /></div>
+          <div class="fg"><label for="f-telefono">Telefono</label><input type="tel" id="f-telefono" name="phone" autocomplete="tel" /></div>
+          <div class="fg">
+            <label for="f-oggetto">Oggetto</label>
+            <select id="f-oggetto" name="subject">
+              <option value="nuovo_incarico">Nuovo incarico</option>
+              <option value="cambio_amministratore">Cambio amministratore</option>
+              <option value="consulenza">Consulenza</option>
+              <option value="preventivo">Preventivo</option>
+              <option value="altro">Altro</option>
+            </select>
+          </div>
+          <div class="fg"><label for="f-messaggio">Messaggio *</label><textarea id="f-messaggio" name="message" required rows="4"></textarea></div>
+          <button type="button" id="form-send" class="btn btn-primary" style="width:100%">Invia messaggio</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer role="contentinfo">
+  <div class="footer-top">
+    <div>
+      <div class="ft-logo">Rocca Amministrazioni</div>
+      <p class="ft-desc">Studio professionale per l'amministrazione condominiale a Bologna e provincia. Professionalita, trasparenza e innovazione digitale.</p>
+      <div class="ft-hours">
+        <svg width="13" height="13" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Lun–Ven 9:00–13:00 · 15:00–18:30
+      </div>
+      <div class="ft-social" aria-label="Social">
+        <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+        <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+        <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+      </div>
+    </div>
+    <div>
+      <div class="ft-col-title">Servizi</div>
+      <ul class="ft-links">
+        <li><a href="#servizi">Amministrazione</a></li>
+        <li><a href="#servizi">Contabilita</a></li>
+        <li><a href="#servizi">Assemblee</a></li>
+        <li><a href="#servizi">Manutenzione</a></li>
+        <li><a href="#servizi">Pratiche Burocratiche</a></li>
+        <li><a href="#servizi">Supporto Legale</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="ft-col-title">Studio</div>
+      <ul class="ft-links">
+        <li><a href="#chi-siamo">Chi Siamo</a></li>
+        <li><a href="#servizi">Servizi</a></li>
+        <li><a href="#vantaggi">Vantaggi</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#contatti">Contatti</a></li>
+        <li><a href="/portale">Portale Clienti</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="ft-col-title">Contatti</div>
+      <div class="ft-contact-row">
+        <svg width="14" height="14" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span>Via Don Giovanni Minzoni 1<br>40067 Rastignano (BO)</span>
+      </div>
+      <div class="ft-contact-row">
+        <svg width="14" height="14" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 14 19.79 19.79 0 0 1 1.62 5.42 2 2 0 0 1 3.6 3.24h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8 10.5a16 16 0 0 0 6 6l.86-.86a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21.72 18z"/></svg>
+        <a href="tel:+393383742204">+39 338 374 2204</a>
+      </div>
+      <div class="ft-contact-row">
+        <svg width="14" height="14" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <a href="mailto:pluigi.rocca@yahoo.com">pluigi.rocca@yahoo.com</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-bottom-inner">
+      <p class="ft-copy">&copy; <span id="yr"></span> Rocca Amministrazioni di Luigi Rocca. P.IVA: tutti i diritti riservati.</p>
+      <a href="/portale" class="ft-bottom-link">Portale condominiale</a>
+    </div>
+  </div>
+</footer>
+
+<!-- scroll to top -->
+<button id="back-top" aria-label="Torna in cima">
+  <svg width="18" height="18" viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+
+<script>
+  /* year */
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  /* navbar */
+  const navbar = document.getElementById('navbar');
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  const NAV_H = 72;
+
+  function onScroll() {
+    const y = window.scrollY;
+    navbar.classList.toggle('solid', y > 20);
+    document.getElementById('back-top').classList.toggle('show', y > 500);
+
+    /* active link */
+    let current = '';
+    sections.forEach(s => { if (y + NAV_H + 10 >= s.offsetTop) current = s.id; });
+    navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* smooth scroll with offset */
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const id = a.getAttribute('href').slice(1);
+      if (!id) { window.scrollTo({ top: 0, behavior: 'smooth' }); e.preventDefault(); return; }
+      const el = document.getElementById(id);
+      if (el) {
+        e.preventDefault();
+        window.scrollTo({ top: el.offsetTop - NAV_H, behavior: 'smooth' });
+        document.getElementById('mobile-menu').classList.remove('open');
+      }
+    });
+  });
+
+  /* hamburger */
+  const ham = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobile-menu');
+  ham.addEventListener('click', () => {
+    const open = mobileMenu.classList.toggle('open');
+    ham.setAttribute('aria-expanded', open);
+    document.getElementById('ham-open').style.display  = open ? 'none' : '';
+    document.getElementById('ham-close').style.display = open ? '' : 'none';
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      mobileMenu.classList.remove('open');
+      ham.setAttribute('aria-expanded', 'false');
+      document.getElementById('ham-open').style.display  = '';
+      document.getElementById('ham-close').style.display = 'none';
+    }
+  });
+
+  /* scroll to top */
+  document.getElementById('back-top').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  /* reveal */
+  const reveals = document.querySelectorAll('.reveal');
+  const ro = new IntersectionObserver(entries => {
+    entries.forEach((en, i) => {
+      if (en.isIntersecting) {
+        setTimeout(() => en.target.classList.add('in'), i * 75);
+        ro.unobserve(en.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => ro.observe(el));
+
+  /* FAQ accordion – click + keyboard */
+  document.querySelectorAll('.faq-item').forEach(item => {
+    const btn = item.querySelector('.faq-btn');
+    btn.addEventListener('click', () => {
+      const open = item.getAttribute('aria-expanded') === 'true';
+      document.querySelectorAll('.faq-item').forEach(i => i.setAttribute('aria-expanded', 'false'));
+      document.querySelectorAll('.faq-btn').forEach(b => b.setAttribute('aria-expanded', 'false'));
+      if (!open) {
+        item.setAttribute('aria-expanded', 'true');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+    btn.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); btn.click(); }
+    });
+  });
+
+  /* contact form – Formspree */
+  document.getElementById('form-send').addEventListener('click', async () => {
+    const sendBtn = document.getElementById('form-send');
+    const alertEl = document.getElementById('form-alert');
+    const nome     = document.getElementById('f-nome').value.trim();
+    const cognome  = document.getElementById('f-cognome').value.trim();
+    const email    = document.getElementById('f-email').value.trim();
+    const messaggio = document.getElementById('f-messaggio').value.trim();
+
+    alertEl.className = '';
+
+    if (!nome || !cognome || !email || !messaggio) {
+      alertEl.className = 'err';
+      alertEl.textContent = 'Compila tutti i campi obbligatori.';
+      return;
+    }
+    const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRe.test(email)) {
+      alertEl.className = 'err';
+      alertEl.textContent = 'Inserisci un indirizzo email valido.';
+      return;
+    }
+
+    sendBtn.textContent = 'Invio in corso...';
+    sendBtn.disabled = true;
+
+    try {
+      const res = await fetch('https://formspree.io/f/xjkwqgpq', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          name:    nome + ' ' + cognome,
+          email,
+          phone:   document.getElementById('f-telefono').value,
+          subject: document.getElementById('f-oggetto').value,
+          message: messaggio
+        })
+      });
+      if (res.ok) {
+        alertEl.className = 'ok';
+        alertEl.textContent = 'Messaggio inviato! Ti risponderemo entro 24 ore.';
+        ['f-nome','f-cognome','f-email','f-telefono','f-messaggio'].forEach(id => { document.getElementById(id).value = ''; });
+      } else { throw new Error('server'); }
+    } catch {
+      alertEl.className = 'err';
+      alertEl.textContent = 'Errore nell\'invio. Riprova o chiamaci direttamente.';
+    }
+
+    sendBtn.textContent = 'Invia messaggio';
+    sendBtn.disabled = false;
+    setTimeout(() => { alertEl.className = ''; alertEl.textContent = ''; }, 4000);
+  });
+</script>
+</body>
+</html>

@@ -77,7 +77,7 @@ export function DocumentsClient({ documents: initial, isAdmin }: { documents: Do
     }
   }
 
-  const inputClass = 'w-full px-4 py-2.5 rounded-lg border border-[var(--cream-dark)] bg-white text-sm focus:outline-none focus:border-[var(--gold)] transition-colors'
+  const inputClass = 'w-full px-4 py-2.5 border border-[var(--cream-dark)] bg-white text-sm focus:outline-none focus:border-[var(--navy)] transition-colors'
 
   return (
     <div className="p-6 lg:p-8">
@@ -102,7 +102,7 @@ export function DocumentsClient({ documents: initial, isAdmin }: { documents: Do
           <button
             key={c}
             onClick={() => setFilter(c)}
-            className="px-3 py-1.5 rounded-full text-xs font-medium transition-all capitalize"
+            className="px-3 py-1.5 text-xs font-medium transition-all capitalize"
             style={{
               backgroundColor: filter === c ? 'var(--navy)' : 'white',
               color: filter === c ? 'white' : 'var(--ink)',
@@ -126,11 +126,11 @@ export function DocumentsClient({ documents: initial, isAdmin }: { documents: Do
             return (
               <div
                 key={doc.id}
-                className="p-5 rounded-2xl border bg-white hover:shadow-md transition-all duration-200 group"
+                className="p-5 border bg-white hover:shadow-md transition-all duration-200 group"
                 style={{ borderColor: 'var(--cream-dark)' }}
               >
                 <div className="flex items-start justify-between mb-3">
-                  <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: 'rgba(201,169,110,0.1)' }}>
+                  <div className="w-10 h-10 flex items-center justify-center" style={{ backgroundColor: 'var(--navy)' }}>
                     <Icon size={20} style={{ color: 'var(--gold)' }} />
                   </div>
                   <Badge color={(categoryColors[doc.category ?? 'altro'] as never) ?? 'gray'}>
@@ -174,7 +174,7 @@ export function DocumentsClient({ documents: initial, isAdmin }: { documents: Do
           <div>
             <label className="text-xs font-medium text-[var(--navy)] mb-1.5 block">File *</label>
             <div
-              className="border-2 border-dashed rounded-xl p-6 text-center cursor-pointer hover:border-[var(--gold)] transition-colors"
+              className="border-2 border-dashed p-6 text-center cursor-pointer hover:border-[var(--gold)] transition-colors"
               style={{ borderColor: form.file ? 'var(--gold)' : 'var(--cream-dark)' }}
               onClick={() => document.getElementById('doc-file')?.click()}
             >

@@ -39,7 +39,7 @@ export function RequestsClient({
   const [form, setForm] = useState({ title: '', description: '', category: 'guasto' })
   const supabase = createClient()
 
-  const inputClass = 'w-full px-4 py-2.5 rounded-lg border border-[var(--cream-dark)] bg-white text-sm focus:outline-none focus:border-[var(--gold)] transition-colors'
+  const inputClass = 'w-full px-4 py-2.5 border border-[var(--cream-dark)] bg-white text-sm focus:outline-none focus:border-[var(--navy)] transition-colors'
 
   const filtered = filterStatus === 'tutti' ? requests : requests.filter((r) => r.status === filterStatus)
 
@@ -97,7 +97,7 @@ export function RequestsClient({
           <button
             key={s}
             onClick={() => setFilterStatus(s)}
-            className="px-3 py-1.5 rounded-full text-xs font-medium transition-all capitalize"
+            className="px-3 py-1.5 text-xs font-medium transition-all capitalize"
             style={{
               backgroundColor: filterStatus === s ? 'var(--navy)' : 'white',
               color: filterStatus === s ? 'white' : 'var(--ink)',
@@ -119,7 +119,7 @@ export function RequestsClient({
           {filtered.map((r) => (
             <div
               key={r.id}
-              className="p-5 rounded-2xl border bg-white"
+              className="p-5 border bg-white"
               style={{ borderColor: 'var(--cream-dark)' }}
             >
               <div className="flex items-start justify-between gap-4 flex-wrap mb-2">
@@ -152,7 +152,7 @@ export function RequestsClient({
                 </p>
                 {isAdmin && (
                   <select
-                    className="text-xs px-3 py-1.5 rounded-lg border focus:outline-none"
+                    className="text-xs px-3 py-1.5 border focus:outline-none"
                     style={{ borderColor: 'var(--cream-dark)', color: 'var(--navy)' }}
                     value={r.status}
                     onChange={(e) => updateStatus(r.id, e.target.value as Request['status'])}

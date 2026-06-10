@@ -44,7 +44,7 @@ export default async function AdminPage() {
         ].map(({ Icon, label, value, color }) => (
           <div
             key={label}
-            className="p-5 rounded-2xl border bg-white"
+            className="p-5 border bg-white"
             style={{ borderColor: 'var(--cream-dark)' }}
           >
             <Icon size={20} className="mb-3" style={{ color }} />
@@ -63,11 +63,11 @@ export default async function AdminPage() {
             {residents?.map((r) => (
               <div
                 key={r.id}
-                className="flex items-center gap-4 p-4 rounded-xl border bg-white"
+                className="flex items-center gap-4 p-4 border bg-white"
                 style={{ borderColor: 'var(--cream-dark)' }}
               >
                 <div
-                  className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0"
+                  className="w-9 h-9 flex items-center justify-center text-xs font-bold text-white shrink-0"
                   style={{ backgroundColor: 'var(--navy)' }}
                 >
                   {getInitials(r.full_name ?? r.email ?? '?')}
@@ -109,7 +109,7 @@ export default async function AdminPage() {
             ].map(({ label, count, color }) => (
               <div key={label} className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: color }} />
+                  <span className="w-2.5 h-2.5" style={{ backgroundColor: color }} />
                   <span className="text-sm" style={{ color: 'var(--ink)' }}>{label}</span>
                 </div>
                 <span className="font-bold text-sm" style={{ color: 'var(--navy)' }}>{count}</span>

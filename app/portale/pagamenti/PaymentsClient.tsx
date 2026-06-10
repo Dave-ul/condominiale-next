@@ -31,7 +31,7 @@ export function PaymentsClient({
   const [newForm, setNewForm] = useState({ resident_id: '', description: '', amount: '', due_date: '', stripe_link: '' })
   const supabase = createClient()
 
-  const inputClass = 'w-full px-4 py-2.5 rounded-lg border border-[var(--cream-dark)] bg-white text-sm focus:outline-none focus:border-[var(--gold)] transition-colors'
+  const inputClass = 'w-full px-4 py-2.5 border border-[var(--cream-dark)] bg-white text-sm focus:outline-none focus:border-[var(--navy)] transition-colors'
 
   const uploadReceipt = async () => {
     if (!receiptFile || !receiptModal) return
@@ -116,7 +116,7 @@ export function PaymentsClient({
           {payments.map((p) => (
             <div
               key={p.id}
-              className="p-5 rounded-2xl border bg-white"
+              className="p-5 border bg-white"
               style={{ borderColor: 'var(--cream-dark)' }}
             >
               <div className="flex items-start justify-between gap-4 flex-wrap">
@@ -178,7 +178,7 @@ export function PaymentsClient({
       <Modal open={!!receiptModal} onClose={() => { setReceiptModal(null); setReceiptFile(null); setAlert(null) }} title="Carica ricevuta">
         {alert && <Alert type={alert.type} message={alert.message} className="mb-4" />}
         <div
-          className="border-2 border-dashed rounded-xl p-8 text-center cursor-pointer hover:border-[var(--gold)] transition-colors mb-4"
+          className="border-2 border-dashed p-8 text-center cursor-pointer hover:border-[var(--gold)] transition-colors mb-4"
           style={{ borderColor: receiptFile ? 'var(--gold)' : 'var(--cream-dark)' }}
           onClick={() => document.getElementById('receipt-file')?.click()}
         >
