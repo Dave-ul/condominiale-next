@@ -6,9 +6,9 @@ import { MapPin, Phone, Mail, Clock } from 'lucide-react'
 
 const contactInfo = [
   { Icon: MapPin, text: 'Via Don Giovanni Minzoni 1, 40067 Rastignano (BO)' },
-  { Icon: Phone, text: '+39 338 374 2204', href: 'tel:+393383742204' },
-  { Icon: Mail, text: 'pluigi.rocca@yahoo.com', href: 'mailto:pluigi.rocca@yahoo.com' },
-  { Icon: Clock, text: 'Lun-Ven 9:00-13:00, 15:00-18:30' },
+  { Icon: Phone,  text: '+39 338 374 2204', href: 'tel:+393383742204' },
+  { Icon: Mail,   text: 'pluigi.rocca@yahoo.com', href: 'mailto:pluigi.rocca@yahoo.com' },
+  { Icon: Clock,  text: 'Lun-Ven 9:00-13:00, 15:00-18:30' },
 ]
 
 export function Contact() {
@@ -40,18 +40,20 @@ export function Contact() {
   }
 
   const inputClass =
-    'w-full px-4 py-2.5 rounded-lg border border-[var(--cream-dark)] bg-white/80 text-sm focus:outline-none focus:border-[var(--gold)] transition-colors'
+    'w-full px-4 py-2.5 border border-[var(--cream-dark)] bg-white text-sm focus:outline-none focus:border-[var(--navy)] transition-colors'
 
   return (
-    <section id="contatti" className="py-24" style={{ backgroundColor: 'var(--navy)' }}>
+    <section id="contatti" className="py-24 sq-grid-dark" style={{ backgroundColor: 'var(--navy)' }}>
       <div className="max-w-6xl mx-auto px-6">
-        <div className="text-center mb-12">
-          <p
-            className="text-sm font-medium tracking-widest uppercase mb-3"
-            style={{ color: 'var(--gold)', letterSpacing: '0.2em' }}
-          >
-            Contattaci
-          </p>
+
+        {/* Header */}
+        <div className="mb-12">
+          <div className="flex items-center gap-3 mb-4">
+            <span style={{ width: 3, height: 22, backgroundColor: 'var(--gold)', display: 'block', flexShrink: 0 }} />
+            <p className="text-xs font-medium uppercase" style={{ color: 'var(--gold)', letterSpacing: '0.25em' }}>
+              Contattaci
+            </p>
+          </div>
           <h2
             className="text-4xl font-bold text-white"
             style={{ fontFamily: 'var(--font-playfair)' }}
@@ -61,28 +63,31 @@ export function Contact() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+
+          {/* Left: contact info + map */}
           <div>
-            <ul className="space-y-5 mb-8">
+            <ul className="space-y-0 mb-8 border border-white/10 divide-y divide-white/10">
               {contactInfo.map(({ Icon, text, href }) => (
-                <li key={text} className="flex items-start gap-4">
+                <li key={text} className="flex items-center gap-4 px-5 py-4">
                   <div
-                    className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
-                    style={{ backgroundColor: 'rgba(201,169,110,0.15)' }}
+                    className="w-9 h-9 flex items-center justify-center shrink-0"
+                    style={{ backgroundColor: 'rgba(184,149,58,0.15)' }}
                   >
-                    <Icon size={18} style={{ color: 'var(--gold)' }} />
+                    <Icon size={16} style={{ color: 'var(--gold)' }} />
                   </div>
                   {href ? (
-                    <a href={href} className="text-white/70 hover:text-white transition-colors text-sm mt-2">
+                    <a href={href} className="text-white/65 hover:text-white transition-colors text-sm">
                       {text}
                     </a>
                   ) : (
-                    <span className="text-white/70 text-sm mt-2">{text}</span>
+                    <span className="text-white/65 text-sm">{text}</span>
                   )}
                 </li>
               ))}
             </ul>
+
             <div
-              className="rounded-xl overflow-hidden border border-white/10"
+              className="overflow-hidden border border-white/10"
               style={{ height: 240 }}
             >
               <iframe
@@ -90,27 +95,30 @@ export function Contact() {
                 src="https://maps.google.com/maps?q=Via+Don+Giovanni+Minzoni+1+Rastignano+Bologna&t=&z=15&ie=UTF8&iwloc=&output=embed"
                 width="100%"
                 height="240"
-                style={{ border: 0, filter: 'grayscale(60%) invert(10%)' }}
+                style={{ border: 0, filter: 'grayscale(70%) invert(10%)' }}
                 loading="lazy"
               />
             </div>
           </div>
 
+          {/* Right: contact form */}
           <form
             onSubmit={handleSubmit}
-            className="p-8 rounded-2xl"
-            style={{ backgroundColor: 'var(--cream)' }}
+            className="p-8 border border-white/10"
+            style={{ backgroundColor: 'rgba(255,255,255,0.03)' }}
           >
             {state === 'success' && (
-              <Alert type="success" message="Messaggio inviato! Ti risponderemo entro 24 ore." className="mb-4" />
+              <Alert type="success" message="Messaggio inviato! Ti risponderemo entro 24 ore." className="mb-5" />
             )}
             {state === 'error' && (
-              <Alert type="error" message="Errore nell'invio. Riprova o chiamaci direttamente." className="mb-4" />
+              <Alert type="error" message="Errore nell'invio. Riprova o chiamaci direttamente." className="mb-5" />
             )}
 
             <div className="grid grid-cols-2 gap-4 mb-4">
               <div>
-                <label className="text-xs font-medium text-[var(--navy)] mb-1.5 block">Nome *</label>
+                <label className="text-xs font-medium uppercase tracking-wider text-white/50 mb-1.5 block" style={{ letterSpacing: '0.12em' }}>
+                  Nome *
+                </label>
                 <input
                   className={inputClass}
                   required
@@ -119,7 +127,9 @@ export function Contact() {
                 />
               </div>
               <div>
-                <label className="text-xs font-medium text-[var(--navy)] mb-1.5 block">Cognome *</label>
+                <label className="text-xs font-medium uppercase tracking-wider text-white/50 mb-1.5 block" style={{ letterSpacing: '0.12em' }}>
+                  Cognome *
+                </label>
                 <input
                   className={inputClass}
                   required
@@ -130,7 +140,9 @@ export function Contact() {
             </div>
 
             <div className="mb-4">
-              <label className="text-xs font-medium text-[var(--navy)] mb-1.5 block">Email *</label>
+              <label className="text-xs font-medium uppercase tracking-wider text-white/50 mb-1.5 block" style={{ letterSpacing: '0.12em' }}>
+                Email *
+              </label>
               <input
                 type="email"
                 className={inputClass}
@@ -141,7 +153,9 @@ export function Contact() {
             </div>
 
             <div className="mb-4">
-              <label className="text-xs font-medium text-[var(--navy)] mb-1.5 block">Telefono</label>
+              <label className="text-xs font-medium uppercase tracking-wider text-white/50 mb-1.5 block" style={{ letterSpacing: '0.12em' }}>
+                Telefono
+              </label>
               <input
                 type="tel"
                 className={inputClass}
@@ -151,7 +165,9 @@ export function Contact() {
             </div>
 
             <div className="mb-4">
-              <label className="text-xs font-medium text-[var(--navy)] mb-1.5 block">Oggetto</label>
+              <label className="text-xs font-medium uppercase tracking-wider text-white/50 mb-1.5 block" style={{ letterSpacing: '0.12em' }}>
+                Oggetto
+              </label>
               <select
                 className={inputClass}
                 value={form.oggetto}
@@ -166,7 +182,9 @@ export function Contact() {
             </div>
 
             <div className="mb-6">
-              <label className="text-xs font-medium text-[var(--navy)] mb-1.5 block">Messaggio *</label>
+              <label className="text-xs font-medium uppercase tracking-wider text-white/50 mb-1.5 block" style={{ letterSpacing: '0.12em' }}>
+                Messaggio *
+              </label>
               <textarea
                 className={inputClass}
                 rows={4}
@@ -180,6 +198,7 @@ export function Contact() {
               Invia messaggio
             </Button>
           </form>
+
         </div>
       </div>
     </section>

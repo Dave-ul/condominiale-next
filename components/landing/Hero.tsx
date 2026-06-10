@@ -2,132 +2,132 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { ArrowRight } from 'lucide-react'
 
-const stats = [
-  { value: '50+', label: 'Condomini gestiti' },
-  { value: '24h', label: 'Risposta garantita' },
-  { value: '100%', label: 'Gestione digitale' },
+const statTiles = [
+  { value: '50+',  label: 'Condomini\ngestiti' },
+  { value: '15+',  label: 'Anni di\nesperienza' },
+  { value: '24h',  label: 'Reperibilità\ngarantita' },
+  { value: '100%', label: 'Gestione\ndigitale' },
 ]
 
 export function Hero() {
   return (
     <section
-      className="relative min-h-screen flex flex-col justify-end overflow-hidden"
+      className="relative min-h-screen flex flex-col sq-grid-dark"
       style={{ backgroundColor: 'var(--navy)' }}
     >
-      {/* Building facade background pattern */}
-      <div
-        className="absolute inset-0"
-        style={{
-          backgroundImage: `
-            linear-gradient(rgba(13,27,42,0.82) 0%, rgba(13,27,42,0.72) 50%, rgba(13,27,42,0.90) 100%),
-            repeating-linear-gradient(
-              0deg,
-              transparent 0px, transparent 69px,
-              rgba(201,169,110,0.07) 69px, rgba(201,169,110,0.07) 70px
-            ),
-            repeating-linear-gradient(
-              90deg,
-              transparent 0px, transparent 89px,
-              rgba(201,169,110,0.05) 89px, rgba(201,169,110,0.05) 90px
-            )
-          `,
-          backgroundSize: 'auto, auto, auto',
-        }}
-      />
-      {/* Extra depth layer */}
-      <div
-        className="absolute inset-0 opacity-30"
-        style={{
-          background:
-            'radial-gradient(ellipse at 20% 50%, rgba(201,169,110,0.08) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, rgba(13,40,70,0.6) 0%, transparent 50%)',
-        }}
-      />
+      <div className="relative z-10 flex-1 flex items-center max-w-6xl mx-auto px-6 w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-16 w-full py-24 pt-28">
 
-      {/* Main content */}
-      <div className="relative z-10 max-w-6xl mx-auto px-6 w-full pt-32 pb-20 flex flex-col items-center text-center">
-        <p
-          className="text-sm font-medium uppercase mb-5 tracking-widest"
-          style={{ color: 'var(--gold)', letterSpacing: '0.25em' }}
-        >
-          Amministrazione Condominiale · Bologna
-        </p>
-
-        <h1
-          className="text-white mb-6 leading-tight max-w-3xl"
-          style={{
-            fontFamily: 'var(--font-playfair)',
-            fontSize: 'clamp(2.4rem, 5.5vw, 4.2rem)',
-            fontWeight: 700,
-          }}
-        >
-          La tua casa in mani{' '}
-          <em style={{ color: 'var(--gold)', fontStyle: 'italic' }}>professionali</em>
-        </h1>
-
-        <p
-          className="mb-10 max-w-xl mx-auto leading-relaxed"
-          style={{ color: 'rgba(255,255,255,0.65)', fontSize: '1.125rem' }}
-        >
-          Gestione condominiale trasparente, digitale e sempre disponibile. Oltre 15 anni di
-          esperienza a Bologna e provincia.
-        </p>
-
-        <div className="flex flex-wrap gap-4 justify-center mb-20">
-          <a href="#contatti">
-            <Button size="lg" className="rounded-full px-8">
-              Richiedi un preventivo
-              <ArrowRight size={17} />
-            </Button>
-          </a>
-          <Link href="/portale">
-            <Button
-              size="lg"
-              variant="ghost"
-              className="rounded-full px-8"
-              style={{
-                border: '1px solid rgba(255,255,255,0.35)',
-                color: 'white',
-              }}
-            >
-              Accedi al portale
-            </Button>
-          </Link>
-        </div>
-
-        {/* Stats strip */}
-        <div
-          className="w-full max-w-2xl rounded-2xl grid grid-cols-3"
-          style={{
-            backgroundColor: 'rgba(255,255,255,0.06)',
-            border: '1px solid rgba(255,255,255,0.1)',
-            backdropFilter: 'blur(8px)',
-          }}
-        >
-          {stats.map((s, i) => (
-            <div
-              key={s.value}
-              className="py-5 text-center"
-              style={{
-                borderRight: i < 2 ? '1px solid rgba(255,255,255,0.1)' : undefined,
-              }}
-            >
+          {/* Left: editorial text */}
+          <div className="flex flex-col justify-center">
+            <div className="flex items-center gap-3 mb-8">
+              <span
+                style={{ display: 'block', width: 3, height: 22, backgroundColor: 'var(--gold)', flexShrink: 0 }}
+              />
               <p
-                className="font-bold mb-0.5"
+                className="text-xs font-medium uppercase"
+                style={{ color: 'var(--gold)', letterSpacing: '0.25em' }}
+              >
+                Amministrazione Condominiale · Bologna
+              </p>
+            </div>
+
+            <h1
+              className="text-white mb-6"
+              style={{
+                fontFamily: 'var(--font-playfair)',
+                fontSize: 'clamp(2.8rem, 6vw, 5rem)',
+                lineHeight: 1.06,
+              }}
+            >
+              Gestiamo il tuo<br />
+              condominio{' '}
+              <span style={{ color: 'var(--gold)' }}>con<br />professionalità</span>
+            </h1>
+
+            <p className="text-white/55 text-lg mb-10 max-w-xl leading-relaxed">
+              Studio professionale a Bologna con oltre 15 anni di esperienza.
+              Amministrazione trasparente, digitale e sempre disponibile.
+            </p>
+
+            <div className="flex flex-wrap gap-3">
+              <a href="#contatti">
+                <Button size="lg">
+                  Richiedi un preventivo
+                  <ArrowRight size={16} />
+                </Button>
+              </a>
+              <Link href="/portale">
+                <Button
+                  size="lg"
+                  variant="ghost"
+                  className="border-white/30 text-white hover:bg-white/10"
+                >
+                  Accedi al portale
+                </Button>
+              </Link>
+            </div>
+
+            {/* Mobile stats row */}
+            <div className="grid grid-cols-4 gap-px mt-14 lg:hidden" style={{ backgroundColor: 'rgba(255,255,255,0.1)' }}>
+              {statTiles.map(({ value, label }) => (
+                <div
+                  key={value}
+                  className="flex flex-col justify-center p-4"
+                  style={{ backgroundColor: 'var(--navy)' }}
+                >
+                  <p
+                    className="text-2xl font-bold"
+                    style={{ fontFamily: 'var(--font-playfair)', color: 'var(--gold)' }}
+                  >
+                    {value}
+                  </p>
+                  <p className="text-white/40 text-xs mt-1" style={{ whiteSpace: 'pre-line' }}>
+                    {label}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Right: 2×2 square stat grid — desktop only */}
+          <div
+            className="hidden lg:grid grid-cols-2 self-center"
+            style={{ border: '1px solid rgba(255,255,255,0.12)' }}
+          >
+            {statTiles.map(({ value, label }, i) => (
+              <div
+                key={value}
+                className="flex flex-col justify-center px-8 py-7"
                 style={{
-                  fontFamily: 'var(--font-playfair)',
-                  fontSize: '1.875rem',
-                  color: 'var(--gold)',
+                  width: 172,
+                  height: 148,
+                  backgroundColor: 'var(--navy)',
+                  borderRight:  i % 2 === 0 ? '1px solid rgba(255,255,255,0.12)' : 'none',
+                  borderBottom: i < 2       ? '1px solid rgba(255,255,255,0.12)' : 'none',
                 }}
               >
-                {s.value}
-              </p>
-              <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.75rem' }}>{s.label}</p>
-            </div>
-          ))}
+                <p
+                  className="text-4xl font-bold leading-none mb-2"
+                  style={{ fontFamily: 'var(--font-playfair)', color: 'var(--gold)' }}
+                >
+                  {value}
+                </p>
+                <p className="text-white/45 text-xs leading-snug" style={{ whiteSpace: 'pre-line' }}>
+                  {label}
+                </p>
+              </div>
+            ))}
+          </div>
+
         </div>
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[var(--cream)] to-transparent" />
+      {/* Fade to cream */}
+      <div
+        className="absolute bottom-0 left-0 right-0 h-20 pointer-events-none"
+        style={{ background: 'linear-gradient(to top, var(--cream), transparent)' }}
+      />
     </section>
   )
 }

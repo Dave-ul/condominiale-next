@@ -12,12 +12,10 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variants: Record<Variant, string> = {
-  primary:
-    'bg-[var(--gold)] text-[var(--navy)] hover:bg-[var(--gold-light)] font-semibold shadow-sm',
-  ghost: 'bg-transparent border border-[var(--navy)] text-[var(--navy)] hover:bg-[var(--cream-dark)]',
-  outline:
-    'bg-transparent border border-[var(--gold)] text-[var(--gold)] hover:bg-[var(--gold)] hover:text-[var(--navy)]',
-  danger: 'bg-red-600 text-white hover:bg-red-700 font-semibold',
+  primary:  'bg-[var(--gold)] text-[var(--navy)] hover:bg-[var(--gold-light)] font-semibold',
+  ghost:    'bg-transparent border border-current hover:bg-white/10',
+  outline:  'bg-transparent border border-[var(--gold)] text-[var(--gold)] hover:bg-[var(--gold)] hover:text-[var(--navy)]',
+  danger:   'bg-red-600 text-white hover:bg-red-700 font-semibold',
 }
 
 const sizes: Record<Size, string> = {
@@ -31,8 +29,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     <button
       ref={ref}
       disabled={disabled || loading}
+      style={{ borderRadius: 0 }}
       className={cn(
-        'inline-flex items-center justify-center gap-2 rounded-full transition-all duration-200 cursor-pointer select-none',
+        'inline-flex items-center justify-center gap-2 transition-all duration-150 cursor-pointer select-none',
         'disabled:opacity-50 disabled:cursor-not-allowed',
         variants[variant],
         sizes[size],

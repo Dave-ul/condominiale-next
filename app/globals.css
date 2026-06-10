@@ -1,21 +1,25 @@
 @import "tailwindcss";
 
 :root {
-  --cream: #F7F4EF;
-  --navy: #0D1B2A;
-  --gold: #C9A96E;
-  --ink: #1A1410;
-  --gold-light: #D4B88A;
-  --cream-dark: #EDE8DF;
+  --cream: #F4F1EB;
+  --navy: #0C1A28;
+  --gold: #B8953A;
+  --gold-light: #D4AA5A;
+  --ink: #1C1510;
+  --stone: #7A6B5A;
+  --cream-dark: #DDD8CC;
+  --cream-mid: #EAE5DC;
 }
 
 @theme inline {
-  --color-cream: #F7F4EF;
-  --color-navy: #0D1B2A;
-  --color-gold: #C9A96E;
-  --color-ink: #1A1410;
-  --color-gold-light: #D4B88A;
-  --color-cream-dark: #EDE8DF;
+  --color-cream: #F4F1EB;
+  --color-navy: #0C1A28;
+  --color-gold: #B8953A;
+  --color-gold-light: #D4AA5A;
+  --color-ink: #1C1510;
+  --color-stone: #7A6B5A;
+  --color-cream-dark: #DDD8CC;
+  --color-cream-mid: #EAE5DC;
 }
 
 * {
@@ -32,29 +36,37 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Square grid textures */
+.sq-grid-dark {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+.sq-grid-light {
+  background-image:
+    linear-gradient(var(--cream-dark) 1px, transparent 1px),
+    linear-gradient(90deg, var(--cream-dark) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* Global input/select resets — sharp corners */
+input,
+textarea,
+select {
+  border-radius: 0 !important;
+}
+
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(24px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .animate-fade-in-up {
-  animation: fadeInUp 0.6s ease both;
+  animation: fadeInUp 0.55s ease both;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .animate-fade-in-up { animation: none; }
-}
-
-.footer-link {
-  color: rgba(255,255,255,0.45);
-  transition: color 0.2s;
-}
-.footer-link:hover {
-  color: rgba(255,255,255,0.8);
-}
-
-.service-card:hover {
-  border-color: var(--gold) !important;
-  box-shadow: 0 8px 24px rgba(201,169,110,0.12);
-  transform: translateY(-2px);
 }

@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import { FileText, CreditCard, MessageSquare, AlertCircle, ArrowRight } from 'lucide-react'
+import { FileText, CreditCard, MessageSquare, ArrowRight, AlertCircle } from 'lucide-react'
 import { formatCurrency } from '@/lib/utils'
 
 export default async function PortaleDashboard() {
@@ -25,9 +25,9 @@ export default async function PortaleDashboard() {
   ])
 
   const pendingAmount = payments?.reduce((sum, p) => sum + Number(p.amount), 0) ?? 0
-  const pendingCount = payments?.length ?? 0
-  const openRequests = requests?.length ?? 0
-  const docCount = docs?.length ?? 0
+  const pendingCount  = payments?.length ?? 0
+  const openRequests  = requests?.length ?? 0
+  const docCount      = docs?.length ?? 0
 
   const cards = [
     {
@@ -36,6 +36,7 @@ export default async function PortaleDashboard() {
       label: 'Documenti',
       value: isAdmin ? 'Archivio' : `${docCount} disponibili`,
       sub: isAdmin ? 'Gestione documenti' : 'Accedi ai documenti',
+      alert: false,
     },
     {
       href: '/portale/pagamenti',
@@ -56,55 +57,86 @@ export default async function PortaleDashboard() {
   ]
 
   return (
-    <div className="p-6 lg:p-8 max-w-4xl">
-      <div className="mb-8">
-        <h1
-          className="text-3xl font-bold mb-1"
-          style={{ fontFamily: 'var(--font-playfair)', color: 'var(--navy)' }}
+    <div className="p-6 lg:p-10 max-w-4xl">
+
+      {/* Page header */}
+      <div className="mb-10 pb-6 border-b" style={{ borderColor: 'var(--cream-dark)' }}>
+        <div className="flex items-center gap-3 mb-2">
+          <span style={{ width: 3, height: 22, backgroundColor: 'var(--gold)', display: 'block', flexShrink: 0 }} />
+          <h1
+            className="text-2xl font-bold"
+            style={{ fontFamily: 'var(--font-playfair)', color: 'var(--navy)' }}
+          >
+            {isAdmin
+              ? 'Pannello Amministratore'
+              : `Benvenuto${profile.full_name ? ', ' + profile.full_name.split(' ')[0] : ''}`}
+          </h1>
+        </div>
+        <p
+          className="text-xs uppercase tracking-widest ml-6"
+          style={{ color: 'var(--stone)', letterSpacing: '0.18em' }}
         >
-          {isAdmin ? 'Pannello Amministratore' : `Benvenuto${profile.full_name ? ', ' + profile.full_name.split(' ')[0] : ''}`}
-        </h1>
-        <p className="text-sm" style={{ color: 'var(--ink)', opacity: 0.55 }}>
           {isAdmin ? 'Gestione condominio' : `Interno ${profile.unit ?? '-'}`}
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+      {/* Bento card grid — gap-px for hairline separators */}
+      <div
+        className="grid grid-cols-1 sm:grid-cols-3 gap-px"
+        style={{ backgroundColor: 'var(--cream-dark)' }}
+      >
         {cards.map(({ href, Icon, label, value, sub, alert }) => (
           <Link
             key={href}
             href={href}
-            className="group p-6 rounded-2xl border hover:shadow-md transition-all duration-200 relative overflow-hidden"
-            style={{ backgroundColor: 'white', borderColor: 'var(--cream-dark)' }}
+            className="group relative flex flex-col p-6 transition-colors duration-150"
+            style={{ backgroundColor: 'white' }}
+            onMouseEnter={(e) => {
+              ;(e.currentTarget as HTMLAnchorElement).style.backgroundColor = 'var(--cream)'
+            }}
+            onMouseLeave={(e) => {
+              ;(e.currentTarget as HTMLAnchorElement).style.backgroundColor = 'white'
+            }}
           >
+            {/* Top gold accent bar */}
+            <div style={{ height: 3, backgroundColor: 'var(--gold)', marginBottom: 20, opacity: 0.7 }} />
+
             {alert && (
-              <span className="absolute top-4 right-4">
-                <AlertCircle size={16} className="text-amber-500" />
+              <span className="absolute top-5 right-5">
+                <AlertCircle size={15} className="text-amber-500" />
               </span>
             )}
+
+            {/* Square icon */}
             <div
-              className="w-11 h-11 rounded-xl flex items-center justify-center mb-4"
-              style={{ backgroundColor: 'rgba(201,169,110,0.12)' }}
+              className="w-10 h-10 flex items-center justify-center mb-4"
+              style={{ backgroundColor: 'var(--navy)' }}
             >
-              <Icon size={22} style={{ color: 'var(--gold)' }} />
+              <Icon size={20} style={{ color: 'var(--gold)' }} />
             </div>
-            <p className="text-xs font-medium uppercase tracking-wider mb-1" style={{ color: 'var(--ink)', opacity: 0.45 }}>
+
+            <p
+              className="text-xs font-medium uppercase mb-2"
+              style={{ color: 'var(--stone)', letterSpacing: '0.18em' }}
+            >
               {label}
             </p>
-            <p className="text-xl font-bold mb-0.5" style={{ color: 'var(--navy)' }}>
+            <p className="text-xl font-bold mb-1" style={{ color: 'var(--navy)', fontFamily: 'var(--font-playfair)' }}>
               {value}
             </p>
-            <p className="text-xs" style={{ color: 'var(--ink)', opacity: 0.55 }}>
+            <p className="text-xs" style={{ color: 'var(--stone)' }}>
               {sub}
             </p>
+
             <ArrowRight
-              size={16}
+              size={15}
               className="absolute bottom-5 right-5 opacity-0 group-hover:opacity-100 transition-opacity"
               style={{ color: 'var(--gold)' }}
             />
           </Link>
         ))}
       </div>
+
     </div>
   )
 }

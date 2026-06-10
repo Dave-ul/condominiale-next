@@ -1,15 +1,15 @@
 'use client'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { Menu, X, Phone } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 const navLinks = [
   { href: '#chi-siamo', label: 'Chi Siamo' },
-  { href: '#servizi', label: 'Servizi' },
-  { href: '#portale', label: 'Portale' },
-  { href: '#faq', label: 'FAQ' },
-  { href: '#contatti', label: 'Contatti' },
+  { href: '#servizi',   label: 'Servizi' },
+  { href: '#portale',   label: 'Portale' },
+  { href: '#faq',       label: 'FAQ' },
+  { href: '#contatti',  label: 'Contatti' },
 ]
 
 export function Navbar() {
@@ -27,42 +27,50 @@ export function Navbar() {
       className="fixed top-0 left-0 right-0 z-40 transition-all duration-300"
       style={{
         backgroundColor: scrolled ? 'var(--navy)' : 'transparent',
-        boxShadow: scrolled ? '0 2px 20px rgba(0,0,0,0.3)' : 'none',
+        borderBottom: scrolled ? '1px solid rgba(255,255,255,0.08)' : 'none',
       }}
     >
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-        <Link href="/" className="flex flex-col leading-none">
+
+        {/* Logo */}
+        <Link href="/" className="flex items-center gap-3">
           <span
-            className="text-lg font-bold"
-            style={{ fontFamily: 'var(--font-playfair)', color: 'var(--gold)' }}
+            className="flex items-center justify-center text-xs font-bold"
+            style={{
+              width: 28,
+              height: 28,
+              backgroundColor: 'var(--gold)',
+              color: 'var(--navy)',
+              fontFamily: 'var(--font-playfair)',
+              fontSize: 14,
+              flexShrink: 0,
+            }}
           >
-            Rocca Amministrazioni
+            R
           </span>
-          <span className="text-xs text-white/45 hidden sm:block tracking-wider">
-            Gestione Condominiale · Bologna
+          <span
+            className="text-sm font-semibold tracking-wide text-white/90 hidden sm:block"
+            style={{ letterSpacing: '0.08em' }}
+          >
+            ROCCA AMMINISTRAZIONI
           </span>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-6">
+        {/* Desktop nav */}
+        <nav className="hidden md:flex items-center gap-8">
           {navLinks.map((l) => (
             <a
               key={l.href}
               href={l.href}
-              className="text-sm text-white/80 hover:text-[var(--gold)] transition-colors"
+              className="text-xs font-medium uppercase tracking-widest text-white/70 hover:text-[var(--gold)] transition-colors"
+              style={{ letterSpacing: '0.15em' }}
             >
               {l.label}
             </a>
           ))}
         </nav>
 
-        <div className="hidden md:flex items-center gap-4">
-          <a
-            href="tel:+393383742204"
-            className="flex items-center gap-1.5 text-sm text-white/70 hover:text-white transition-colors"
-          >
-            <Phone size={14} />
-            338 374 2204
-          </a>
+        <div className="hidden md:flex items-center gap-3">
           <Link href="/portale">
             <Button size="sm">Accedi al Portale</Button>
           </Link>
@@ -78,20 +86,24 @@ export function Navbar() {
       </div>
 
       {open && (
-        <div className="md:hidden" style={{ backgroundColor: 'var(--navy)' }}>
-          <nav className="flex flex-col px-6 py-4 gap-4">
+        <div
+          className="md:hidden border-t"
+          style={{ backgroundColor: 'var(--navy)', borderColor: 'rgba(255,255,255,0.08)' }}
+        >
+          <nav className="flex flex-col px-6 py-5 gap-5">
             {navLinks.map((l) => (
               <a
                 key={l.href}
                 href={l.href}
-                className="text-white/80 py-1"
+                className="text-xs font-medium uppercase tracking-widest text-white/70 hover:text-[var(--gold)] transition-colors"
+                style={{ letterSpacing: '0.15em' }}
                 onClick={() => setOpen(false)}
               >
                 {l.label}
               </a>
             ))}
             <Link href="/portale" onClick={() => setOpen(false)}>
-              <Button className="w-full mt-2">Accedi al Portale</Button>
+              <Button className="w-full mt-1">Accedi al Portale</Button>
             </Link>
           </nav>
         </div>

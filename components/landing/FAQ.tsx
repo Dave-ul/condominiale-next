@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import { ChevronDown } from 'lucide-react'
+import { Plus, Minus } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const faqs = [
@@ -14,19 +14,19 @@ const faqs = [
   },
   {
     q: 'Come vengono gestite le emergenze notturne?',
-    a: "Garantiamo reperibilita 24 ore su 24 per emergenze condominiali. Puoi contattarci al numero dedicato o inviare una richiesta urgente dal portale.",
+    a: "Garantiamo reperibilità 24 ore su 24 per emergenze condominiali. Puoi contattarci al numero dedicato o inviare una richiesta urgente dal portale.",
   },
   {
     q: "Come avviene la transizione da un'altra amministrazione?",
-    a: 'Ci occupiamo di tutta la transizione, richiedendo documentazione al precedente amministratore e garantendo continuita nella gestione.',
+    a: 'Ci occupiamo di tutta la transizione, richiedendo documentazione al precedente amministratore e garantendo continuità nella gestione.',
   },
   {
     q: 'I documenti condominiali sono accessibili online?',
-    a: 'Si, tramite il portale digitale tutti i condomini possono accedere a verbali, rendiconti, circolari e ogni altro documento in qualsiasi momento.',
+    a: 'Sì, tramite il portale digitale tutti i condomini possono accedere a verbali, rendiconti, circolari e ogni altro documento in qualsiasi momento.',
   },
   {
     q: 'Come vengono gestiti i pagamenti delle quote condominiali?',
-    a: 'Predisponiamo i MAV e gestiamo la contabilita. I condomini morosi vengono gestiti con procedure di recupero crediti nel rispetto della normativa.',
+    a: 'Predisponiamo i MAV e gestiamo la contabilità. I condomini morosi vengono gestiti con procedure di recupero crediti nel rispetto della normativa.',
   },
 ]
 
@@ -36,13 +36,18 @@ export function FAQ() {
   return (
     <section id="faq" className="py-24" style={{ backgroundColor: 'var(--cream)' }}>
       <div className="max-w-3xl mx-auto px-6">
-        <div className="text-center mb-12">
-          <p
-            className="text-sm font-medium tracking-widest uppercase mb-3"
-            style={{ color: 'var(--gold)', letterSpacing: '0.2em' }}
-          >
-            Domande frequenti
-          </p>
+
+        {/* Header */}
+        <div className="mb-12">
+          <div className="flex items-center gap-3 mb-4">
+            <span style={{ width: 3, height: 22, backgroundColor: 'var(--gold)', display: 'block', flexShrink: 0 }} />
+            <p
+              className="text-xs font-medium uppercase"
+              style={{ color: 'var(--gold)', letterSpacing: '0.25em' }}
+            >
+              Domande frequenti
+            </p>
+          </div>
           <h2
             className="text-4xl font-bold"
             style={{ fontFamily: 'var(--font-playfair)', color: 'var(--navy)' }}
@@ -51,33 +56,40 @@ export function FAQ() {
           </h2>
         </div>
 
-        <div className="space-y-3">
+        {/* Accordion — gap-px style */}
+        <div className="flex flex-col gap-px" style={{ backgroundColor: 'var(--cream-dark)' }}>
           {faqs.map((item, i) => (
             <div
               key={i}
-              className="border rounded-xl overflow-hidden transition-all"
-              style={{ borderColor: open === i ? 'var(--gold)' : 'var(--cream-dark)' }}
+              style={{
+                backgroundColor: 'var(--cream)',
+                borderLeft: open === i ? '3px solid var(--gold)' : '3px solid transparent',
+                transition: 'border-color 0.15s',
+              }}
             >
               <button
-                className="w-full flex items-center justify-between px-6 py-4 text-left gap-4"
+                className="w-full flex items-start justify-between px-6 py-4 text-left gap-4"
                 onClick={() => setOpen(open === i ? null : i)}
                 aria-expanded={open === i}
               >
-                <span className="font-medium text-sm" style={{ color: 'var(--navy)' }}>
-                  {item.q}
+                <div className="flex items-start gap-4">
+                  <span
+                    className="text-xs font-mono mt-0.5 shrink-0"
+                    style={{ color: 'var(--gold)', opacity: 0.7 }}
+                  >
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <span className="font-medium text-sm" style={{ color: 'var(--navy)' }}>
+                    {item.q}
+                  </span>
+                </div>
+                <span className="shrink-0 mt-0.5" style={{ color: 'var(--gold)' }}>
+                  {open === i ? <Minus size={16} /> : <Plus size={16} />}
                 </span>
-                <ChevronDown
-                  size={18}
-                  className={cn(
-                    'shrink-0 transition-transform duration-200',
-                    open === i && 'rotate-180'
-                  )}
-                  style={{ color: 'var(--gold)' }}
-                />
               </button>
               {open === i && (
-                <div className="px-6 pb-4">
-                  <p className="text-sm leading-relaxed" style={{ color: 'var(--ink)', opacity: 0.7 }}>
+                <div className="px-6 pb-4 pl-14">
+                  <p className="text-sm leading-relaxed" style={{ color: 'var(--stone)' }}>
                     {item.a}
                   </p>
                 </div>
@@ -85,6 +97,7 @@ export function FAQ() {
             </div>
           ))}
         </div>
+
       </div>
     </section>
   )
