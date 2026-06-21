@@ -34,7 +34,7 @@ export function Footer() {
               </span>
             </div>
             <p className="text-white/40 text-sm leading-relaxed">
-              Studio professionale per l'amministrazione condominiale a Bologna e provincia.
+              Studio professionale per l’amministrazione condominiale a Bologna e provincia.
             </p>
           </div>
 

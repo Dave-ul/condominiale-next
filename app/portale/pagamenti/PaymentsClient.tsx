@@ -37,6 +37,9 @@ export function PaymentsClient({
     if (!receiptFile || !receiptModal) return
     setUploading(true)
     setAlert(null)
+    // Date.now() runs in an event handler (not during render), where a unique
+    // upload key is exactly what we want; the purity rule misfires here.
+    // eslint-disable-next-line react-hooks/purity
     const path = `${currentUserId}/${Date.now()}-${receiptFile.name}`
     const { error: uploadErr } = await supabase.storage.from('ricevute').upload(path, receiptFile)
     if (uploadErr) {

@@ -1,33 +1,53 @@
 import { createClient } from '@/lib/supabase/server'
+import { getSession } from '@/lib/supabase/session'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { FileText, CreditCard, MessageSquare, ArrowRight, AlertCircle } from 'lucide-react'
 import { formatCurrency } from '@/lib/utils'
 
 export default async function PortaleDashboard() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) redirect('/auth')
-
-  const { data: profile } = await supabase.from('profiles').select('*').eq('id', user.id).single()
-  if (!profile) redirect('/auth')
+  const { user, profile } = await getSession()
+  if (!user || !profile) redirect('/auth')
 
   const isAdmin = profile.role === 'admin'
+  const supabase = await createClient()
 
-  const [{ data: docs }, { data: payments }, { data: requests }] = await Promise.all([
-    supabase.from('documents').select('id', { count: 'exact' }).limit(1),
+  // Dashboard cards only need aggregate counts, so use head-only `count`
+  // queries (no rows transferred). Residents are the exception: their card
+  // shows the total outstanding amount, so we fetch just the `amount` column.
+  const [docsRes, paymentsRes, requestsRes] = await Promise.all([
+    supabase.from('documents').select('id', { count: 'exact', head: true }),
     isAdmin
-      ? supabase.from('payments').select('*').in('status', ['pending', 'paid'])
-      : supabase.from('payments').select('*').eq('resident_id', user.id).eq('status', 'pending'),
+      ? supabase
+          .from('payments')
+          .select('id', { count: 'exact', head: true })
+          .in('status', ['pending', 'paid'])
+      : supabase
+          .from('payments')
+          .select('amount')
+          .eq('resident_id', user.id)
+          .eq('status', 'pending'),
     isAdmin
-      ? supabase.from('requests').select('id', { count: 'exact' }).eq('status', 'aperta')
-      : supabase.from('requests').select('id', { count: 'exact' }).eq('resident_id', user.id).eq('status', 'aperta'),
+      ? supabase.from('requests').select('id', { count: 'exact', head: true }).eq('status', 'aperta')
+      : supabase
+          .from('requests')
+          .select('id', { count: 'exact', head: true })
+          .eq('resident_id', user.id)
+          .eq('status', 'aperta'),
   ])
 
-  const pendingAmount = payments?.reduce((sum, p) => sum + Number(p.amount), 0) ?? 0
-  const pendingCount  = payments?.length ?? 0
-  const openRequests  = requests?.length ?? 0
-  const docCount      = docs?.length ?? 0
+  const docCount = docsRes.count ?? 0
+  const openRequests = requestsRes.count ?? 0
+
+  let pendingCount = 0
+  let pendingAmount = 0
+  if (isAdmin) {
+    pendingCount = paymentsRes.count ?? 0
+  } else {
+    const rows = (paymentsRes.data as { amount: number }[] | null) ?? []
+    pendingCount = rows.length
+    pendingAmount = rows.reduce((sum, p) => sum + Number(p.amount), 0)
+  }
 
   const cards = [
     {

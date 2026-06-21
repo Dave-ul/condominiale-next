@@ -1,11 +1,11 @@
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
+import type { Database } from './types'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function createClient(): Promise<ReturnType<typeof createServerClient<any>>> {
+export async function createClient() {
   const cookieStore = await cookies()
 
-  return createServerClient(
+  return createServerClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
@@ -18,7 +18,11 @@ export async function createClient(): Promise<ReturnType<typeof createServerClie
             cookiesToSet.forEach(({ name, value, options }) =>
               cookieStore.set(name, value, options)
             )
-          } catch {}
+          } catch {
+            // Called from a Server Component, where cookies are read-only.
+            // Session refresh is handled by the proxy (proxy.ts) instead, so
+            // this can be safely ignored.
+          }
         },
       },
     }

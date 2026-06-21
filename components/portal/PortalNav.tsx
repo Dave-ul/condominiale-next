@@ -4,9 +4,8 @@ import { usePathname, useRouter } from 'next/navigation'
 import { FileText, CreditCard, MessageSquare, LayoutDashboard, Users, LogOut, Menu, X } from 'lucide-react'
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import { cn } from '@/lib/utils'
+import { cn, getInitials } from '@/lib/utils'
 import type { Profile } from '@/lib/supabase/types'
-import { getInitials } from '@/lib/utils'
 
 const navItems = [
   { href: '/portale',           Icon: LayoutDashboard, label: 'Dashboard' },
@@ -18,6 +17,38 @@ const navItems = [
 const adminItems = [
   { href: '/portale/admin', Icon: Users, label: 'Admin' },
 ]
+
+type NavLinkProps = {
+  href: string
+  Icon: React.ElementType
+  label: string
+  active: boolean
+  onNavigate: () => void
+}
+
+// Declared at module scope so React keeps a stable component type across
+// renders. Defining it inside PortalNav would remount every link whenever
+// PortalNav re-renders (e.g. toggling the mobile menu).
+function NavLink({ href, Icon, label, active, onNavigate }: NavLinkProps) {
+  return (
+    <Link
+      href={href}
+      onClick={onNavigate}
+      className={cn(
+        'flex items-center gap-3 px-4 py-2.5 text-sm font-medium transition-all duration-100',
+        active ? '' : 'hover:bg-[var(--cream-mid)]'
+      )}
+      style={{
+        borderLeft: active ? '3px solid var(--gold)' : '3px solid transparent',
+        color: active ? 'var(--navy)' : 'rgba(28,21,16,0.55)',
+        backgroundColor: active ? 'rgba(184,149,58,0.08)' : undefined,
+      }}
+    >
+      <Icon size={17} style={active ? { color: 'var(--gold)' } : {}} />
+      {label}
+    </Link>
+  )
+}
 
 export function PortalNav({ profile }: { profile: Profile }) {
   const pathname = usePathname()
@@ -32,28 +63,6 @@ export function PortalNav({ profile }: { profile: Profile }) {
     await supabase.auth.signOut()
     router.push('/')
     router.refresh()
-  }
-
-  const NavLink = ({ href, Icon, label }: { href: string; Icon: React.ElementType; label: string }) => {
-    const active = pathname === href
-    return (
-      <Link
-        href={href}
-        onClick={() => setMobileOpen(false)}
-        className={cn(
-          'flex items-center gap-3 px-4 py-2.5 text-sm font-medium transition-all duration-100',
-          active ? '' : 'hover:bg-[var(--cream-mid)]'
-        )}
-        style={{
-          borderLeft: active ? '3px solid var(--gold)' : '3px solid transparent',
-          color: active ? 'var(--navy)' : 'rgba(28,21,16,0.55)',
-          backgroundColor: active ? 'rgba(184,149,58,0.08)' : undefined,
-        }}
-      >
-        <Icon size={17} style={active ? { color: 'var(--gold)' } : {}} />
-        {label}
-      </Link>
-    )
   }
 
   return (
@@ -94,7 +103,12 @@ export function PortalNav({ profile }: { profile: Profile }) {
 
         <nav className="flex-1 py-4 space-y-0.5">
           {items.map((item) => (
-            <NavLink key={item.href} {...item} />
+            <NavLink
+              key={item.href}
+              {...item}
+              active={pathname === item.href}
+              onNavigate={() => setMobileOpen(false)}
+            />
           ))}
         </nav>
 
@@ -155,7 +169,12 @@ export function PortalNav({ profile }: { profile: Profile }) {
         >
           <nav className="py-4 space-y-0.5">
             {items.map((item) => (
-              <NavLink key={item.href} {...item} />
+              <NavLink
+                key={item.href}
+                {...item}
+                active={pathname === item.href}
+                onNavigate={() => setMobileOpen(false)}
+              />
             ))}
             <button
               onClick={handleLogout}
