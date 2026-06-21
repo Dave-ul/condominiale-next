@@ -31,6 +31,7 @@ export interface Database {
           role?: 'resident' | 'admin'
           created_at?: string
         }
+        Relationships: []
       }
       documents: {
         Row: {
@@ -57,6 +58,7 @@ export interface Database {
           uploaded_by?: string | null
           created_at?: string
         }
+        Relationships: []
       }
       payments: {
         Row: {
@@ -92,6 +94,15 @@ export interface Database {
           stripe_payment_link?: string | null
           created_at?: string
         }
+        Relationships: [
+          {
+            foreignKeyName: 'payments_resident_id_fkey'
+            columns: ['resident_id']
+            isOneToOne: false
+            referencedRelation: 'profiles'
+            referencedColumns: ['id']
+          },
+        ]
       }
       requests: {
         Row: {
@@ -121,8 +132,21 @@ export interface Database {
           status?: 'aperta' | 'in_corso' | 'chiusa'
           created_at?: string
         }
+        Relationships: [
+          {
+            foreignKeyName: 'requests_resident_id_fkey'
+            columns: ['resident_id']
+            isOneToOne: false
+            referencedRelation: 'profiles'
+            referencedColumns: ['id']
+          },
+        ]
       }
     }
+    Views: { [_ in never]: never }
+    Functions: { [_ in never]: never }
+    Enums: { [_ in never]: never }
+    CompositeTypes: { [_ in never]: never }
   }
 }
 

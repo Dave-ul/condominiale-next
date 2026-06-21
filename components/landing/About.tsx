@@ -47,12 +47,12 @@ export function About() {
               className="text-white/60 italic text-lg mb-8 pl-5"
               style={{ borderLeft: '3px solid var(--gold)' }}
             >
-              "La mia missione è semplificare la vita dei condomini attraverso una gestione
-              trasparente, digitale e sempre disponibile."
+              “La mia missione è semplificare la vita dei condomini attraverso una gestione
+              trasparente, digitale e sempre disponibile.”
             </blockquote>
 
             <p className="text-white/55 mb-10 leading-relaxed">
-              Luigi Rocca, fondatore e amministratore principale, opera nell'ambito della gestione
+              Luigi Rocca, fondatore e amministratore principale, opera nell’ambito della gestione
               condominiale da oltre 15 anni a Bologna e provincia. Il nostro studio garantisce
               professionalità certificata e un approccio moderno alla gestione del patrimonio
               immobiliare.

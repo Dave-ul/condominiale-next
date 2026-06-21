@@ -10,14 +10,21 @@ export function formatCurrency(amount: number): string {
 }
 
 export function formatDate(date: string): string {
-  return new Intl.DateTimeFormat('it-IT').format(new Date(date))
+  // Date-only ISO strings ("2024-01-15") are parsed as UTC midnight, which can
+  // render as the previous day in positive timezones (e.g. Italy). Pin them to
+  // local midnight so the displayed day matches the stored date.
+  const d = date.includes('T') ? new Date(date) : new Date(`${date}T00:00:00`)
+  return new Intl.DateTimeFormat('it-IT').format(d)
 }
 
 export function getInitials(name: string): string {
-  return name
-    .split(' ')
-    .map((n) => n[0])
-    .join('')
-    .toUpperCase()
-    .slice(0, 2)
+  return (
+    name
+      .split(' ')
+      .filter(Boolean)
+      .map((n) => n[0])
+      .join('')
+      .toUpperCase()
+      .slice(0, 2) || '?'
+  )
 }
