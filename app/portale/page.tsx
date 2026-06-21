@@ -89,14 +89,7 @@ export default async function PortaleDashboard() {
           <Link
             key={href}
             href={href}
-            className="group relative flex flex-col p-6 transition-colors duration-150"
-            style={{ backgroundColor: 'white' }}
-            onMouseEnter={(e) => {
-              ;(e.currentTarget as HTMLAnchorElement).style.backgroundColor = 'var(--cream)'
-            }}
-            onMouseLeave={(e) => {
-              ;(e.currentTarget as HTMLAnchorElement).style.backgroundColor = 'white'
-            }}
+            className="group relative flex flex-col p-6 transition-colors duration-150 bg-white hover:bg-[var(--cream)]"
           >
             {/* Top gold accent bar */}
             <div style={{ height: 3, backgroundColor: 'var(--gold)', marginBottom: 20, opacity: 0.7 }} />
