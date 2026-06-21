@@ -4,10 +4,23 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Rocca Amministrazioni — Gestione Condominiale Bologna</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/fonts/playfair-latin.woff2" as="font" type="font/woff2" crossorigin />
   <style>
+    @font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 400 600;
+      font-display: swap;
+      src: url('/fonts/inter-latin.woff2') format('woff2');
+    }
+    @font-face {
+      font-family: 'Playfair Display';
+      font-style: normal;
+      font-weight: 700 800;
+      font-display: swap;
+      src: url('/fonts/playfair-latin.woff2') format('woff2');
+    }
     *, *::before, *::after {
       box-sizing: border-box;
       margin: 0;
@@ -838,7 +851,7 @@
       </div>
       <div class="about-right">
         <div class="about-photo">
-          <img src="https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=800&q=80" alt="Edificio condominiale Bologna" />
+          <img src="https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=800&q=80" alt="Edificio condominiale Bologna" width="800" height="600" loading="lazy" decoding="async" />
         </div>
       </div>
     </div>
@@ -961,15 +974,15 @@
 <!-- IMAGE STRIP -->
 <div class="img-strip">
   <div class="img-strip-item">
-    <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=800&q=80" alt="Condominio Bologna" />
+    <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=800&q=80" alt="Condominio Bologna" width="800" height="600" loading="lazy" decoding="async" />
     <div class="img-strip-caption">Gestione edifici</div>
   </div>
   <div class="img-strip-item">
-    <img src="https://images.unsplash.com/photo-1555636222-cae831e670b3?auto=format&fit=crop&w=800&q=80" alt="Edificio residenziale" />
+    <img src="https://images.unsplash.com/photo-1555636222-cae831e670b3?auto=format&fit=crop&w=800&q=80" alt="Edificio residenziale" width="800" height="600" loading="lazy" decoding="async" />
     <div class="img-strip-caption">Residenziale</div>
   </div>
   <div class="img-strip-item">
-    <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80" alt="Complesso condominiale" />
+    <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80" alt="Complesso condominiale" width="800" height="600" loading="lazy" decoding="async" />
     <div class="img-strip-caption">Amministrazione</div>
   </div>
 </div>
