@@ -7,6 +7,8 @@ const csp = [
   "img-src 'self' data: https://images.unsplash.com https://*.supabase.co",
   "font-src 'self'",
   "connect-src 'self' https://*.supabase.co wss://*.supabase.co",
+  // Iframe Google Maps nella landing: senza frame-src ricade su default-src 'self' e viene bloccato
+  "frame-src 'self' https://maps.google.com https://www.google.com",
   "frame-ancestors 'self'",
   "base-uri 'self'",
   "form-action 'self'",
