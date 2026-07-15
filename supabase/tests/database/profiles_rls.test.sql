@@ -39,7 +39,6 @@ set local request.jwt.claims to '{"sub":"a0000000-0000-0000-0000-000000000001","
 select throws_ok(
   $$ insert into public.profiles (id, full_name, role) values ('a0000000-0000-0000-0000-000000000001', 'Hacker', 'admin') $$,
   '42501',
-  null,
   'un utente non deve potersi auto-assegnare il ruolo admin creando il proprio profilo'
 );
 
