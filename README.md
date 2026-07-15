@@ -1,36 +1,117 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Rocca Amministrazioni — Portale Condominiale
 
-## Getting Started
+Applicazione web di gestione condominiale: documenti condivisi (verbali,
+rendiconti, contratti), quote/pagamenti con ricevute, e richieste di
+manutenzione, con un ruolo residente e un ruolo amministratore.
 
-First, run the development server:
+Stack: [Next.js](https://nextjs.org) (App Router), [Supabase](https://supabase.com)
+(Postgres + Auth + Storage), Tailwind CSS. Il deploy gira su Vercel via
+GitHub Actions.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+> **Nota per chi sviluppa con AI**: questa versione di Next.js ha
+> convenzioni diverse da quelle "storiche" (es. il middleware si chiama
+> `proxy.ts`, non `middleware.ts`). Leggere `AGENTS.md` prima di modificare
+> routing/auth.
+
+## Setup locale
+
+### 1. Requisiti
+
+- Node.js 20+
+- [Supabase CLI](https://supabase.com/docs/guides/cli) (`npx supabase --version`)
+- Docker, per lo stack Supabase locale (`supabase start`)
+
+### 2. Variabili d'ambiente
+
+Creare `.env.local` nella root con:
+
+```
+NEXT_PUBLIC_SUPABASE_URL=...
+NEXT_PUBLIC_SUPABASE_ANON_KEY=...
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Per lo sviluppo locale, `supabase start` stampa questi valori (chiave
+`anon`, mai la `service_role`: quella non deve mai comparire in codice o
+env lato client). Per un progetto Supabase remoto, si trovano in
+*Project Settings → API*.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 3. Database
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+supabase start        # avvia Postgres/Auth/Storage locali via Docker
+supabase db reset      # applica tutte le migration in supabase/migrations
+```
 
-## Learn More
+Le migration sono l'unica fonte di verità dello schema: non modificare
+tabelle/policy/funzioni dalla dashboard di un progetto condiviso senza poi
+riportare la modifica in una nuova migration versionata qui nel repo (vedi
+`supabase/migrations/`, in particolare `20260621221200_baseline_schema.sql`
+per lo schema completo).
 
-To learn more about Next.js, take a look at the following resources:
+### 4. App
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm install
+npm run dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Schema e ruoli
 
-## Deploy on Vercel
+Quattro tabelle in `public`, tutte con Row Level Security abilitata:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| Tabella     | Contenuto                                             |
+|-------------|--------------------------------------------------------|
+| `profiles`  | Anagrafica utente (nome, email, telefono, interno, ruolo) — 1:1 con `auth.users` |
+| `documents` | Documenti condivisi (verbali, rendiconti, contratti…), file in Storage bucket `documenti` |
+| `payments`  | Quote/pagamenti per residente, ricevuta in Storage bucket `ricevute` |
+| `requests`  | Richieste di manutenzione/segnalazioni dei residenti |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Ruoli (`profiles.role`): `resident` (default alla registrazione) e
+`admin`. Un residente vede solo i propri dati; un admin vede tutto. Le
+regole di autorizzazione sono applicate a livello di RLS (non solo lato
+UI): vedi le policy in `supabase/migrations/20260621221200_baseline_schema.sql`
+e i relativi fix in `20260715120000_security_and_data_fixes.sql`.
+
+### Promuovere il primo amministratore
+
+Non esiste un flusso self-service per diventare admin (per design: sarebbe
+un rischio di sicurezza). Un trigger (`trg_enforce_profile_update`) impedisce
+qualunque cambio di `role` che non arrivi già da un admin — **questo vale
+anche per una `UPDATE` lanciata a mano dalla dashboard/SQL editor**, quindi
+per il primissimo admin va disabilitato temporaneamente:
+
+```sql
+alter table public.profiles disable trigger trg_enforce_profile_update;
+update public.profiles set role = 'admin' where id = '<uuid dell''utente>';
+alter table public.profiles enable trigger trg_enforce_profile_update;
+```
+
+Gli admin successivi possono essere promossi da un admin già esistente
+tramite l'applicazione stessa (RLS + trigger lo consentono senza bisogno di
+disabilitare nulla).
+
+## CI/CD
+
+`.github/workflows/deploy.yml` (workflow **CI**):
+
+1. **quality** — lint, typecheck, test unitari.
+2. **db-tests** — avvia uno stack Supabase locale via Docker ed esegue i
+   test pgTAP in `supabase/tests/database/` (isolamento RLS tra residenti,
+   escalation di ruolo, visibilità admin).
+3. **migrate** (solo su push a `main`) — applica le migration al progetto
+   Supabase collegato con `supabase db push`. Richiede il secret repo
+   **`SUPABASE_DB_URL`** (connection string Postgres del progetto, da
+   *Project Settings → Database*).
+
+Il deploy dell'app su Vercel è gestito dall'integrazione nativa
+Vercel↔GitHub (non da questo workflow): ogni push crea/aggiorna un
+deployment automaticamente. Questo workflow serve solo da gate di
+qualità/schema, indipendente dal deploy.
+
+## Limiti noti
+
+- Attivare manualmente in dashboard *Auth → Policies → Password* la
+  protezione "leaked password" (HaveIBeenPwned): non è configurabile via
+  migration SQL.
+- Lo schema attuale modella un solo condominio (nessun `condominio_id`);
+  estendere a più edifici richiede rivedere tutte le policy RLS.

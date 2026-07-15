@@ -1,4 +1,4 @@
-name: Deploy to Vercel
+name: CI
 
 on:
   push:
@@ -30,42 +30,44 @@ jobs:
       - name: Test
         run: npm test
 
-  deploy:
-    needs: quality
+  db-tests:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Setup Supabase CLI
+        uses: supabase/setup-cli@v1
         with:
-          node-version: '20'
+          version: latest
 
-      - name: Install Vercel CLI
-        run: npm install -g vercel@latest
+      # supabase start avvia lo stack locale (Postgres + pgTAP) via Docker,
+      # applicando tutte le migration in supabase/migrations prima di
+      # eseguire i test in supabase/tests/database.
+      - name: Start local Supabase stack
+        run: supabase start
 
-      - name: Pull Vercel Environment
-        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-        env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      - name: Run pgTAP RLS tests
+        run: supabase test db
 
-      - name: Build Project
-        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
-        env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      - name: Stop local Supabase stack
+        if: always()
+        run: supabase stop
 
-      - name: Deploy to Production
-        if: github.ref == 'refs/heads/main'
-        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
-        env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+  migrate:
+    needs: [quality, db-tests]
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
 
-      - name: Deploy Preview
-        if: github.event_name == 'pull_request'
-        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
-        env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      - name: Setup Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      # Applica le migration versionate al progetto Supabase collegato,
+      # prima del deploy dell'app, cosi lo schema non cambia piu fuori
+      # banda. Richiede il secret repo SUPABASE_DB_URL (connection string
+      # Postgres del progetto, es. da Project Settings > Database).
+      - name: Push database migrations
+        run: supabase db push --db-url "${{ secrets.SUPABASE_DB_URL }}"

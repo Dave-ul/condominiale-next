@@ -34,13 +34,18 @@ export function Badge({
   )
 }
 
-export function paymentStatusBadge(status: string) {
+// Non esiste uno stato "overdue" persistito: nessun job schedulato lo
+// imposta, quindi lo calcoliamo qui a partire da `due_date` per evitare
+// di introdurre un cron solo per aggiornare un'etichetta.
+export function paymentStatusBadge(status: string, dueDate?: string | null) {
+  const isOverdue = status === 'pending' && !!dueDate && new Date(dueDate) < new Date(new Date().toDateString())
+
   const map: Record<string, { label: string; color: Color }> = {
     pending:  { label: 'In attesa', color: 'gold' },
     paid:     { label: 'Pagato', color: 'blue' },
     verified: { label: 'Verificato', color: 'green' },
-    overdue:  { label: 'Scaduto', color: 'red' },
   }
+  if (isOverdue) return <Badge color="red">Scaduto</Badge>
   const { label, color } = map[status] ?? { label: status, color: 'gray' }
   return <Badge color={color}>{label}</Badge>
 }

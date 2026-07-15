@@ -67,7 +67,7 @@ export interface Database {
           description: string
           amount: number
           due_date: string
-          status: 'pending' | 'paid' | 'verified' | 'overdue'
+          status: 'pending' | 'paid' | 'verified'
           receipt_path: string | null
           stripe_payment_link: string | null
           created_at: string
@@ -78,7 +78,7 @@ export interface Database {
           description: string
           amount: number
           due_date: string
-          status?: 'pending' | 'paid' | 'verified' | 'overdue'
+          status?: 'pending' | 'paid' | 'verified'
           receipt_path?: string | null
           stripe_payment_link?: string | null
           created_at?: string
@@ -89,7 +89,7 @@ export interface Database {
           description?: string
           amount?: number
           due_date?: string
-          status?: 'pending' | 'paid' | 'verified' | 'overdue'
+          status?: 'pending' | 'paid' | 'verified'
           receipt_path?: string | null
           stripe_payment_link?: string | null
           created_at?: string

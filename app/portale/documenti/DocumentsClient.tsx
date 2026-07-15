@@ -49,10 +49,7 @@ export function DocumentsClient({ documents: initial, isAdmin }: { documents: Do
     setAlert(null)
 
     const ext = form.file.name.split('.').pop()
-    // Date.now() runs in an event handler (not during render), where a unique
-    // upload key is exactly what we want; the purity rule misfires here.
-    // eslint-disable-next-line react-hooks/purity
-    const path = `${Date.now()}.${ext}`
+    const path = `${crypto.randomUUID()}.${ext}`
 
     const { error: uploadErr } = await supabase.storage
       .from('documenti')
