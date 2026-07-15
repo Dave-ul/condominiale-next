@@ -68,8 +68,12 @@ select lives_ok(
 
 -- La RLS filtra la riga di un altro resident prima che raggiunga il
 -- trigger: l'update non ha alcun effetto (0 righe toccate) invece di
--- sollevare un errore.
+-- sollevare un errore. Il controllo va fatto uscendo dal contesto di A
+-- (che comunque non potrebbe vedere la riga di B), tornando al ruolo di
+-- default della fixture, che bypassa la RLS.
 update public.payments set status = 'paid' where resident_id = 'b0000000-0000-0000-0000-000000000002';
+
+reset role;
 
 select is(
   (select status from public.payments where resident_id = 'b0000000-0000-0000-0000-000000000002'),
@@ -78,7 +82,6 @@ select is(
 );
 
 -- --- Come Admin C ---
-reset role;
 set local role authenticated;
 set local request.jwt.claims to '{"sub":"b0000000-0000-0000-0000-000000000003","role":"authenticated"}';
 
