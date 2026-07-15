@@ -13,14 +13,18 @@ type PaymentWithProfile = Payment & {
   profiles?: { full_name: string | null; unit: string | null; email: string | null } | null
 }
 
+type ResidentOption = { id: string; full_name: string | null; unit: string | null }
+
 export function PaymentsClient({
   payments: initial,
   isAdmin,
   currentUserId,
+  residents,
 }: {
   payments: PaymentWithProfile[]
   isAdmin: boolean
   currentUserId: string
+  residents: ResidentOption[]
 }) {
   const [payments, setPayments] = useState(initial)
   const [receiptModal, setReceiptModal] = useState<string | null>(null)
@@ -138,7 +142,7 @@ export function PaymentsClient({
                   <p className="font-bold text-lg mb-1" style={{ color: 'var(--navy)' }}>
                     {formatCurrency(p.amount)}
                   </p>
-                  {paymentStatusBadge(p.status)}
+                  {paymentStatusBadge(p.status, p.due_date)}
                 </div>
               </div>
 
@@ -201,8 +205,20 @@ export function PaymentsClient({
         {alert && <Alert type={alert.type} message={alert.message} className="mb-4" />}
         <form onSubmit={createPayment} className="space-y-4">
           <div>
-            <label className="text-xs font-medium text-[var(--navy)] mb-1.5 block">ID Residente *</label>
-            <input className={inputClass} placeholder="UUID del residente" required value={newForm.resident_id} onChange={(e) => setNewForm({ ...newForm, resident_id: e.target.value })} />
+            <label className="text-xs font-medium text-[var(--navy)] mb-1.5 block">Residente *</label>
+            <select
+              className={inputClass}
+              required
+              value={newForm.resident_id}
+              onChange={(e) => setNewForm({ ...newForm, resident_id: e.target.value })}
+            >
+              <option value="" disabled>Seleziona un residente</option>
+              {residents.map((r) => (
+                <option key={r.id} value={r.id}>
+                  {r.full_name ?? r.id}{r.unit ? ` (Int. ${r.unit})` : ''}
+                </option>
+              ))}
+            </select>
           </div>
           <div>
             <label className="text-xs font-medium text-[var(--navy)] mb-1.5 block">Descrizione *</label>

@@ -1,15 +1,13 @@
 import { createClient } from '@/lib/supabase/server'
+import { getSession } from '@/lib/supabase/session'
 import { redirect } from 'next/navigation'
 import { RequestsClient } from './RequestsClient'
 
 export default async function RichiestePage() {
+  const { user, profile } = await getSession()
+  if (!user || !profile) redirect('/auth')
+
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) redirect('/auth')
-
-  const { data: profile } = await supabase.from('profiles').select('*').eq('id', user.id).single()
-  if (!profile) redirect('/auth')
-
   const isAdmin = profile.role === 'admin'
 
   const query = supabase

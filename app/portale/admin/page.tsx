@@ -1,24 +1,25 @@
 import { createClient } from '@/lib/supabase/server'
+import { getSession } from '@/lib/supabase/session'
 import { redirect } from 'next/navigation'
 import { formatCurrency, getInitials } from '@/lib/utils'
 import { Users, CreditCard, MessageSquare, TrendingUp } from 'lucide-react'
-import type { Profile, Payment } from '@/lib/supabase/types'
+import type { Payment } from '@/lib/supabase/types'
 
 export default async function AdminPage() {
+  const { user, profile } = await getSession()
+  if (!user || !profile) redirect('/auth')
+  if (profile.role !== 'admin') redirect('/portale')
+
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) redirect('/auth')
-
-  const { data: rawProfile } = await supabase.from('profiles').select('*').eq('id', user.id).single()
-  const profile = rawProfile as Profile | null
-  if (!profile || profile.role !== 'admin') redirect('/portale')
-
-  const [{ data: rawResidents }, { data: rawPayments }, { data: openRequests }] = await Promise.all([
-    supabase.from('profiles').select('*').eq('role', 'resident').order('full_name'),
+  const [{ data: residents }, { data: rawPayments }, { data: openRequests }] = await Promise.all([
+    supabase
+      .from('profiles')
+      .select('id, full_name, email, unit, phone')
+      .eq('role', 'resident')
+      .order('full_name'),
     supabase.from('payments').select('*').order('created_at', { ascending: false }),
     supabase.from('requests').select('id', { count: 'exact' }).eq('status', 'aperta'),
   ])
-  const residents = rawResidents as Profile[] | null
   const payments = rawPayments as Payment[] | null
 
   const totalExpected = payments?.reduce((s, p) => s + Number(p.amount), 0) ?? 0
