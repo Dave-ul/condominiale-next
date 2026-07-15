@@ -92,7 +92,7 @@ disabilitare nulla).
 
 ## CI/CD
 
-`.github/workflows/deploy.yml`:
+`.github/workflows/deploy.yml` (workflow **CI**):
 
 1. **quality** — lint, typecheck, test unitari.
 2. **db-tests** — avvia uno stack Supabase locale via Docker ed esegue i
@@ -102,11 +102,11 @@ disabilitare nulla).
    Supabase collegato con `supabase db push`. Richiede il secret repo
    **`SUPABASE_DB_URL`** (connection string Postgres del progetto, da
    *Project Settings → Database*).
-4. **deploy** — build e deploy su Vercel. Richiede i secret
-   `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`.
 
-Il deploy dell'app avviene solo se lint/typecheck/test, i test RLS e le
-migration sono passati.
+Il deploy dell'app su Vercel è gestito dall'integrazione nativa
+Vercel↔GitHub (non da questo workflow): ogni push crea/aggiorna un
+deployment automaticamente. Questo workflow serve solo da gate di
+qualità/schema, indipendente dal deploy.
 
 ## Limiti noti
 
