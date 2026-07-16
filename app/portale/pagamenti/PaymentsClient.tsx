@@ -6,7 +6,9 @@ import { Button } from '@/components/ui/button'
 import { Alert } from '@/components/ui/alert'
 import { paymentStatusBadge } from '@/components/ui/badge'
 import { CreditCard, Upload, CheckCircle, Plus, ExternalLink } from 'lucide-react'
-import { formatCurrency, formatDate } from '@/lib/utils'
+import { formatCurrency, formatDate, openInNewTab } from '@/lib/utils'
+import { PaymentCreateClientSchema } from '@/lib/schemas/payments'
+import { validateDocumentFile } from '@/lib/schemas/documents'
 import type { Payment } from '@/lib/supabase/types'
 
 type PaymentWithProfile = Payment & {
@@ -39,12 +41,15 @@ export function PaymentsClient({
 
   const uploadReceipt = async () => {
     if (!receiptFile || !receiptModal) return
+    const fileCheck = validateDocumentFile(receiptFile)
+    if (!fileCheck.ok) {
+      setAlert({ type: 'error', message: fileCheck.message })
+      return
+    }
     setUploading(true)
     setAlert(null)
-    // Date.now() runs in an event handler (not during render), where a unique
-    // upload key is exactly what we want; the purity rule misfires here.
-    // eslint-disable-next-line react-hooks/purity
-    const path = `${currentUserId}/${Date.now()}-${receiptFile.name}`
+    const ext = receiptFile.name.split('.').pop() ?? 'bin'
+    const path = `${currentUserId}/${crypto.randomUUID()}.${ext}`
     const { error: uploadErr } = await supabase.storage.from('ricevute').upload(path, receiptFile)
     if (uploadErr) {
       setAlert({ type: 'error', message: 'Errore nel caricamento.' })
@@ -59,7 +64,7 @@ export function PaymentsClient({
     if (dbErr) {
       setAlert({ type: 'error', message: 'Errore nell\'aggiornamento.' })
     } else {
-      setPayments(payments.map((p) => p.id === receiptModal ? { ...p, status: 'paid', receipt_path: path } : p))
+      setPayments((prev) => prev.map((p) => p.id === receiptModal ? { ...p, status: 'paid', receipt_path: path } : p))
       setReceiptModal(null)
       setReceiptFile(null)
     }
@@ -68,28 +73,40 @@ export function PaymentsClient({
   const verifyPayment = async (id: string) => {
     const { error } = await supabase.from('payments').update({ status: 'verified' }).eq('id', id)
     if (!error) {
-      setPayments(payments.map((p) => p.id === id ? { ...p, status: 'verified' } : p))
+      setPayments((prev) => prev.map((p) => p.id === id ? { ...p, status: 'verified' } : p))
     }
   }
 
   const createPayment = async (e: React.FormEvent) => {
     e.preventDefault()
     setAlert(null)
+    const parsed = PaymentCreateClientSchema.safeParse({
+      resident_id: newForm.resident_id,
+      description: newForm.description,
+      amount: newForm.amount,
+      due_date: newForm.due_date,
+      stripe_payment_link: newForm.stripe_link || null,
+    })
+    if (!parsed.success) {
+      setAlert({ type: 'error', message: parsed.error.issues[0].message })
+      return
+    }
+    const v = parsed.data
     const { data, error } = await supabase
       .from('payments')
       .insert({
-        resident_id: newForm.resident_id,
-        description: newForm.description,
-        amount: parseFloat(newForm.amount),
-        due_date: newForm.due_date,
-        stripe_payment_link: newForm.stripe_link || null,
+        resident_id: v.resident_id,
+        description: v.description,
+        amount: v.amount,
+        due_date: v.due_date,
+        stripe_payment_link: v.stripe_payment_link,
       })
       .select(`*, profiles!payments_resident_id_fkey(full_name, unit, email)`)
       .single()
     if (error || !data) {
       setAlert({ type: 'error', message: 'Errore nella creazione.' })
     } else {
-      setPayments([data as PaymentWithProfile, ...payments])
+      setPayments((prev) => [data as PaymentWithProfile, ...prev])
       setNewModal(false)
       setNewForm({ resident_id: '', description: '', amount: '', due_date: '', stripe_link: '' })
     }
@@ -166,11 +183,12 @@ export function PaymentsClient({
                 )}
                 {p.receipt_path && isAdmin && (
                   <button
+                    type="button"
                     className="text-xs underline"
                     style={{ color: 'var(--gold)' }}
                     onClick={async () => {
                       const { data } = await supabase.storage.from('ricevute').createSignedUrl(p.receipt_path!, 60)
-                      if (data?.signedUrl) window.open(data.signedUrl, '_blank')
+                      if (data?.signedUrl) openInNewTab(data.signedUrl)
                     }}
                   >
                     Vedi ricevuta
