@@ -6,7 +6,8 @@ import { Button } from '@/components/ui/button'
 import { Alert } from '@/components/ui/alert'
 import { Badge } from '@/components/ui/badge'
 import { FileText, Download, Upload, Plus, FileArchive, FileSpreadsheet } from 'lucide-react'
-import { formatDate } from '@/lib/utils'
+import { formatDate, openInNewTab } from '@/lib/utils'
+import { DocumentMetadataSchema, validateDocumentFile } from '@/lib/schemas/documents'
 import type { Document } from '@/lib/supabase/types'
 
 const categoryColors: Record<string, string> = {
@@ -39,16 +40,26 @@ export function DocumentsClient({ documents: initial, isAdmin }: { documents: Do
 
   const handleDownload = async (doc: Document) => {
     const { data } = await supabase.storage.from('documenti').createSignedUrl(doc.file_path, 60)
-    if (data?.signedUrl) window.open(data.signedUrl, '_blank')
+    if (data?.signedUrl) openInNewTab(data.signedUrl)
   }
 
   const handleUpload = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!form.file) return
+    const fileCheck = validateDocumentFile(form.file)
+    if (!fileCheck.ok) {
+      setAlert({ type: 'error', message: fileCheck.message })
+      return
+    }
+    const meta = DocumentMetadataSchema.safeParse({ name: form.name, category: form.category })
+    if (!meta.success) {
+      setAlert({ type: 'error', message: meta.error.issues[0].message })
+      return
+    }
     setUploading(true)
     setAlert(null)
 
-    const ext = form.file.name.split('.').pop()
+    const ext = form.file.name.split('.').pop() ?? 'bin'
     const path = `${crypto.randomUUID()}.${ext}`
 
     const { error: uploadErr } = await supabase.storage
@@ -63,7 +74,7 @@ export function DocumentsClient({ documents: initial, isAdmin }: { documents: Do
 
     const { data: doc, error: dbErr } = await supabase
       .from('documents')
-      .insert({ name: form.name, category: form.category, file_path: path })
+      .insert({ name: meta.data.name, category: meta.data.category, file_path: path })
       .select()
       .single()
 
@@ -71,7 +82,7 @@ export function DocumentsClient({ documents: initial, isAdmin }: { documents: Do
     if (dbErr || !doc) {
       setAlert({ type: 'error', message: 'Errore nel salvataggio del documento.' })
     } else {
-      setDocuments([doc, ...documents])
+      setDocuments((prev) => [doc, ...prev])
       setModalOpen(false)
       setForm({ name: '', category: 'verbale', file: null })
     }

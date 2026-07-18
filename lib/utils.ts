@@ -28,3 +28,19 @@ export function getInitials(name: string): string {
       .slice(0, 2) || '?'
   )
 }
+
+/**
+ * Open a URL in a new browser tab with rel=noopener,noreferrer to defend
+ * against tabnabbing. Idempotent and uses a programmatic anchor so the
+ * parent window cannot be reached from the popup (window.opener).
+ */
+export function openInNewTab(url: string): void {
+  if (typeof document === 'undefined') return
+  const a = document.createElement('a')
+  a.href = url
+  a.target = '_blank'
+  a.rel = 'noopener noreferrer'
+  document.body.appendChild(a)
+  a.click()
+  a.remove()
+}

@@ -7,6 +7,7 @@ import { Alert } from '@/components/ui/alert'
 import { requestStatusBadge } from '@/components/ui/badge'
 import { MessageSquare, Plus } from 'lucide-react'
 import { formatDate } from '@/lib/utils'
+import { RequestCreateClientSchema } from '@/lib/schemas/requests'
 import type { Request } from '@/lib/supabase/types'
 
 type RequestWithProfile = Request & {
@@ -47,13 +48,20 @@ export function RequestsClient({
     e.preventDefault()
     setSubmitting(true)
     setAlert(null)
+    const parsed = RequestCreateClientSchema.safeParse(form)
+    if (!parsed.success) {
+      setSubmitting(false)
+      setAlert({ type: 'error', message: parsed.error.issues[0].message })
+      return
+    }
+    const v = parsed.data
     const { data, error } = await supabase
       .from('requests')
       .insert({
         resident_id: currentUserId,
-        title: form.title,
-        description: form.description,
-        category: form.category,
+        title: v.title,
+        description: v.description || null,
+        category: v.category,
       })
       .select(`*, profiles!requests_resident_id_fkey(full_name, unit, email)`)
       .single()
@@ -61,7 +69,7 @@ export function RequestsClient({
     if (error || !data) {
       setAlert({ type: 'error', message: 'Errore nell\'invio della richiesta.' })
     } else {
-      setRequests([data as RequestWithProfile, ...requests])
+      setRequests((prev) => [data as RequestWithProfile, ...prev])
       setModalOpen(false)
       setForm({ title: '', description: '', category: 'guasto' })
     }
@@ -70,7 +78,7 @@ export function RequestsClient({
   const updateStatus = async (id: string, status: Request['status']) => {
     const { error } = await supabase.from('requests').update({ status }).eq('id', id)
     if (!error) {
-      setRequests(requests.map((r) => (r.id === id ? { ...r, status } : r)))
+      setRequests((prev) => prev.map((r) => (r.id === id ? { ...r, status } : r)))
     }
   }
 
