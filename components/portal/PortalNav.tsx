@@ -130,6 +130,13 @@ export function PortalNav({ profile }: { profile: Profile }) {
               </p>
             </div>
           </div>
+          <Link
+            href="/privacy"
+            className="flex items-center px-4 py-1.5 text-xs transition-colors hover:text-[var(--navy)]"
+            style={{ color: 'rgba(28,21,16,0.35)' }}
+          >
+            Privacy
+          </Link>
           <button
             onClick={handleLogout}
             className="flex items-center gap-2 w-full px-4 py-2 text-sm transition-colors hover:bg-red-50 hover:text-red-600"
@@ -176,9 +183,17 @@ export function PortalNav({ profile }: { profile: Profile }) {
                 onNavigate={() => setMobileOpen(false)}
               />
             ))}
+            <Link
+              href="/privacy"
+              onClick={() => setMobileOpen(false)}
+              className="block px-4 py-2.5 text-xs mt-4"
+              style={{ color: 'rgba(28,21,16,0.4)' }}
+            >
+              Privacy
+            </Link>
             <button
               onClick={handleLogout}
-              className="flex items-center gap-2 w-full px-4 py-2.5 text-sm text-red-500 mt-4"
+              className="flex items-center gap-2 w-full px-4 py-2.5 text-sm text-red-500"
               style={{ borderRadius: 0 }}
             >
               <LogOut size={15} />
