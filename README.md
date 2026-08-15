@@ -55,6 +55,47 @@ npm install
 npm run dev
 ```
 
+## Content-Security-Policy
+
+`proxy.ts` applica **due policy distinte**, perché il sito ha due metà con
+esigenze diverse. Vale la pena leggere questa sezione prima di aggiungere
+script, stili o domini esterni: una CSP sbagliata non rompe la build né i
+test, si vede solo nel browser.
+
+**App Next (`/auth`, `/portale/*`)** — CSP con nonce per-richiesta. Next
+applica il nonce ai propri script leggendolo dall'header di **richiesta**
+`Content-Security-Policy`, che va quindi impostato sia sulla richiesta
+inoltrata alle RSC sia sulla risposta. Conseguenze da tenere a mente:
+
+- `script-src` contiene `'strict-dynamic'`, che per specifica **annulla
+  `'self'`**: senza nonce non esiste alcun fallback e l'intero front-end
+  viene bloccato;
+- il nonce esiste solo durante il rendering per-richiesta, quindi
+  `app/layout.tsx` dichiara `export const dynamic = 'force-dynamic'`. Una
+  pagina prerenderizzata a build time verrebbe servita con script privi di
+  nonce (è il caso di `/auth`, client component senza API dinamiche);
+- in sviluppo servono `'unsafe-eval'` (React usa `eval` per ricostruire gli
+  stack server) e `style-src 'unsafe-inline'` (l'overlay di errore inietta
+  stili non noncati): sono concessi solo se `NODE_ENV === 'development'`.
+
+**Landing pubblica (`/`)** — CSP statica senza nonce. La pagina è il file
+HTML `public/index.html`, servito verbatim da `app/route.ts` con una
+`Cache-Control` di un'ora: un nonce per-richiesta sarebbe incompatibile con
+la cache (una copia conserverebbe un nonce scaduto). Quindi:
+
+- tutto il JS della landing sta in `public/landing.js`, coperto da
+  `script-src 'self'`. **Non reintrodurre `<script>` inline né attributi
+  `onclick`/`onsubmit`**: gli attributi-evento non sono nonce-abili e
+  verrebbero bloccati in ogni caso;
+- il `<style>` inline resta inline (evita un foglio render-blocking) ed è
+  concesso da `style-src 'unsafe-inline'` limitato a questa rotta;
+- ogni dominio esterno va aggiunto esplicitamente: oggi Formspree in
+  `connect-src`, Unsplash in `img-src`, Google Maps in `frame-src`.
+
+I font (`public/fonts/*.woff2`, due file variabili) sono self-hosted e
+condivisi: la landing li dichiara via `@font-face`, l'app li carica con
+`next/font/local` in `app/layout.tsx`.
+
 ## Schema e ruoli
 
 Quattro tabelle in `public`, tutte con Row Level Security abilitata:
