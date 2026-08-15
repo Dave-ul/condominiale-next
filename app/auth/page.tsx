@@ -13,6 +13,7 @@ export default function AuthPage() {
   const [tab, setTab] = useState<Tab>('login')
   const [loading, setLoading] = useState(false)
   const [alert, setAlert] = useState<{ type: 'success' | 'error'; message: string } | null>(null)
+  const [agreed, setAgreed] = useState(false)
   const router = useRouter()
   const supabase = createClient()
 
@@ -56,6 +57,10 @@ export default function AuthPage() {
           full_name: form.full_name,
           unit: form.unit,
           phone: form.phone,
+          // Traccia data/ora di accettazione dell'informativa privacy
+          // (GDPR art. 5.2, accountability) — nessuna migration necessaria,
+          // finisce in auth.users.raw_user_meta_data come gli altri campi.
+          consent_accepted_at: new Date().toISOString(),
         },
       },
     })
@@ -160,6 +165,23 @@ export default function AuthPage() {
                 <div>
                   <label className="text-xs font-medium text-[var(--navy)] mb-1.5 block">Password *</label>
                   <input type="password" className={inputClass} required minLength={6} value={form.password} onChange={set('password')} />
+                </div>
+                <div className="flex items-start gap-2">
+                  <input
+                    type="checkbox"
+                    id="privacy-consent"
+                    required
+                    checked={agreed}
+                    onChange={(e) => setAgreed(e.target.checked)}
+                    className="mt-0.5"
+                  />
+                  <label htmlFor="privacy-consent" className="text-xs" style={{ color: 'var(--ink)', opacity: 0.7 }}>
+                    Accetto l&apos;
+                    <Link href="/privacy" target="_blank" className="underline">
+                      informativa privacy
+                    </Link>{' '}
+                    *
+                  </label>
                 </div>
                 <Button type="submit" loading={loading} className="w-full mt-2">
                   Crea account
