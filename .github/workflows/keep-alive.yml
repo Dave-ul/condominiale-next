@@ -13,6 +13,8 @@ jobs:
     steps:
       - name: Ping Supabase REST API
         run: |
+          KEY="sb_publishable_qpirxDA7b_vutYmWBi38nw_YLl7Nl5O"
           curl -sf -o /dev/null -w '%{http_code}\n' \
             "https://edwqwlirkuizkeumshbg.supabase.co/rest/v1/" \
-            -H "apikey: sb_publishable_qpirxDA7b_vutYmWBi38nw_YLl7Nl5O"
+            -H "apikey: $KEY" \
+            -H "Authorization: Bearer $KEY"
