@@ -38,7 +38,7 @@ export default function PrivacyPage() {
 
           <h2 className={h2} style={{ color: 'var(--navy)' }}>Dati trattati</h2>
           <p className={p}>
-            Nell'ambito del servizio di amministrazione condominiale e del portale online trattiamo: dati anagrafici e di contatto
+            Nell&apos;ambito del servizio di amministrazione condominiale e del portale online trattiamo: dati anagrafici e di contatto
             (nome, email, telefono, unità/interno di residenza), dati relativi a pagamenti e ricevute condominiali, documenti
             condominiali (verbali, rendiconti, circolari) e le richieste/segnalazioni inviate tramite il portale. Chi utilizza il
             modulo di contatto sul sito fornisce inoltre nome, email, telefono e il contenuto del messaggio.
@@ -46,18 +46,18 @@ export default function PrivacyPage() {
 
           <h2 className={h2} style={{ color: 'var(--navy)' }}>Finalità e base giuridica</h2>
           <p className={p}>
-            I dati dei residenti sono trattati per l'esecuzione del mandato di amministrazione condominiale (art. 6.1.b GDPR —
+            I dati dei residenti sono trattati per l&apos;esecuzione del mandato di amministrazione condominiale (art. 6.1.b GDPR —
             esecuzione di un contratto/incarico). I dati raccolti tramite il modulo di contatto sono trattati sulla base del
-            consenso dell'interessato (art. 6.1.a GDPR) per rispondere alla richiesta ricevuta.
+            consenso dell&apos;interessato (art. 6.1.a GDPR) per rispondere alla richiesta ricevuta.
           </p>
 
           <h2 className={h2} style={{ color: 'var(--navy)' }}>Destinatari e responsabili del trattamento</h2>
           <p className={p}>
-            I dati sono trattati con l'ausilio di fornitori terzi che agiscono come responsabili del trattamento:
+            I dati sono trattati con l&apos;ausilio di fornitori terzi che agiscono come responsabili del trattamento:
           </p>
           <ul className="text-sm leading-relaxed mb-3 pl-5 list-disc space-y-1">
             <li><strong>Supabase</strong> — hosting del database e autenticazione, infrastruttura nella regione UE (eu-central-1, Francoforte).</li>
-            <li><strong>Vercel</strong> — hosting dell'applicazione web.</li>
+            <li><strong>Vercel</strong> — hosting dell&apos;applicazione web.</li>
             <li><strong>Formspree</strong> — gestione del modulo di contatto del sito; il servizio ha sede negli Stati Uniti, il trasferimento dei dati è regolato dalle garanzie previste dal fornitore per i trasferimenti extra-UE.</li>
           </ul>
 
@@ -68,9 +68,9 @@ export default function PrivacyPage() {
             modulo di contatto sono conservati per il tempo necessario a evadere la richiesta.
           </p>
 
-          <h2 className={h2} style={{ color: 'var(--navy)' }}>Diritti dell'interessato</h2>
+          <h2 className={h2} style={{ color: 'var(--navy)' }}>Diritti dell&apos;interessato</h2>
           <p className={p}>
-            È possibile richiedere in qualsiasi momento l'accesso, la rettifica, la cancellazione o la limitazione del
+            È possibile richiedere in qualsiasi momento l&apos;accesso, la rettifica, la cancellazione o la limitazione del
             trattamento dei propri dati, nonché la portabilità degli stessi, scrivendo a{' '}
             <a href="mailto:pluigi.rocca@yahoo.com" className="underline">pluigi.rocca@yahoo.com</a>. È inoltre possibile proporre
             reclamo al Garante per la protezione dei dati personali (www.garanteprivacy.it).
