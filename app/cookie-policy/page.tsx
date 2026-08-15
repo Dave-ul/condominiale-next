@@ -33,8 +33,8 @@ export default function CookiePolicyPage() {
           <h2 className={h2} style={{ color: 'var(--navy)' }}>Cookie tecnici (sempre attivi)</h2>
           <p className={p}>
             Il portale condominiale (<code>/portale</code>) utilizza cookie tecnici di sessione impostati da Supabase Auth
-            (es. <code>sb-*-auth-token</code>) necessari per mantenere l'accesso effettuato. Questi cookie sono strettamente
-            necessari al funzionamento del servizio richiesto dall'utente e, per normativa del Garante Privacy, non richiedono
+            (es. <code>sb-*-auth-token</code>) necessari per mantenere l&apos;accesso effettuato. Questi cookie sono strettamente
+            necessari al funzionamento del servizio richiesto dall&apos;utente e, per normativa del Garante Privacy, non richiedono
             il consenso preventivo.
           </p>
 
@@ -47,8 +47,8 @@ export default function CookiePolicyPage() {
 
           <h2 className={h2} style={{ color: 'var(--navy)' }}>Contenuti di terze parti</h2>
           <p className={p}>
-            La pagina dei contatti include una mappa incorporata (Google Maps): il caricamento dell'iframe può comportare
-            connessioni al dominio Google, che non impostano cookie di profilazione senza un'interazione diretta dell'utente
+            La pagina dei contatti include una mappa incorporata (Google Maps): il caricamento dell&apos;iframe può comportare
+            connessioni al dominio Google, che non impostano cookie di profilazione senza un&apos;interazione diretta dell&apos;utente
             con la mappa.
           </p>
 
@@ -56,7 +56,7 @@ export default function CookiePolicyPage() {
           <p className={p}>
             I cookie tecnici di sessione possono essere rimossi in qualsiasi momento dalle impostazioni del browser; questo
             comporterà la disconnessione dal portale. Per informazioni sul trattamento dei dati personali consulta
-            l'<Link href="/privacy" className="underline">Informativa Privacy</Link>.
+            l&apos;<Link href="/privacy" className="underline">Informativa Privacy</Link>.
           </p>
         </div>
       </div>
