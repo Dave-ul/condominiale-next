@@ -13,14 +13,17 @@
     @font-face {
       font-family: 'Inter';
       font-style: normal;
-      font-weight: 400 600;
+      /* Range reale dell'asse wght del file variabile: dichiararlo più
+         stretto faceva sintetizzare al browser un finto grassetto sulle
+         regole font-weight: 700. */
+      font-weight: 100 900;
       font-display: swap;
       src: url('/fonts/inter-latin.woff2') format('woff2');
     }
     @font-face {
       font-family: 'Playfair Display';
       font-style: normal;
-      font-weight: 700 800;
+      font-weight: 400 900;
       font-display: swap;
       src: url('/fonts/playfair-latin.woff2') format('woff2');
     }
@@ -1084,7 +1087,7 @@
     <div class="faq-list">
 
       <div class="faq-item">
-        <button class="faq-btn" onclick="toggleFaq(this)">
+        <button class="faq-btn">
           <div class="faq-btn-left">
             <span class="faq-n">01</span>
             <span class="faq-q">Quanto costa il servizio di amministrazione?</span>
@@ -1098,7 +1101,7 @@
       </div>
 
       <div class="faq-item">
-        <button class="faq-btn" onclick="toggleFaq(this)">
+        <button class="faq-btn">
           <div class="faq-btn-left">
             <span class="faq-n">02</span>
             <span class="faq-q">Come posso accedere al portale condominiale?</span>
@@ -1112,7 +1115,7 @@
       </div>
 
       <div class="faq-item">
-        <button class="faq-btn" onclick="toggleFaq(this)">
+        <button class="faq-btn">
           <div class="faq-btn-left">
             <span class="faq-n">03</span>
             <span class="faq-q">Come vengono gestite le emergenze notturne?</span>
@@ -1126,7 +1129,7 @@
       </div>
 
       <div class="faq-item">
-        <button class="faq-btn" onclick="toggleFaq(this)">
+        <button class="faq-btn">
           <div class="faq-btn-left">
             <span class="faq-n">04</span>
             <span class="faq-q">Come avviene la transizione da un'altra amministrazione?</span>
@@ -1140,7 +1143,7 @@
       </div>
 
       <div class="faq-item">
-        <button class="faq-btn" onclick="toggleFaq(this)">
+        <button class="faq-btn">
           <div class="faq-btn-left">
             <span class="faq-n">05</span>
             <span class="faq-q">I documenti condominiali sono accessibili online?</span>
@@ -1154,7 +1157,7 @@
       </div>
 
       <div class="faq-item">
-        <button class="faq-btn" onclick="toggleFaq(this)">
+        <button class="faq-btn">
           <div class="faq-btn-left">
             <span class="faq-n">06</span>
             <span class="faq-q">Come vengono gestiti i pagamenti delle quote condominiali?</span>
@@ -1219,7 +1222,7 @@
         </div>
       </div>
 
-      <form class="contact-form" id="contact-form" onsubmit="submitForm(event)">
+      <form class="contact-form" id="contact-form">
         <div id="alert-success" class="alert alert-success">Messaggio inviato! Ti risponderemo entro 24 ore.</div>
         <div id="alert-error"   class="alert alert-error">Errore nell'invio. Riprova o chiamaci direttamente.</div>
         <div class="form-row">
@@ -1307,79 +1310,6 @@
   </div>
 </footer>
 
-<script>
-  // Navbar scroll
-  const navbar = document.getElementById('navbar');
-  window.addEventListener('scroll', () => {
-    navbar.classList.toggle('scrolled', window.scrollY > 20);
-  }, { passive: true });
-
-  // Hamburger
-  const hamburger = document.getElementById('hamburger');
-  const mobileMenu = document.getElementById('mobile-menu');
-  const iconMenu   = document.getElementById('icon-menu');
-  const iconClose  = document.getElementById('icon-close');
-
-  hamburger.addEventListener('click', () => {
-    const open = mobileMenu.classList.toggle('open');
-    iconMenu.style.display  = open ? 'none'  : 'block';
-    iconClose.style.display = open ? 'block' : 'none';
-  });
-
-  document.querySelectorAll('.mobile-link').forEach(link => {
-    link.addEventListener('click', () => {
-      mobileMenu.classList.remove('open');
-      iconMenu.style.display  = 'block';
-      iconClose.style.display = 'none';
-    });
-  });
-
-  // FAQ accordion
-  function toggleFaq(btn) {
-    const item = btn.closest('.faq-item');
-    const isOpen = item.classList.contains('open');
-    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
-    if (!isOpen) item.classList.add('open');
-  }
-
-  // Contact form
-  async function submitForm(e) {
-    e.preventDefault();
-    const btn   = document.getElementById('submit-btn');
-    const form  = document.getElementById('contact-form');
-    const succ  = document.getElementById('alert-success');
-    const err   = document.getElementById('alert-error');
-    const data  = Object.fromEntries(new FormData(form));
-
-    btn.disabled    = true;
-    btn.textContent = 'Invio in corso...';
-
-    try {
-      const res = await fetch('https://formspree.io/f/xjkwqgpq', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name:    `${data.nome} ${data.cognome}`,
-          email:   data.email,
-          phone:   data.telefono,
-          subject: data.oggetto,
-          message: data.messaggio,
-        }),
-      });
-      if (res.ok) {
-        succ.style.display = 'block';
-        form.reset();
-      } else {
-        err.style.display = 'block';
-      }
-    } catch {
-      err.style.display = 'block';
-    }
-
-    btn.disabled    = false;
-    btn.textContent = 'Invia messaggio';
-    setTimeout(() => { succ.style.display = 'none'; err.style.display = 'none'; }, 5000);
-  }
-</script>
+<script src="/landing.js" defer></script>
 </body>
 </html>
