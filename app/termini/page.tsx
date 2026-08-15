@@ -32,8 +32,8 @@ export default function TerminiPage() {
 
           <h2 className={h2} style={{ color: 'var(--navy)' }}>Accesso al portale</h2>
           <p className={p}>
-            L'accesso al portale condominiale (<code>/portale</code>) è riservato ai residenti e agli amministratori dei
-            condomini gestiti da Rocca Amministrazioni. La registrazione richiede l'accettazione dell'
+            L&apos;accesso al portale condominiale (<code>/portale</code>) è riservato ai residenti e agli amministratori dei
+            condomini gestiti da Rocca Amministrazioni. La registrazione richiede l&apos;accettazione dell&apos;
             <Link href="/privacy" className="underline">Informativa Privacy</Link>. Le credenziali di accesso sono personali
             e non devono essere condivise con terzi.
           </p>
@@ -42,14 +42,14 @@ export default function TerminiPage() {
           <p className={p}>
             Il portale consente di consultare documenti condominiali, lo storico dei pagamenti e di inviare richieste di
             assistenza o segnalazioni. I contenuti resi disponibili sono forniti a titolo informativo e non sostituiscono la
-            documentazione ufficiale conservata dall'amministrazione.
+            documentazione ufficiale conservata dall&apos;amministrazione.
           </p>
 
           <h2 className={h2} style={{ color: 'var(--navy)' }}>Responsabilità</h2>
           <p className={p}>
             Rocca Amministrazioni si impegna a mantenere il servizio disponibile e i dati aggiornati, ma non garantisce
-            l'assenza di interruzioni tecniche. Eventuali errori nei documenti o nei dati pubblicati vanno segnalati
-            tramite l'apposita sezione richieste del portale o ai contatti indicati nella pagina Contatti del sito.
+            l&apos;assenza di interruzioni tecniche. Eventuali errori nei documenti o nei dati pubblicati vanno segnalati
+            tramite l&apos;apposita sezione richieste del portale o ai contatti indicati nella pagina Contatti del sito.
           </p>
 
           <h2 className={h2} style={{ color: 'var(--navy)' }}>Modifiche</h2>
