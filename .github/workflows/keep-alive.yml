@@ -11,8 +11,17 @@ jobs:
   ping:
     runs-on: ubuntu-latest
     steps:
-      - name: Ping Supabase Auth health endpoint
+      # Deve essere una query vera sul database: Supabase conta l'inattivita'
+      # sulle richieste a Postgres, non sul traffico HTTP verso i servizi.
+      # L'endpoint /auth/v1/health rispondeva 200 senza toccare il database,
+      # quindi il progetto e' stato messo in pausa lo stesso.
+      # RLS filtra a zero righe per anon: la risposta e' 200 con [], ma la
+      # query viene eseguita ed e' quello che conta.
+      - name: Ping Supabase (query reale sul database)
         run: |
-          curl -sf -o /dev/null -w '%{http_code}\n' \
-            "https://edwqwlirkuizkeumshbg.supabase.co/auth/v1/health" \
-            -H "apikey: sb_publishable_qpirxDA7b_vutYmWBi38nw_YLl7Nl5O"
+          code=$(curl -s -o /dev/null -w '%{http_code}' \
+            --retry 3 --retry-all-errors --retry-delay 10 --max-time 30 \
+            "https://edwqwlirkuizkeumshbg.supabase.co/rest/v1/profiles?select=id&limit=1" \
+            -H "apikey: sb_publishable_qpirxDA7b_vutYmWBi38nw_YLl7Nl5O")
+          echo "HTTP $code"
+          [ "$code" = "200" ] || exit 1
