@@ -33,6 +33,11 @@ content_path = "./supabase/templates/invite.html"
 subject = "Recupero password — Portale Condominiale"
 content_path = "./supabase/templates/recovery.html"
 
+# Il portale non usa l'accesso via SMS: Twilio risultava attivo in produzione
+# senza essere dichiarato come sub-responsabile.
+[auth.sms.twilio]
+enabled = false
+
 [auth.mfa.totp]
 enroll_enabled = true
 verify_enabled = true
