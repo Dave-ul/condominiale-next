@@ -16,6 +16,15 @@ describe('safeRelativePath', () => {
     expect(safeRelativePath('//evil.com')).toBe('/portale')
   })
 
+  it('rejects backslash and whitespace variants browsers read as //', () => {
+    expect(safeRelativePath('/\\evil.com')).toBe('/portale')
+    expect(safeRelativePath('/\t/evil.com')).toBe('/portale')
+  })
+
+  it('keeps query string and hash', () => {
+    expect(safeRelativePath('/portale/account?x=1#top')).toBe('/portale/account?x=1#top')
+  })
+
   it('rejects absolute URLs', () => {
     expect(safeRelativePath('https://evil.com')).toBe('/portale')
     expect(safeRelativePath('http://evil.com')).toBe('/portale')
