@@ -39,7 +39,7 @@ function buildAppCSP(nonce: string): string {
     // Gli attributi style="..." sono usati molto da React; concederli non
     // può eseguire script ed è la mitigazione standard per questo pattern.
     `style-src-attr 'unsafe-inline'`,
-    `img-src 'self' data: https://images.unsplash.com https://*.supabase.co`,
+    `img-src 'self' data: https://*.supabase.co`,
     `font-src 'self'`,
     `connect-src 'self' https://*.supabase.co wss://*.supabase.co`,
     `frame-ancestors 'self'`,
@@ -59,7 +59,7 @@ function buildLandingCSP(): string {
     // un foglio render-blocking: su una pagina statica senza input utente
     // renderizzato, 'unsafe-inline' sugli stili non può eseguire script.
     `style-src 'self' 'unsafe-inline'`,
-    `img-src 'self' data: https://images.unsplash.com`,
+    `img-src 'self' data:`,
     `font-src 'self'`,
     // Form contatti (Formspree).
     `connect-src 'self' https://formspree.io`,
