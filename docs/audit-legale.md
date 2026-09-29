@@ -78,6 +78,14 @@ Legenda tipo: **CODICE** · **CONFIG SUPABASE** · **DOCUMENTO** (serve un profe
 
 ---
 
+### Esito della configurazione Auth (29/9/2026, `supabase config push`)
+Impostazioni versionate in `supabase/config.toml`, applicate e verificate con `supabase config diff` (0 differenze sulle proprietà dichiarate):
+- **R-1:** registrazione pubblica disattivata (`enable_signup = false`, anche per il provider email).
+- **R-12:** password minima 12 caratteri. MFA TOTP era già abilitata sul progetto, ma manca ancora la pagina del portale per attivarla sull'account admin.
+- **Link:** `site_url` e redirect ora puntano a `roccaamministrazioni.it`; i template di invito e recupero portano a `/api/auth/confirm`.
+- **R-6, chiarito:** la conferma email era **già attiva** e le email partono dall'**SMTP integrato** di Supabase, che scrive solo ai membri del team. Chi si registrava da fuori non riceveva la conferma. Resta da scegliere un fornitore SMTP in UE: finché non c'è, gli inviti ai residenti non arrivano.
+- **Nuovo rilievo R-20 (media, CONFIG SUPABASE):** il provider SMS **Twilio** (USA) risultava attivo in produzione. Il portale non lo usa e non è dichiarato come sub-responsabile (GDPR artt. 5.1.c, 28, 44). `config push` non può spegnere il provider SMS attivo: va disattivato dalla dashboard (Authentication → Sign In / Providers → Phone), rimuovendo anche le credenziali Twilio.
+
 ## 3. Incertezze
 
 1. **Documento di indirizzo del Garante sul condominio (provv. n. 209 del 10/4/2025).** La [deliberazione (docweb 10128634)](https://www.garanteprivacy.it/home/docweb/-/docweb-display/docweb/10128634) avvia una **consultazione pubblica** di 30 giorni ([newsletter 8/5/2025](https://www.garanteprivacy.it/home/docweb/-/docweb-display/docweb/10129281)). Nella [pagina argomento "Condominio"](https://www.garanteprivacy.it/home/ricerca/-/search/argomento/Condominio) del Garante, consultata il 29/9/2026, **non risulta un'adozione definitiva**. Il provvedimento del 28/5/2026 emerso dalla ricerca (docweb 10259916) riguarda altro (geolocalizzazione). Di conseguenza le qualificazioni citate in R-4 e R-5 (Condominio titolare per il sito, amministratore responsabile ex art. 28 per i compiti di mandato assembleare, titolare per quelli di legge) sono quelle **della bozza**, non ancora vincolanti, e non è possibile indicare "differenze rispetto alla bozza". Il sito condominiale compare nella bozza **come esempio** di trattamento a titolarità del Condominio. Per il "gestore del portale" come **sub-responsabile** la bozza non usa questo termine: è una deduzione dall'art. 28.4 GDPR.
