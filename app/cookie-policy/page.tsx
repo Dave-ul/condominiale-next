@@ -47,9 +47,10 @@ export default function CookiePolicyPage() {
 
           <h2 className={h2} style={{ color: 'var(--navy)' }}>Contenuti di terze parti</h2>
           <p className={p}>
-            La pagina dei contatti include una mappa incorporata (Google Maps): il caricamento dell&apos;iframe può comportare
-            connessioni al dominio Google, che non impostano cookie di profilazione senza un&apos;interazione diretta dell&apos;utente
-            con la mappa.
+            La sezione contatti del sito può mostrare una mappa di Google Maps. La mappa non viene caricata automaticamente:
+            compare solo se premi &quot;Mostra la mappa&quot;. Da quel momento Google riceve il tuo indirizzo IP e può impostare
+            propri cookie, secondo l&apos;informativa di Google (policies.google.com/privacy). In alternativa puoi aprire
+            l&apos;indirizzo direttamente su Google Maps con l&apos;apposito link.
           </p>
 
           <h2 className={h2} style={{ color: 'var(--navy)' }}>Come gestire i cookie</h2>

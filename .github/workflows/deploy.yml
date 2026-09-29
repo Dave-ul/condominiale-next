@@ -38,7 +38,9 @@ jobs:
       - name: Setup Supabase CLI
         uses: supabase/setup-cli@v1
         with:
-          version: latest
+          # Stessa versione della devDependency: "latest" dipende da una chiamata
+          # all API di GitHub che a volte fallisce per rate limit.
+          version: 2.118.0
 
       # supabase start avvia lo stack locale (Postgres + pgTAP) via Docker,
       # applicando tutte le migration in supabase/migrations prima di

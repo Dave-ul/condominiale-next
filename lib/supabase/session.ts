@@ -2,7 +2,7 @@ import { cache } from 'react'
 import { createClient } from './server'
 import type { Profile } from './types'
 
-const PROFILE_COLUMNS = 'id, full_name, email, unit, phone, role, created_at'
+const PROFILE_COLUMNS = 'id, full_name, email, unit, phone, role, condominio_id, created_at'
 
 /**
  * Resolves the authenticated user and their profile for the current request.
@@ -46,7 +46,8 @@ export const getSession = cache(
       .single()
 
     if (error) {
-      console.error('Profile creation failed:', error.message)
+      // Solo il codice: il messaggio Postgres può riportare valori della riga.
+      console.error('Profile creation failed:', error.code)
     }
 
     return { user, profile: (created as Profile) ?? null }

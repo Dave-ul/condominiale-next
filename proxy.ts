@@ -39,7 +39,7 @@ function buildAppCSP(nonce: string): string {
     // Gli attributi style="..." sono usati molto da React; concederli non
     // può eseguire script ed è la mitigazione standard per questo pattern.
     `style-src-attr 'unsafe-inline'`,
-    `img-src 'self' data: https://images.unsplash.com https://*.supabase.co`,
+    `img-src 'self' data: https://*.supabase.co`,
     `font-src 'self'`,
     `connect-src 'self' https://*.supabase.co wss://*.supabase.co`,
     `frame-ancestors 'self'`,
@@ -59,7 +59,7 @@ function buildLandingCSP(): string {
     // un foglio render-blocking: su una pagina statica senza input utente
     // renderizzato, 'unsafe-inline' sugli stili non può eseguire script.
     `style-src 'self' 'unsafe-inline'`,
-    `img-src 'self' data: https://images.unsplash.com`,
+    `img-src 'self' data:`,
     `font-src 'self'`,
     // Form contatti (Formspree).
     `connect-src 'self' https://formspree.io`,
@@ -125,13 +125,22 @@ export async function proxy(request: NextRequest) {
 
   const { data: { user } } = await supabase.auth.getUser()
 
-  if (!user && request.nextUrl.pathname.startsWith('/portale')) {
+  // Chi ha attivato la verifica in due passaggi ma non ha ancora inserito il
+  // codice (sessione aal1) resta su /auth finché non lo fa. Lo stesso vincolo
+  // è imposto dal database per i permessi di admin (get_my_role).
+  let mfaPending = false
+  if (user) {
+    const { data: aal } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel()
+    mfaPending = aal?.nextLevel === 'aal2' && aal.currentLevel !== 'aal2'
+  }
+
+  if ((!user || mfaPending) && request.nextUrl.pathname.startsWith('/portale')) {
     const url = request.nextUrl.clone()
     url.pathname = '/auth'
     return applyCSP(NextResponse.redirect(url), csp)
   }
 
-  if (user && request.nextUrl.pathname === '/auth') {
+  if (user && !mfaPending && request.nextUrl.pathname === '/auth') {
     const url = request.nextUrl.clone()
     url.pathname = '/portale'
     return applyCSP(NextResponse.redirect(url), csp)

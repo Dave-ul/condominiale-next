@@ -145,9 +145,11 @@ export function PaymentsClient({
             >
               <div className="flex items-start justify-between gap-4 flex-wrap">
                 <div className="flex-1 min-w-0">
-                  {isAdmin && p.profiles && (
+                  {isAdmin && (p.profiles || p.intestatario) && (
                     <p className="text-xs font-medium mb-1" style={{ color: 'var(--gold)' }}>
-                      {p.profiles.full_name ?? p.profiles.email} {p.profiles.unit ? `- Int. ${p.profiles.unit}` : ''}
+                      {p.profiles
+                        ? `${p.profiles.full_name ?? p.profiles.email} ${p.profiles.unit ? `- Int. ${p.profiles.unit}` : ''}`
+                        : `${p.intestatario} (account cancellato)`}
                     </p>
                   )}
                   <p className="font-medium" style={{ color: 'var(--navy)' }}>{p.description}</p>

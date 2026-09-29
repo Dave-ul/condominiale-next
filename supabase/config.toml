@@ -1,0 +1,65 @@
+# Configurazione Supabase versionata (audit legale R-1, R-6, R-12).
+#
+# `supabase config push` invia al progetto collegato SOLO le proprietà
+# dichiarate qui: tutto il resto resta com'è sul progetto. Prima di ogni push
+# controllare le differenze con `npx supabase config diff`.
+# Riferimento chiavi: https://supabase.com/docs/guides/local-development/cli/config
+#
+# I valori di base valgono per lo stack locale e la CI (`supabase start`);
+# [remotes.production] li sovrascrive per il progetto di produzione.
+
+project_id = "condominiale-next"
+
+[auth]
+site_url = "http://127.0.0.1:3000"
+additional_redirect_urls = ["http://127.0.0.1:3000/**", "http://localhost:3000/**"]
+# Accesso solo su invito dell'amministratore (art. 71-ter disp. att. c.c.).
+enable_signup = false
+minimum_password_length = 12
+
+[auth.email]
+# ATTENZIONE: nonostante il nome, questa chiave accende/spegne l'intero
+# provider Email (login con email e password compreso), non solo le
+# registrazioni. Le registrazioni pubbliche sono già chiuse da
+# [auth] enable_signup = false.
+enable_signup = true
+enable_confirmations = true
+double_confirm_changes = true
+# Deve restare false: gli utenti invitati non hanno ancora una password
+# "attuale" da confermare quando la impostano in /portale/account.
+secure_password_change = false
+
+[auth.email.template.invite]
+subject = "Invito al Portale Condominiale"
+content_path = "./supabase/templates/invite.html"
+
+[auth.email.template.recovery]
+subject = "Recupero password — Portale Condominiale"
+content_path = "./supabase/templates/recovery.html"
+
+# Accesso via SMS: il provider Phone è disattivato dalla dashboard. Twilio
+# risulta comunque "enabled" come fornitore SMS preselezionato (senza
+# credenziali): `config push` non può cambiarlo, quindi non è dichiarato qui.
+
+[auth.mfa.totp]
+enroll_enabled = true
+verify_enabled = true
+
+[remotes.production]
+project_id = "edwqwlirkuizkeumshbg"
+
+[remotes.production.auth]
+site_url = "https://roccaamministrazioni.it"
+additional_redirect_urls = ["https://roccaamministrazioni.it/**", "https://www.roccaamministrazioni.it/**"]
+
+# SMTP di produzione (rilievo R-6): casella dedicata sulla posta Aruba del
+# dominio (fornitore già in uso, dati in Italia). La password non è nel repo:
+# viene letta dalla variabile d'ambiente al momento di `config push`.
+[remotes.production.auth.email.smtp]
+enabled = true
+host = "smtps.aruba.it"
+port = 465
+user = "portale@roccaamministrazioni.it"
+pass = "env(SUPABASE_AUTH_SMTP_PASS)"
+admin_email = "portale@roccaamministrazioni.it"
+sender_name = "Rocca Amministrazioni"
