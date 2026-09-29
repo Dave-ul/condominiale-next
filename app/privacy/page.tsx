@@ -47,8 +47,8 @@ export default function PrivacyPage() {
           <h2 className={h2} style={{ color: 'var(--navy)' }}>Finalità e base giuridica</h2>
           <p className={p}>
             I dati dei residenti sono trattati per l&apos;esecuzione del mandato di amministrazione condominiale (art. 6.1.b GDPR —
-            esecuzione di un contratto/incarico). I dati raccolti tramite il modulo di contatto sono trattati sulla base del
-            consenso dell&apos;interessato (art. 6.1.a GDPR) per rispondere alla richiesta ricevuta.
+            esecuzione di un contratto/incarico). I dati raccolti tramite il modulo di contatto sono trattati per rispondere alla richiesta
+            ricevuta, anche in vista di un eventuale incarico (art. 6.1.b GDPR — misure precontrattuali).
           </p>
 
           <h2 className={h2} style={{ color: 'var(--navy)' }}>Destinatari e responsabili del trattamento</h2>

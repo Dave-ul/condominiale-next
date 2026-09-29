@@ -643,6 +643,8 @@
     }
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
     .form-group { margin-bottom: 16px; }
+    .form-note { margin-top: 12px; font-size: 12px; line-height: 1.5; color: rgba(255,255,255,0.55); }
+    .form-note a { text-decoration: underline; }
     label {
       display: block;
       font-size: 11px;
@@ -1261,6 +1263,10 @@
           <textarea name="messaggio" rows="4" required></textarea>
         </div>
         <button type="submit" class="btn-submit" id="submit-btn">Invia messaggio</button>
+        <p class="form-note">
+          I dati inseriti sono usati solo per rispondere alla tua richiesta e sono inoltrati tramite Formspree,
+          fornitore con sede negli Stati Uniti. Dettagli e diritti nell'<a href="/privacy">informativa privacy</a>.
+        </p>
       </form>
     </div>
   </div>
