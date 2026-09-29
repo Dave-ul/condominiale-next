@@ -116,12 +116,18 @@ security definer
 set search_path to 'public'
 as $function$
 begin
-  -- auth.uid() null = SQL editor / service_role: nessun utente del portale.
-  if auth.uid() is null or get_my_role() = 'admin' then
+  if get_my_role() = 'admin' then
     return new;
   end if;
+  -- Invariato rispetto alla baseline: il ruolo non cambia nemmeno via SQL
+  -- diretto (vedi fixture in payments_requests_rls.test.sql).
   if new.role is distinct from old.role then
     raise exception 'Non puoi modificare il tuo ruolo';
+  end if;
+  -- auth.uid() null = SQL editor / service_role: può assegnare condominio
+  -- e interno (es. prima configurazione o import).
+  if auth.uid() is null then
+    return new;
   end if;
   if new.condominio_id is distinct from old.condominio_id
      or new.unit is distinct from old.unit
