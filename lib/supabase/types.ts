@@ -3,6 +3,27 @@ export type Json = string | number | boolean | null | { [key: string]: Json | un
 export interface Database {
   public: {
     Tables: {
+      condomini: {
+        Row: {
+          id: string
+          nome: string
+          indirizzo: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          nome: string
+          indirizzo?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          nome?: string
+          indirizzo?: string | null
+          created_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           id: string
@@ -11,6 +32,7 @@ export interface Database {
           unit: string | null
           phone: string | null
           role: 'resident' | 'admin'
+          condominio_id: string | null
           created_at: string
         }
         Insert: {
@@ -20,6 +42,7 @@ export interface Database {
           unit?: string | null
           phone?: string | null
           role?: 'resident' | 'admin'
+          condominio_id?: string | null
           created_at?: string
         }
         Update: {
@@ -29,6 +52,7 @@ export interface Database {
           unit?: string | null
           phone?: string | null
           role?: 'resident' | 'admin'
+          condominio_id?: string | null
           created_at?: string
         }
         Relationships: []
@@ -40,6 +64,7 @@ export interface Database {
           category: string | null
           file_path: string
           uploaded_by: string | null
+          condominio_id: string | null
           created_at: string
         }
         Insert: {
@@ -48,6 +73,7 @@ export interface Database {
           category?: string | null
           file_path: string
           uploaded_by?: string | null
+          condominio_id?: string | null
           created_at?: string
         }
         Update: {
@@ -56,6 +82,7 @@ export interface Database {
           category?: string | null
           file_path?: string
           uploaded_by?: string | null
+          condominio_id?: string | null
           created_at?: string
         }
         Relationships: []
@@ -150,6 +177,7 @@ export interface Database {
   }
 }
 
+export type Condominio = Database['public']['Tables']['condomini']['Row']
 export type Profile = Database['public']['Tables']['profiles']['Row']
 export type Document = Database['public']['Tables']['documents']['Row']
 export type Payment = Database['public']['Tables']['payments']['Row']

@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge'
 import { FileText, Download, Upload, Plus, FileArchive, FileSpreadsheet } from 'lucide-react'
 import { formatDate, openInNewTab } from '@/lib/utils'
 import { DocumentMetadataSchema, validateDocumentFile } from '@/lib/schemas/documents'
-import type { Document } from '@/lib/supabase/types'
+import type { Condominio, Document } from '@/lib/supabase/types'
 
 const categoryColors: Record<string, string> = {
   verbale: 'blue',
@@ -26,13 +26,21 @@ const categoryIcons: Record<string, React.ElementType> = {
   altro: FileText,
 }
 
-export function DocumentsClient({ documents: initial, isAdmin }: { documents: Document[]; isAdmin: boolean }) {
+export function DocumentsClient({
+  documents: initial,
+  isAdmin,
+  condomini,
+}: {
+  documents: Document[]
+  isAdmin: boolean
+  condomini: Condominio[]
+}) {
   const [documents, setDocuments] = useState(initial)
   const [filter, setFilter] = useState('tutti')
   const [modalOpen, setModalOpen] = useState(false)
   const [uploading, setUploading] = useState(false)
   const [alert, setAlert] = useState<{ type: 'success' | 'error'; message: string } | null>(null)
-  const [form, setForm] = useState({ name: '', category: 'verbale', file: null as File | null })
+  const [form, setForm] = useState({ name: '', category: 'verbale', condominio_id: '', file: null as File | null })
   const supabase = createClient()
 
   const categories = ['tutti', 'verbale', 'rendiconto', 'contratto', 'circolare', 'altro']
@@ -41,6 +49,11 @@ export function DocumentsClient({ documents: initial, isAdmin }: { documents: Do
   const handleDownload = async (doc: Document) => {
     const { data } = await supabase.storage.from('documenti').createSignedUrl(doc.file_path, 60)
     if (data?.signedUrl) openInNewTab(data.signedUrl)
+  }
+
+  const assignCondominio = async (id: string, condominio_id: string | null) => {
+    const { error } = await supabase.from('documents').update({ condominio_id }).eq('id', id)
+    if (!error) setDocuments((prev) => prev.map((d) => (d.id === id ? { ...d, condominio_id } : d)))
   }
 
   const handleUpload = async (e: React.FormEvent) => {
@@ -54,6 +67,10 @@ export function DocumentsClient({ documents: initial, isAdmin }: { documents: Do
     const meta = DocumentMetadataSchema.safeParse({ name: form.name, category: form.category })
     if (!meta.success) {
       setAlert({ type: 'error', message: meta.error.issues[0].message })
+      return
+    }
+    if (!form.condominio_id) {
+      setAlert({ type: 'error', message: 'Seleziona il condominio a cui appartiene il documento' })
       return
     }
     setUploading(true)
@@ -74,7 +91,7 @@ export function DocumentsClient({ documents: initial, isAdmin }: { documents: Do
 
     const { data: doc, error: dbErr } = await supabase
       .from('documents')
-      .insert({ name: meta.data.name, category: meta.data.category, file_path: path })
+      .insert({ name: meta.data.name, category: meta.data.category, file_path: path, condominio_id: form.condominio_id })
       .select()
       .single()
 
@@ -84,7 +101,7 @@ export function DocumentsClient({ documents: initial, isAdmin }: { documents: Do
     } else {
       setDocuments((prev) => [doc, ...prev])
       setModalOpen(false)
-      setForm({ name: '', category: 'verbale', file: null })
+      setForm({ name: '', category: 'verbale', condominio_id: '', file: null })
     }
   }
 
@@ -154,6 +171,19 @@ export function DocumentsClient({ documents: initial, isAdmin }: { documents: Do
                 <p className="text-xs mb-4" style={{ color: 'var(--ink)', opacity: 0.45 }}>
                   {formatDate(doc.created_at)}
                 </p>
+                {isAdmin && (
+                  <select
+                    aria-label="Condominio del documento"
+                    className="w-full mb-4 px-2 py-1 border border-[var(--cream-dark)] bg-white text-xs"
+                    value={doc.condominio_id ?? ''}
+                    onChange={(e) => assignCondominio(doc.id, e.target.value || null)}
+                  >
+                    <option value="">Non assegnato (visibile solo all&apos;amministratore)</option>
+                    {condomini.map((c) => (
+                      <option key={c.id} value={c.id}>{c.nome}</option>
+                    ))}
+                  </select>
+                )}
                 <button
                   onClick={() => handleDownload(doc)}
                   className="flex items-center gap-2 text-xs font-medium transition-colors hover:text-[var(--gold)]"
@@ -173,6 +203,15 @@ export function DocumentsClient({ documents: initial, isAdmin }: { documents: Do
           <div>
             <label className="text-xs font-medium text-[var(--navy)] mb-1.5 block">Nome documento *</label>
             <input className={inputClass} required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
+          </div>
+          <div>
+            <label className="text-xs font-medium text-[var(--navy)] mb-1.5 block">Condominio *</label>
+            <select className={inputClass} required value={form.condominio_id} onChange={(e) => setForm({ ...form, condominio_id: e.target.value })}>
+              <option value="" disabled>Seleziona il condominio</option>
+              {condomini.map((c) => (
+                <option key={c.id} value={c.id}>{c.nome}</option>
+              ))}
+            </select>
           </div>
           <div>
             <label className="text-xs font-medium text-[var(--navy)] mb-1.5 block">Categoria</label>

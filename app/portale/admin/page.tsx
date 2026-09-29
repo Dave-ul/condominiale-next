@@ -1,9 +1,10 @@
 import { createClient } from '@/lib/supabase/server'
 import { getSession } from '@/lib/supabase/session'
 import { redirect } from 'next/navigation'
-import { formatCurrency, getInitials } from '@/lib/utils'
+import { formatCurrency } from '@/lib/utils'
 import { Users, CreditCard, MessageSquare, TrendingUp } from 'lucide-react'
 import type { Payment } from '@/lib/supabase/types'
+import { CondominiManager } from './CondominiManager'
 
 export default async function AdminPage() {
   const { user, profile } = await getSession()
@@ -11,14 +12,15 @@ export default async function AdminPage() {
   if (profile.role !== 'admin') redirect('/portale')
 
   const supabase = await createClient()
-  const [{ data: residents }, { data: rawPayments }, { data: openRequests }] = await Promise.all([
+  const [{ data: residents }, { data: rawPayments }, { data: openRequests }, { data: condomini }] = await Promise.all([
     supabase
       .from('profiles')
-      .select('id, full_name, email, unit, phone')
+      .select('id, full_name, email, unit, phone, condominio_id')
       .eq('role', 'resident')
       .order('full_name'),
     supabase.from('payments').select('*').order('created_at', { ascending: false }),
     supabase.from('requests').select('id', { count: 'exact' }).eq('status', 'aperta'),
+    supabase.from('condomini').select('*').order('nome'),
   ])
   const payments = rawPayments as Payment[] | null
 
@@ -56,44 +58,7 @@ export default async function AdminPage() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <section>
-          <h2 className="text-lg font-semibold mb-4" style={{ color: 'var(--navy)' }}>
-            Residenti ({residents?.length ?? 0})
-          </h2>
-          <div className="space-y-2">
-            {residents?.map((r) => (
-              <div
-                key={r.id}
-                className="flex items-center gap-4 p-4 border bg-white"
-                style={{ borderColor: 'var(--cream-dark)' }}
-              >
-                <div
-                  className="w-9 h-9 flex items-center justify-center text-xs font-bold text-white shrink-0"
-                  style={{ backgroundColor: 'var(--navy)' }}
-                >
-                  {getInitials(r.full_name ?? r.email ?? '?')}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium truncate" style={{ color: 'var(--navy)' }}>
-                    {r.full_name ?? r.email}
-                  </p>
-                  <p className="text-xs" style={{ color: 'var(--ink)', opacity: 0.5 }}>
-                    {r.unit ? `Interno ${r.unit}` : 'Interno non specificato'}
-                    {r.phone ? ` · ${r.phone}` : ''}
-                  </p>
-                </div>
-                <span className="text-xs font-mono truncate max-w-[120px]" style={{ color: 'var(--ink)', opacity: 0.35 }}>
-                  {r.email}
-                </span>
-              </div>
-            ))}
-            {(!residents || residents.length === 0) && (
-              <p className="text-sm text-center py-8" style={{ color: 'var(--ink)', opacity: 0.4 }}>
-                Nessun residente registrato
-              </p>
-            )}
-          </div>
-        </section>
+        <CondominiManager condomini={condomini ?? []} residents={residents ?? []} />
 
         <section>
           <h2 className="text-lg font-semibold mb-4" style={{ color: 'var(--navy)' }}>

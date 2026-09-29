@@ -7,11 +7,12 @@ export default async function DocumentiPage() {
   const { user, profile } = await getSession()
   if (!user || !profile) redirect('/auth')
 
+  const isAdmin = profile.role === 'admin'
   const supabase = await createClient()
-  const { data: documents } = await supabase
-    .from('documents')
-    .select('*')
-    .order('created_at', { ascending: false })
+  const [{ data: documents }, { data: condomini }] = await Promise.all([
+    supabase.from('documents').select('*').order('created_at', { ascending: false }),
+    isAdmin ? supabase.from('condomini').select('*').order('nome') : Promise.resolve({ data: null }),
+  ])
 
-  return <DocumentsClient documents={documents ?? []} isAdmin={profile.role === 'admin'} />
+  return <DocumentsClient documents={documents ?? []} isAdmin={isAdmin} condomini={condomini ?? []} />
 }
