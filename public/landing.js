@@ -90,3 +90,16 @@ form.addEventListener('submit', async (e) => {
     err.style.display = 'none'
   }, 5000)
 })
+
+// Mappa Google su richiesta esplicita (Linee guida cookie del Garante, 2021):
+// nessuna connessione a Google finché l'utente non preme il pulsante.
+document.getElementById('map-load')?.addEventListener('click', () => {
+  const iframe = document.createElement('iframe')
+  iframe.title = 'Mappa studio'
+  iframe.src = 'https://maps.google.com/maps?q=Via+Don+Giovanni+Minzoni+1+Rastignano+Bologna&t=&z=15&ie=UTF8&iwloc=&output=embed'
+  iframe.width = '100%'
+  iframe.height = '220'
+  iframe.style.border = '0'
+  iframe.style.filter = 'grayscale(70%) invert(10%)'
+  document.getElementById('map-wrap').replaceChildren(iframe)
+})
