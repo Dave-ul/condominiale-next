@@ -90,13 +90,14 @@ export interface Database {
       payments: {
         Row: {
           id: string
-          resident_id: string
+          resident_id: string | null
           description: string
           amount: number
           due_date: string
           status: 'pending' | 'paid' | 'verified'
           receipt_path: string | null
           stripe_payment_link: string | null
+          intestatario: string | null
           created_at: string
         }
         Insert: {
@@ -112,7 +113,7 @@ export interface Database {
         }
         Update: {
           id?: string
-          resident_id?: string
+          resident_id?: string | null
           description?: string
           amount?: number
           due_date?: string
@@ -171,7 +172,9 @@ export interface Database {
       }
     }
     Views: { [_ in never]: never }
-    Functions: { [_ in never]: never }
+    Functions: {
+      delete_my_account: { Args: Record<string, never>; Returns: undefined }
+    }
     Enums: { [_ in never]: never }
     CompositeTypes: { [_ in never]: never }
   }
