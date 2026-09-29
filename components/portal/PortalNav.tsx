@@ -1,7 +1,7 @@
 'use client'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { FileText, CreditCard, MessageSquare, LayoutDashboard, Users, LogOut, Menu, X } from 'lucide-react'
+import { FileText, CreditCard, MessageSquare, LayoutDashboard, Users, LogOut, Menu, X, UserCog } from 'lucide-react'
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { cn, getInitials } from '@/lib/utils'
@@ -12,6 +12,7 @@ const navItems = [
   { href: '/portale/documenti', Icon: FileText,         label: 'Documenti' },
   { href: '/portale/pagamenti', Icon: CreditCard,       label: 'Pagamenti' },
   { href: '/portale/richieste', Icon: MessageSquare,    label: 'Richieste' },
+  { href: '/portale/account',   Icon: UserCog,          label: 'Account' },
 ]
 
 const adminItems = [

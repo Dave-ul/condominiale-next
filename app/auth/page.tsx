@@ -7,23 +7,17 @@ import { Alert } from '@/components/ui/alert'
 import { createClient } from '@/lib/supabase/client'
 import { ArrowLeft } from 'lucide-react'
 
-type Tab = 'login' | 'register'
-
+// Niente registrazione pubblica: l'accesso al portale è riservato agli aventi
+// diritto (art. 71-ter disp. att. c.c.), che l'amministratore invita dalla
+// dashboard Supabase (Authentication → Invite user). L'invito e il recupero
+// password portano a /portale/account, dove l'utente imposta la password.
 export default function AuthPage() {
-  const [tab, setTab] = useState<Tab>('login')
+  const [mode, setMode] = useState<'login' | 'reset'>('login')
   const [loading, setLoading] = useState(false)
   const [alert, setAlert] = useState<{ type: 'success' | 'error'; message: string } | null>(null)
-  const [agreed, setAgreed] = useState(false)
+  const [form, setForm] = useState({ email: '', password: '' })
   const router = useRouter()
   const supabase = createClient()
-
-  const [form, setForm] = useState({
-    email: '',
-    password: '',
-    full_name: '',
-    unit: '',
-    phone: '',
-  })
 
   const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }))
@@ -45,34 +39,19 @@ export default function AuthPage() {
     }
   }
 
-  const handleRegister = async (e: React.FormEvent) => {
+  const handleReset = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
     setAlert(null)
-    const { error } = await supabase.auth.signUp({
-      email: form.email,
-      password: form.password,
-      options: {
-        data: {
-          full_name: form.full_name,
-          unit: form.unit,
-          phone: form.phone,
-          // Traccia data/ora di accettazione dell'informativa privacy
-          // (GDPR art. 5.2, accountability) — nessuna migration necessaria,
-          // finisce in auth.users.raw_user_meta_data come gli altri campi.
-          consent_accepted_at: new Date().toISOString(),
-        },
-      },
+    await supabase.auth.resetPasswordForEmail(form.email, {
+      redirectTo: `${window.location.origin}/api/auth/callback?next=/portale/account`,
     })
     setLoading(false)
-    if (error) {
-      setAlert({ type: 'error', message: error.message })
-    } else {
-      setAlert({
-        type: 'success',
-        message: 'Registrazione completata. Controlla la tua email per confermare.',
-      })
-    }
+    // Stesso messaggio in ogni caso: non riveliamo se l'email è registrata.
+    setAlert({
+      type: 'success',
+      message: 'Se l\'indirizzo è registrato riceverai un\'email con il link per impostare una nuova password.',
+    })
   }
 
   const inputClass =
@@ -108,27 +87,10 @@ export default function AuthPage() {
             </p>
           </div>
 
-          <div className="flex border-b border-[var(--cream-dark)] mx-8 mt-6">
-            {(['login', 'register'] as Tab[]).map((t) => (
-              <button
-                key={t}
-                onClick={() => { setTab(t); setAlert(null) }}
-                className="px-5 py-3 text-sm font-medium transition-colors border-b-2 -mb-px"
-                style={{
-                  color: tab === t ? 'var(--navy)' : 'var(--ink)',
-                  borderColor: tab === t ? 'var(--gold)' : 'transparent',
-                  opacity: tab === t ? 1 : 0.5,
-                }}
-              >
-                {t === 'login' ? 'Accedi' : 'Registrati'}
-              </button>
-            ))}
-          </div>
-
           <div className="px-8 py-6">
             {alert && <Alert type={alert.type} message={alert.message} className="mb-4" />}
 
-            {tab === 'login' ? (
+            {mode === 'login' ? (
               <form onSubmit={handleLogin} className="space-y-4">
                 <div>
                   <label className="text-xs font-medium text-[var(--navy)] mb-1.5 block">Email</label>
@@ -141,53 +103,40 @@ export default function AuthPage() {
                 <Button type="submit" loading={loading} className="w-full mt-2">
                   Accedi
                 </Button>
+                <button
+                  type="button"
+                  onClick={() => { setMode('reset'); setAlert(null) }}
+                  className="text-xs underline"
+                  style={{ color: 'var(--ink)', opacity: 0.6 }}
+                >
+                  Password dimenticata?
+                </button>
               </form>
             ) : (
-              <form onSubmit={handleRegister} className="space-y-4">
+              <form onSubmit={handleReset} className="space-y-4">
                 <div>
-                  <label className="text-xs font-medium text-[var(--navy)] mb-1.5 block">Nome completo *</label>
-                  <input className={inputClass} required value={form.full_name} onChange={set('full_name')} />
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="text-xs font-medium text-[var(--navy)] mb-1.5 block">Interno / Scala</label>
-                    <input className={inputClass} placeholder="es. 3A" value={form.unit} onChange={set('unit')} />
-                  </div>
-                  <div>
-                    <label className="text-xs font-medium text-[var(--navy)] mb-1.5 block">Telefono</label>
-                    <input type="tel" className={inputClass} value={form.phone} onChange={set('phone')} />
-                  </div>
-                </div>
-                <div>
-                  <label className="text-xs font-medium text-[var(--navy)] mb-1.5 block">Email *</label>
+                  <label className="text-xs font-medium text-[var(--navy)] mb-1.5 block">Email</label>
                   <input type="email" className={inputClass} required value={form.email} onChange={set('email')} />
                 </div>
-                <div>
-                  <label className="text-xs font-medium text-[var(--navy)] mb-1.5 block">Password *</label>
-                  <input type="password" className={inputClass} required minLength={6} value={form.password} onChange={set('password')} />
-                </div>
-                <div className="flex items-start gap-2">
-                  <input
-                    type="checkbox"
-                    id="privacy-consent"
-                    required
-                    checked={agreed}
-                    onChange={(e) => setAgreed(e.target.checked)}
-                    className="mt-0.5"
-                  />
-                  <label htmlFor="privacy-consent" className="text-xs" style={{ color: 'var(--ink)', opacity: 0.7 }}>
-                    Accetto l&apos;
-                    <Link href="/privacy" target="_blank" className="underline">
-                      informativa privacy
-                    </Link>{' '}
-                    *
-                  </label>
-                </div>
                 <Button type="submit" loading={loading} className="w-full mt-2">
-                  Crea account
+                  Invia link
                 </Button>
+                <button
+                  type="button"
+                  onClick={() => { setMode('login'); setAlert(null) }}
+                  className="text-xs underline"
+                  style={{ color: 'var(--ink)', opacity: 0.6 }}
+                >
+                  Torna all&apos;accesso
+                </button>
               </form>
             )}
+
+            <p className="text-xs mt-6" style={{ color: 'var(--ink)', opacity: 0.6 }}>
+              L&apos;accesso è riservato ai condòmini e agli aventi diritto: le credenziali sono
+              rilasciate dall&apos;amministratore su invito. Consulta l&apos;
+              <Link href="/privacy" target="_blank" className="underline">informativa privacy</Link>.
+            </p>
           </div>
         </div>
       </div>
