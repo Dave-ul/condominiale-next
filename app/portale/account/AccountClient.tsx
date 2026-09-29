@@ -4,11 +4,12 @@ import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/button'
 import { Alert } from '@/components/ui/alert'
+import { MfaSettings } from './MfaSettings'
 
 // Allineare a Auth → Providers → Email → "Minimum password length" in Supabase.
 const MIN_PASSWORD_LENGTH = 12
 
-export function AccountClient({ userId, email }: { userId: string; email: string }) {
+export function AccountClient({ userId, email, isAdmin }: { userId: string; email: string; isAdmin: boolean }) {
   const [password, setPassword] = useState('')
   const [saving, setSaving] = useState(false)
   const [alert, setAlert] = useState<{ type: 'success' | 'error'; message: string } | null>(null)
@@ -108,6 +109,8 @@ export function AccountClient({ userId, email }: { userId: string; email: string
           <Button type="submit" loading={saving}>Salva password</Button>
         </form>
       </section>
+
+      <MfaSettings isAdmin={isAdmin} />
 
       <section className="p-5 border bg-white mt-6" style={{ borderColor: 'var(--cream-dark)' }}>
         <h2 className="text-lg font-semibold mb-2" style={{ color: 'var(--navy)' }}>I miei dati</h2>

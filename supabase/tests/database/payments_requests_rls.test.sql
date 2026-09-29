@@ -2,7 +2,7 @@
 -- isolamento tra residenti, visibilità admin, e limiti sull'update che un
 -- resident può fare sul proprio pagamento.
 begin;
-select plan(7);
+select plan(8);
 
 insert into auth.users (id, instance_id, aud, role, email, encrypted_password, email_confirmed_at, raw_app_meta_data, raw_user_meta_data)
 values
@@ -81,9 +81,18 @@ select is(
   'un resident non deve poter modificare il pagamento di un altro resident'
 );
 
--- --- Come Admin C ---
+-- --- Come Admin C, senza verifica in due passaggi (aal1) ---
 set local role authenticated;
-set local request.jwt.claims to '{"sub":"b0000000-0000-0000-0000-000000000003","role":"authenticated"}';
+set local request.jwt.claims to '{"sub":"b0000000-0000-0000-0000-000000000003","role":"authenticated","aal":"aal1"}';
+
+select is(
+  (select count(*)::int from public.payments),
+  0,
+  'un admin senza verifica in due passaggi non deve vedere i pagamenti dei residenti'
+);
+
+-- --- Come Admin C, con verifica in due passaggi (aal2) ---
+set local request.jwt.claims to '{"sub":"b0000000-0000-0000-0000-000000000003","role":"authenticated","aal":"aal2"}';
 
 select is(
   (select count(*)::int from public.payments),

@@ -6,5 +6,5 @@ export default async function AccountPage() {
   const { user, profile } = await getSession()
   if (!user || !profile) redirect('/auth')
 
-  return <AccountClient userId={user.id} email={user.email ?? ''} />
+  return <AccountClient userId={user.id} email={user.email ?? ''} isAdmin={profile.role === 'admin'} />
 }

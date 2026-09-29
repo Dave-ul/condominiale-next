@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
@@ -12,12 +12,51 @@ import { ArrowLeft } from 'lucide-react'
 // dashboard Supabase (Authentication → Invite user). L'invito e il recupero
 // password portano a /portale/account, dove l'utente imposta la password.
 export default function AuthPage() {
-  const [mode, setMode] = useState<'login' | 'reset'>('login')
+  const [mode, setMode] = useState<'login' | 'reset' | 'mfa'>('login')
+  const [mfaCode, setMfaCode] = useState('')
   const [loading, setLoading] = useState(false)
   const [alert, setAlert] = useState<{ type: 'success' | 'error'; message: string } | null>(null)
   const [form, setForm] = useState({ email: '', password: '' })
   const router = useRouter()
   const supabase = createClient()
+
+  // Password corretta ma verifica in due passaggi attiva: serve il codice.
+  // Vale anche se si arriva qui già autenticati a livello aal1 (il proxy
+  // rimanda a /auth chi prova ad aprire il portale senza codice).
+  const needsMfa = async () => {
+    const { data } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel()
+    return data?.nextLevel === 'aal2' && data.currentLevel !== 'aal2'
+  }
+
+  useEffect(() => {
+    needsMfa().then((pending) => { if (pending) setMode('mfa') })
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- solo al primo render
+  }, [])
+
+  const handleMfa = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setLoading(true)
+    setAlert(null)
+    const { data: factors } = await supabase.auth.mfa.listFactors()
+    const factor = factors?.totp[0]
+    const { error } = factor
+      ? await supabase.auth.mfa.challengeAndVerify({ factorId: factor.id, code: mfaCode.trim() })
+      : { error: new Error('nessun fattore') }
+    setLoading(false)
+    if (error) {
+      setAlert({ type: 'error', message: 'Codice non valido o scaduto: riprova con quello attuale.' })
+    } else {
+      router.push('/portale')
+      router.refresh()
+    }
+  }
+
+  const cancelMfa = async () => {
+    await supabase.auth.signOut()
+    setMfaCode('')
+    setMode('login')
+    setAlert(null)
+  }
 
   const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }))
@@ -33,6 +72,8 @@ export default function AuthPage() {
     setLoading(false)
     if (error) {
       setAlert({ type: 'error', message: 'Email o password non corretti.' })
+    } else if (await needsMfa()) {
+      setMode('mfa')
     } else {
       router.push('/portale')
       router.refresh()
@@ -90,7 +131,37 @@ export default function AuthPage() {
           <div className="px-8 py-6">
             {alert && <Alert type={alert.type} message={alert.message} className="mb-4" />}
 
-            {mode === 'login' ? (
+            {mode === 'mfa' ? (
+              <form onSubmit={handleMfa} className="space-y-4">
+                <div>
+                  <label className="text-xs font-medium text-[var(--navy)] mb-1.5 block">
+                    Codice dell&apos;app di autenticazione
+                  </label>
+                  <input
+                    className={`${inputClass} tracking-widest`}
+                    inputMode="numeric"
+                    autoComplete="one-time-code"
+                    pattern="[0-9]{6}"
+                    maxLength={6}
+                    required
+                    autoFocus
+                    value={mfaCode}
+                    onChange={(e) => setMfaCode(e.target.value)}
+                  />
+                </div>
+                <Button type="submit" loading={loading} className="w-full mt-2">
+                  Verifica
+                </Button>
+                <button
+                  type="button"
+                  onClick={cancelMfa}
+                  className="text-xs underline"
+                  style={{ color: 'var(--ink)', opacity: 0.6 }}
+                >
+                  Esci e torna all&apos;accesso
+                </button>
+              </form>
+            ) : mode === 'login' ? (
               <form onSubmit={handleLogin} className="space-y-4">
                 <div>
                   <label className="text-xs font-medium text-[var(--navy)] mb-1.5 block">Email</label>
