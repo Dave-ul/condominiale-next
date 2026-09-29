@@ -88,6 +88,9 @@ Impostazioni versionate in `supabase/config.toml`, applicate e verificate con `s
 - **Incidente, risolto lo stesso giorno:** il primo push includeva `[auth.email] enable_signup = false`. Nella CLI questa chiave spegne l'intero provider Email, login compreso, e per alcuni minuti nessuno poteva accedere con email e password. Corretto con `enable_signup = true` (le registrazioni restano chiuse da `[auth] enable_signup = false`) e verificato in dashboard: Email "Enabled", registrazioni disattivate, conferma email attiva.
 - **DPA Supabase:** secondo la pagina Organization → Legal Documents, il DPA "is incorporated into our Terms of Service": vale automaticamente per ogni organizzazione e non va firmato. Dalla stessa pagina si scarica il TIA.
 - **MFA:** TOTP risulta "Enabled" in dashboard. Pagina di attivazione nel portale e obbligo per l'admin sono stati aggiunti nel codice (R-12).
+- **Integrazioni (29/9/2026):**
+  - **GitHub:** "Deploy to production" è stato **disattivato**. Con quell'opzione accesa, il merge su `main` avrebbe applicato da solo le migrazioni in produzione, mentre la cronologia remota non corrisponde ai nomi dei file nel repo (`20260715224326_baseline_schema` ecc. in produzione contro `20260621221200_…` ecc. nel repo). È la stessa deriva che ad agosto faceva fallire il job `migrate`. Prima di riattivarlo va allineata la cronologia con `supabase migration repair`.
+  - **Vercel:** la connessione Supabase → Vercel è stata **eliminata**. Aveva copiato nell'ambiente production di Vercel 14 variabili non usate dall'app, tra cui `SUPABASE_SERVICE_ROLE_KEY`, `SUPABASE_SECRET_KEY`, `SUPABASE_JWT_SECRET` e `POSTGRES_PASSWORD`. Verificato via API: restano solo le 6 `NEXT_PUBLIC_SUPABASE_*` impostate a mano.
 
 ## 3. Incertezze
 
