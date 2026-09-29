@@ -84,7 +84,10 @@ Impostazioni versionate in `supabase/config.toml`, applicate e verificate con `s
 - **R-12:** password minima 12 caratteri. MFA TOTP era già abilitata sul progetto, ma manca ancora la pagina del portale per attivarla sull'account admin.
 - **Link:** `site_url` e redirect ora puntano a `roccaamministrazioni.it`; i template di invito e recupero portano a `/api/auth/confirm`.
 - **R-6, chiarito:** la conferma email era **già attiva** e le email partono dall'**SMTP integrato** di Supabase, che scrive solo ai membri del team. Chi si registrava da fuori non riceveva la conferma. Resta da scegliere un fornitore SMTP in UE: finché non c'è, gli inviti ai residenti non arrivano.
-- **Nuovo rilievo R-20 (media, CONFIG SUPABASE):** il provider SMS **Twilio** (USA) risultava attivo in produzione. Il portale non lo usa e non è dichiarato come sub-responsabile (GDPR artt. 5.1.c, 28, 44). `config push` non può spegnere il provider SMS attivo: va disattivato dalla dashboard (Authentication → Sign In / Providers → Phone), rimuovendo anche le credenziali Twilio.
+- **R-20 (Twilio, chiuso):** il diff riportava `auth.sms.twilio.enabled = true`. Dalla dashboard risulta però che il provider Phone è **disattivato** e i campi delle credenziali Twilio sono vuoti: Twilio è solo il fornitore SMS preselezionato e nessun dato gli viene inviato.
+- **Incidente, risolto lo stesso giorno:** il primo push includeva `[auth.email] enable_signup = false`. Nella CLI questa chiave spegne l'intero provider Email, login compreso, e per alcuni minuti nessuno poteva accedere con email e password. Corretto con `enable_signup = true` (le registrazioni restano chiuse da `[auth] enable_signup = false`) e verificato in dashboard: Email "Enabled", registrazioni disattivate, conferma email attiva.
+- **DPA Supabase:** secondo la pagina Organization → Legal Documents, il DPA "is incorporated into our Terms of Service": vale automaticamente per ogni organizzazione e non va firmato. Dalla stessa pagina si scarica il TIA.
+- **MFA:** TOTP risulta "Enabled" in dashboard. Pagina di attivazione nel portale e obbligo per l'admin sono stati aggiunti nel codice (R-12).
 
 ## 3. Incertezze
 

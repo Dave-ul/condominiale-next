@@ -37,11 +37,9 @@ content_path = "./supabase/templates/invite.html"
 subject = "Recupero password — Portale Condominiale"
 content_path = "./supabase/templates/recovery.html"
 
-# Accesso via SMS: il portale non lo usa, ma in produzione il provider Twilio
-# risultava attivo (servizio USA non dichiarato come sub-responsabile).
-# `config push` non può spegnere il provider SMS attivo: va disattivato dalla
-# dashboard (Authentication → Sign In / Providers → Phone), per questo non è
-# dichiarato qui.
+# Accesso via SMS: il provider Phone è disattivato dalla dashboard. Twilio
+# risulta comunque "enabled" come fornitore SMS preselezionato (senza
+# credenziali): `config push` non può cambiarlo, quindi non è dichiarato qui.
 
 [auth.mfa.totp]
 enroll_enabled = true
