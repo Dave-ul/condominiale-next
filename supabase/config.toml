@@ -1,0 +1,57 @@
+# Configurazione Supabase versionata (audit legale R-1, R-6, R-12).
+#
+# `supabase config push` invia al progetto collegato SOLO le proprietà
+# dichiarate qui: tutto il resto resta com'è sul progetto. Prima di ogni push
+# controllare le differenze con `npx supabase config diff`.
+# Riferimento chiavi: https://supabase.com/docs/guides/local-development/cli/config
+#
+# I valori di base valgono per lo stack locale e la CI (`supabase start`);
+# [remotes.production] li sovrascrive per il progetto di produzione.
+
+project_id = "condominiale-next"
+
+[auth]
+site_url = "http://127.0.0.1:3000"
+additional_redirect_urls = ["http://127.0.0.1:3000/**", "http://localhost:3000/**"]
+# Accesso solo su invito dell'amministratore (art. 71-ter disp. att. c.c.).
+enable_signup = false
+minimum_password_length = 12
+
+[auth.email]
+enable_signup = false
+enable_confirmations = true
+double_confirm_changes = true
+# Deve restare false: gli utenti invitati non hanno ancora una password
+# "attuale" da confermare quando la impostano in /portale/account.
+secure_password_change = false
+
+[auth.email.template.invite]
+subject = "Invito al Portale Condominiale"
+content_path = "./supabase/templates/invite.html"
+
+[auth.email.template.recovery]
+subject = "Recupero password — Portale Condominiale"
+content_path = "./supabase/templates/recovery.html"
+
+[auth.mfa.totp]
+enroll_enabled = true
+verify_enabled = true
+
+# SMTP di produzione (rilievo R-6): da completare quando è scelto il fornitore
+# (sede/server in UE e DPA). La password resta fuori dal repo, in una
+# variabile d'ambiente letta al momento del push.
+# [remotes.production.auth.email.smtp]
+# enabled = true
+# host = "smtp.fornitore.eu"
+# port = 587
+# user = "utente"
+# pass = "env(SUPABASE_AUTH_SMTP_PASS)"
+# admin_email = "portale@roccaamministrazioni.it"
+# sender_name = "Rocca Amministrazioni"
+
+[remotes.production]
+project_id = "edwqwlirkuizkeumshbg"
+
+[remotes.production.auth]
+site_url = "https://roccaamministrazioni.it"
+additional_redirect_urls = ["https://roccaamministrazioni.it/**", "https://www.roccaamministrazioni.it/**"]
