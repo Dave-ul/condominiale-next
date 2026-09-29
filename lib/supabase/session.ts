@@ -46,7 +46,8 @@ export const getSession = cache(
       .single()
 
     if (error) {
-      console.error('Profile creation failed:', error.message)
+      // Solo il codice: il messaggio Postgres può riportare valori della riga.
+      console.error('Profile creation failed:', error.code)
     }
 
     return { user, profile: (created as Profile) ?? null }
