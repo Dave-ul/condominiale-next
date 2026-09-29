@@ -32,7 +32,7 @@ Le persone autorizzate al trattamento sono vincolate alla riservatezza.
 Il Responsabile adotta almeno le misure indicate nella voce del registro dei trattamenti (allegato 1) e ne verifica periodicamente l'efficacia.
 
 ### 6. Sub-responsabili (art. 28.2 e 28.4)
-Il Titolare autorizza i seguenti sub-responsabili: **Supabase Inc.** (database, autenticazione, archiviazione — regione UE eu-central-1), **Vercel Inc.** (hosting — regione fra1), **[provider SMTP]**. Il Responsabile impone loro obblighi equivalenti (DPA dei fornitori) e comunica per iscritto, con almeno [30] giorni di anticipo, ogni aggiunta o sostituzione; il Titolare può opporsi.
+Il Titolare autorizza i seguenti sub-responsabili: **Supabase Inc.** (database, autenticazione, archiviazione — regione UE eu-central-1), **Vercel Inc.** (hosting — regione fra1), **Aruba S.p.A.** (invio delle email del portale — Italia). Il Responsabile impone loro obblighi equivalenti (DPA dei fornitori) e comunica per iscritto, con almeno [30] giorni di anticipo, ogni aggiunta o sostituzione; il Titolare può opporsi.
 
 ### 7. Trasferimenti extra UE (Capo V)
 Ammessi solo con le garanzie degli artt. 45-46 GDPR (decisione di adeguatezza/DPF o clausole contrattuali tipo), come previste nei DPA dei sub-responsabili.

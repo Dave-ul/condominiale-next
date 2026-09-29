@@ -45,21 +45,21 @@ content_path = "./supabase/templates/recovery.html"
 enroll_enabled = true
 verify_enabled = true
 
-# SMTP di produzione (rilievo R-6): da completare quando è scelto il fornitore
-# (sede/server in UE e DPA). La password resta fuori dal repo, in una
-# variabile d'ambiente letta al momento del push.
-# [remotes.production.auth.email.smtp]
-# enabled = true
-# host = "smtp.fornitore.eu"
-# port = 587
-# user = "utente"
-# pass = "env(SUPABASE_AUTH_SMTP_PASS)"
-# admin_email = "portale@roccaamministrazioni.it"
-# sender_name = "Rocca Amministrazioni"
-
 [remotes.production]
 project_id = "edwqwlirkuizkeumshbg"
 
 [remotes.production.auth]
 site_url = "https://roccaamministrazioni.it"
 additional_redirect_urls = ["https://roccaamministrazioni.it/**", "https://www.roccaamministrazioni.it/**"]
+
+# SMTP di produzione (rilievo R-6): casella dedicata sulla posta Aruba del
+# dominio (fornitore già in uso, dati in Italia). La password non è nel repo:
+# viene letta dalla variabile d'ambiente al momento di `config push`.
+[remotes.production.auth.email.smtp]
+enabled = true
+host = "smtps.aruba.it"
+port = 465
+user = "portale@roccaamministrazioni.it"
+pass = "env(SUPABASE_AUTH_SMTP_PASS)"
+admin_email = "portale@roccaamministrazioni.it"
+sender_name = "Rocca Amministrazioni"

@@ -43,7 +43,7 @@ Il conferimento dei dati di contatto è necessario per ricevere le credenziali d
 |---|---|---|---|
 | Supabase Inc. | Database, autenticazione, archiviazione file | UE (Francoforte, eu-central-1); sub-responsabili anche USA | DPA Supabase con clausole contrattuali tipo (SCC) |
 | Vercel Inc. | Hosting dell'applicazione | Funzioni in UE (Francoforte, fra1); rete CDN globale | [DPA Vercel — richiede piano Pro] con SCC |
-| [Provider SMTP] | Invio delle email di accesso | [luogo] | [garanzie] |
+| Aruba S.p.A. | Invio delle email di accesso (inviti, recupero password) | Italia | Nessun trasferimento extra UE |
 | Stripe [Payments Europe Ltd.] | Pagamento online facoltativo tramite link | [UE/USA] | titolare autonomo per il pagamento: vedi informativa Stripe |
 
 ## 6. Conservazione
