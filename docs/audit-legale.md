@@ -135,3 +135,6 @@ Perimetro: `main@124ee43`. Sono stati riletti migrazioni e RLS, proxy, route di 
 | S-9 | bassa | Header `x-powered-by`, azioni GitHub fissate per tag | `poweredByHeader: false`, azioni fissate per SHA |
 
 Dopo aver applicato la migration in produzione, il proprietario valida i vincoli `not valid` con `alter table … validate constraint …` (elenco in testa alla migration). Se la validazione fallisce, ci sono righe vecchie fuori regola da correggere prima.
+
+### Keep-alive rimosso (27/10/2026)
+Lo storico delle esecuzioni mostra che il workflow non impediva la pausa del progetto free: dopo ogni riattivazione (27/8, 29/9) il progetto tornava in pausa entro 7-9 giorni, anche con i ping riusciti, e i ping successivi fallivano con `curl` exit 6 (host non risolto, progetto in pausa). Il portale è rimasto senza database dal 7/9 al 28/9 e dall'8/10 al 26/10. Il workflow è stato quindi rimosso. La disponibilità resta aperta (rilievo R-17): la soluzione indicata è il piano a pagamento con backup.
