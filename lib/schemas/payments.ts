@@ -23,8 +23,7 @@ export const PaymentCreateClientSchema = z.object({
     .min(1, 'Descrizione richiesta')
     .max(200, 'Descrizione troppo lunga (max 200 caratteri)'),
   amount: z.coerce
-    .number({ invalid_type_error: 'Importo non valido' })
-    .finite('Importo non valido')
+    .number({ error: 'Importo non valido' })
     .positive("L'importo deve essere maggiore di zero")
     .max(1_000_000, 'Importo troppo alto'),
   due_date: z
