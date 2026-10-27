@@ -34,12 +34,11 @@ export const getSession = cache(
 
     const { data: created, error } = await supabase
       .from('profiles')
+      // Niente interno né telefono da user_metadata: l'utente può riscriverli
+      // con auth.updateUser, quindi li imposta solo l'amministratore.
       .insert({
         id: user.id,
         email: user.email,
-        full_name: user.user_metadata?.full_name ?? null,
-        unit: user.user_metadata?.unit ?? null,
-        phone: user.user_metadata?.phone ?? null,
         role: 'resident',
       })
       .select(PROFILE_COLUMNS)

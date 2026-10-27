@@ -16,6 +16,8 @@ const securityHeaders = [
 ]
 
 const nextConfig: NextConfig = {
+  // Non dichiarare il framework nell'header x-powered-by.
+  poweredByHeader: false,
   async headers() {
     return [
       {
