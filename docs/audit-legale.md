@@ -115,3 +115,23 @@ Impostazioni versionate in `supabase/config.toml`, applicate e verificate con `s
 5. R-9, R-10, R-15, R-14, R-16: landing e dettagli.
 6. Bozze in `docs/bozze-legali/`: informativa, voce del registro, schema art. 28 (R-4, R-5, R-13), marcate "BOZZA — da validare con un legale/DPO".
 7. Scelta della LICENSE: la MIT è già presente, da confermare o cambiare. Regole permanenti per `AGENTS.md`.
+
+---
+
+## 5. Controllo di sicurezza del 27/10/2026
+
+Perimetro: `main@124ee43`. Sono stati riletti migrazioni e RLS, proxy, route di auth, client, workflow, dipendenze, impostazioni GitHub e header di produzione. Non sono stati letti dati di produzione.
+
+| # | Gravità | Rilievo | Esito |
+|---|---|---|---|
+| S-1 | alta | `next@16.2.7` con 20 advisory (5 critiche: RCE in Image Optimization e in `use cache`, bypass del proxy, SSRF) | `next` 16.4.3, zod 4, vitest 5, CI su Node 24: `npm audit` a 0 |
+| S-2 | media | La verifica in due passaggi dei residenti era imposta solo dal proxy: con la password, un JWT aal1 leggeva i dati via REST/Storage | policy RESTRICTIVE `mfa_richiesta` + `mfa_ok()`; `delete_my_account` richiede aal2 (migration `20261027120000`) |
+| S-3 | media | Trigger a lista nera: il residente poteva riscrivere `payments.intestatario` | trigger a lista bianca su `payments` e `profiles` |
+| S-4 | media | Segreti Actions non usati (`SUPABASE_DB_URL`, `VERCEL_TOKEN`, …) e branch `claude/*` con workflow che li usano | **da fare dal proprietario** |
+| S-5 | media | `main` non protetto, Dependabot spento | **da fare dal proprietario** |
+| S-6 | bassa | Limiti di lunghezza e categorie solo nel client | CHECK `not valid` su `requests` e `documents` |
+| S-7 | bassa | Link Stripe validato solo nel client | CHECK `payments_stripe_link_valido` |
+| S-8 | bassa | Profilo di ripiego creato da `user_metadata` modificabile | `session.ts` non copia più interno e telefono |
+| S-9 | bassa | Header `x-powered-by`, azioni GitHub fissate per tag | `poweredByHeader: false`, azioni fissate per SHA |
+
+Dopo aver applicato la migration in produzione, il proprietario valida i vincoli `not valid` con `alter table … validate constraint …` (elenco in testa alla migration). Se la validazione fallisce, ci sono righe vecchie fuori regola da correggere prima.
