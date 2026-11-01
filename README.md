@@ -1,158 +1,84 @@
-# Rocca Amministrazioni — Portale Condominiale
+# Rocca Amministrazioni — sito vetrina
 
-Applicazione web di gestione condominiale: documenti condivisi (verbali,
-rendiconti, contratti), quote/pagamenti con ricevute, e richieste di
-manutenzione, con un ruolo residente e un ruolo amministratore.
+Sito pubblico dello studio di amministrazione condominiale: presentazione,
+servizi, FAQ e modulo di contatto, più le pagine Informativa Privacy e
+Cookie Policy. Non ci sono aree riservate né accessi con credenziali: il
+portale condominiale che c'era prima è stato dismesso il 1/11/2026 (vedi
+`docs/audit-legale.md` § 7).
 
-Stack: [Next.js](https://nextjs.org) (App Router), [Supabase](https://supabase.com)
-(Postgres + Auth + Storage), Tailwind CSS. Il deploy gira su Vercel via
-GitHub Actions.
+Stack: [Next.js](https://nextjs.org) (App Router) e Tailwind CSS per le
+pagine legali; la home è un file HTML statico. Il deploy è su Vercel
+tramite l'integrazione Vercel↔GitHub.
 
 > **Nota per chi sviluppa con AI**: questa versione di Next.js ha
 > convenzioni diverse da quelle "storiche" (es. il middleware si chiama
 > `proxy.ts`, non `middleware.ts`). Leggere `AGENTS.md` prima di modificare
-> routing/auth.
+> il routing.
 
 ## Setup locale
 
-### 1. Requisiti
-
-- Node.js 20+
-- [Supabase CLI](https://supabase.com/docs/guides/cli) (`npx supabase --version`)
-- Docker, per lo stack Supabase locale (`supabase start`)
-
-### 2. Variabili d'ambiente
-
-Creare `.env.local` nella root con:
-
-```
-NEXT_PUBLIC_SUPABASE_URL=...
-NEXT_PUBLIC_SUPABASE_ANON_KEY=...
-```
-
-Per lo sviluppo locale, `supabase start` stampa questi valori (chiave
-`anon`, mai la `service_role`: quella non deve mai comparire in codice o
-env lato client). Per un progetto Supabase remoto, si trovano in
-*Project Settings → API*.
-
-### 3. Database
-
-```bash
-supabase start        # avvia Postgres/Auth/Storage locali via Docker
-supabase db reset      # applica tutte le migration in supabase/migrations
-```
-
-Le migration sono l'unica fonte di verità dello schema: non modificare
-tabelle/policy/funzioni dalla dashboard di un progetto condiviso senza poi
-riportare la modifica in una nuova migration versionata qui nel repo (vedi
-`supabase/migrations/`, in particolare `20260621221200_baseline_schema.sql`
-per lo schema completo).
-
-### 4. App
+Requisiti: Node.js 24 (la stessa versione della CI).
 
 ```bash
 npm install
 npm run dev
 ```
 
+Non servono variabili d'ambiente.
+
+## Struttura
+
+| Percorso | Contenuto |
+|---|---|
+| `public/index.html` | La home: HTML statico con lo `<style>` inline. |
+| `public/landing.js` | Tutto il JS della home (menu, FAQ, mappa su richiesta, modulo di contatto). |
+| `app/route.ts` | Serve `public/index.html` su `/` con una `Cache-Control` di un'ora. |
+| `app/privacy/`, `app/cookie-policy/` | Pagine legali in Next. |
+| `proxy.ts` | Content-Security-Policy (vedi sotto). |
+| `next.config.ts` | Header di sicurezza e redirect permanenti dei vecchi indirizzi del portale (`/auth`, `/portale/*`, `/api/auth/*`, `/termini`) verso `/`. |
+
 ## Content-Security-Policy
 
-`proxy.ts` applica **due policy distinte**, perché il sito ha due metà con
-esigenze diverse. Vale la pena leggere questa sezione prima di aggiungere
-script, stili o domini esterni: una CSP sbagliata non rompe la build né i
-test, si vede solo nel browser.
+`proxy.ts` applica **due policy distinte**. Vale la pena leggere questa
+sezione prima di aggiungere script, stili o domini esterni: una CSP
+sbagliata non rompe la build né i test, si vede solo nel browser.
 
-**App Next (`/auth`, `/portale/*`)** — CSP con nonce per-richiesta. Next
-applica il nonce ai propri script leggendolo dall'header di **richiesta**
-`Content-Security-Policy`, che va quindi impostato sia sulla richiesta
-inoltrata alle RSC sia sulla risposta. Conseguenze da tenere a mente:
+**Pagine Next (`/privacy`, `/cookie-policy`)**: CSP con nonce
+per-richiesta. Next applica il nonce ai propri script leggendolo
+dall'header di **richiesta** `Content-Security-Policy`, che va quindi
+impostato sia sulla richiesta inoltrata alle RSC sia sulla risposta.
 
 - `script-src` contiene `'strict-dynamic'`, che per specifica **annulla
-  `'self'`**: senza nonce non esiste alcun fallback e l'intero front-end
-  viene bloccato;
+  `'self'`**: senza nonce non esiste alcun fallback e la pagina resta senza
+  JS;
 - il nonce esiste solo durante il rendering per-richiesta, quindi
-  `app/layout.tsx` dichiara `export const dynamic = 'force-dynamic'`. Una
-  pagina prerenderizzata a build time verrebbe servita con script privi di
-  nonce (è il caso di `/auth`, client component senza API dinamiche);
-- in sviluppo servono `'unsafe-eval'` (React usa `eval` per ricostruire gli
-  stack server) e `style-src 'unsafe-inline'` (l'overlay di errore inietta
-  stili non noncati): sono concessi solo se `NODE_ENV === 'development'`.
+  `app/layout.tsx` dichiara `export const dynamic = 'force-dynamic'`;
+- in sviluppo servono `'unsafe-eval'` e `style-src 'unsafe-inline'`
+  (overlay di errore di React): sono concessi solo se
+  `NODE_ENV === 'development'`.
 
-**Landing pubblica (`/`)** — CSP statica senza nonce. La pagina è il file
-HTML `public/index.html`, servito verbatim da `app/route.ts` con una
-`Cache-Control` di un'ora: un nonce per-richiesta sarebbe incompatibile con
-la cache (una copia conserverebbe un nonce scaduto). Quindi:
+**Home (`/`)**: CSP statica senza nonce. La pagina è servita verbatim con
+una cache di un'ora, e una copia in cache conserverebbe un nonce scaduto.
+Quindi:
 
-- tutto il JS della landing sta in `public/landing.js`, coperto da
-  `script-src 'self'`. **Non reintrodurre `<script>` inline né attributi
-  `onclick`/`onsubmit`**: gli attributi-evento non sono nonce-abili e
-  verrebbero bloccati in ogni caso;
-- il `<style>` inline resta inline (evita un foglio render-blocking) ed è
-  concesso da `style-src 'unsafe-inline'` limitato a questa rotta;
+- tutto il JS sta in `public/landing.js`, coperto da `script-src 'self'`.
+  **Non reintrodurre `<script>` inline né attributi `onclick`/`onsubmit`**;
+- il `<style>` inline è concesso da `style-src 'unsafe-inline'`, limitato
+  a questa rotta;
 - ogni dominio esterno va aggiunto esplicitamente: oggi Formspree in
-  `connect-src`, Unsplash in `img-src`, Google Maps in `frame-src`.
+  `connect-src` e Google Maps in `frame-src`.
 
-I font (`public/fonts/*.woff2`, due file variabili) sono self-hosted e
-condivisi: la landing li dichiara via `@font-face`, l'app li carica con
-`next/font/local` in `app/layout.tsx`.
+I font (`public/fonts/*.woff2`) sono self-hosted e condivisi: la home li
+dichiara via `@font-face`, le pagine Next li caricano con `next/font/local`.
 
-## Schema e ruoli
+## CI
 
-Quattro tabelle in `public`, tutte con Row Level Security abilitata:
+`.github/workflows/deploy.yml` (workflow **CI**), su ogni PR e push a
+`main`: lint, typecheck e test unitari (`vitest`). I test controllano che
+la home non rimandi più al portale, i redirect dei vecchi indirizzi e le
+due CSP.
 
-| Tabella     | Contenuto                                             |
-|-------------|--------------------------------------------------------|
-| `profiles`  | Anagrafica utente (nome, email, telefono, interno, ruolo) — 1:1 con `auth.users` |
-| `documents` | Documenti condivisi (verbali, rendiconti, contratti…), file in Storage bucket `documenti` |
-| `payments`  | Quote/pagamenti per residente, ricevuta in Storage bucket `ricevute` |
-| `requests`  | Richieste di manutenzione/segnalazioni dei residenti |
+## Aperti
 
-Ruoli (`profiles.role`): `resident` (default alla registrazione) e
-`admin`. Un residente vede solo i propri dati; un admin vede tutto. Le
-regole di autorizzazione sono applicate a livello di RLS (non solo lato
-UI): vedi le policy in `supabase/migrations/20260621221200_baseline_schema.sql`
-e i relativi fix in `20260715120000_security_and_data_fixes.sql`.
-
-### Promuovere il primo amministratore
-
-Non esiste un flusso self-service per diventare admin (per design: sarebbe
-un rischio di sicurezza). Un trigger (`trg_enforce_profile_update`) impedisce
-qualunque cambio di `role` che non arrivi già da un admin — **questo vale
-anche per una `UPDATE` lanciata a mano dalla dashboard/SQL editor**, quindi
-per il primissimo admin va disabilitato temporaneamente:
-
-```sql
-alter table public.profiles disable trigger trg_enforce_profile_update;
-update public.profiles set role = 'admin' where id = '<uuid dell''utente>';
-alter table public.profiles enable trigger trg_enforce_profile_update;
-```
-
-Gli admin successivi possono essere promossi da un admin già esistente
-tramite l'applicazione stessa (RLS + trigger lo consentono senza bisogno di
-disabilitare nulla).
-
-## CI/CD
-
-`.github/workflows/deploy.yml` (workflow **CI**):
-
-1. **quality** — lint, typecheck, test unitari.
-2. **db-tests** — avvia uno stack Supabase locale via Docker ed esegue i
-   test pgTAP in `supabase/tests/database/` (isolamento RLS tra residenti,
-   escalation di ruolo, visibilità admin).
-3. **migrate** (solo su push a `main`) — applica le migration al progetto
-   Supabase collegato con `supabase db push`. Richiede il secret repo
-   **`SUPABASE_DB_URL`** (connection string Postgres del progetto, da
-   *Project Settings → Database*).
-
-Il deploy dell'app su Vercel è gestito dall'integrazione nativa
-Vercel↔GitHub (non da questo workflow): ogni push crea/aggiorna un
-deployment automaticamente. Questo workflow serve solo da gate di
-qualità/schema, indipendente dal deploy.
-
-## Limiti noti
-
-- Attivare manualmente in dashboard *Auth → Policies → Password* la
-  protezione "leaked password" (HaveIBeenPwned): non è configurabile via
-  migration SQL.
-- Lo schema attuale modella un solo condominio (nessun `condominio_id`);
-  estendere a più edifici richiede rivedere tutte le policy RLS.
+Vedi `docs/audit-legale.md` § 7: P.IVA, REA e PEC nel footer, sostituzione
+di Formspree, piano Vercel.

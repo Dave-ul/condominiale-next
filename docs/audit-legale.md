@@ -178,3 +178,36 @@ Il codice e i testi di questo branch sono pronti. **Da soli non bastano**: servo
 5. **Formspree**: sostituirlo con un modulo che non esca dall'UE (ad esempio una tabella Supabase con insert anonimo e RLS, oppure un semplice `mailto:`), oppure ottenere e firmare un DPA con clausole contrattuali tipo (vedi § 6.1, punto 6).
 6. **Disponibilità e backup** (R-17): il piano Supabase free va in pausa e non ha backup documentati.
 7. Validazione finale di un legale o di un DPO.
+
+---
+
+## 7. Portale dismesso (1/11/2026)
+
+L'amministratore ha deciso di usare il sito solo come vetrina. Il proprietario conferma che nel database Supabase non c'erano dati di condòmini reali.
+
+### 7.1 Cosa è stato tolto dal codice
+
+- Pagine `/auth`, `/portale/*`, `/termini` e route `/api/auth/*`; ora sono redirect permanenti verso `/` (`next.config.ts`).
+- Client Supabase, sessione e controllo MFA in `proxy.ts`; la CSP delle pagine Next non autorizza più `*.supabase.co`.
+- Cartella `supabase/` (configurazione Auth, migrazioni, test pgTAP, template email) e job CI `db-tests`.
+- Dipendenze `@supabase/ssr`, `@supabase/supabase-js`, `supabase`, `zod`, `clsx`, `tailwind-merge`.
+- Home: link e bottoni "Accedi al portale", sezione `#portale`, FAQ sul portale.
+- Informativa: tolta la parte B (portale); restano sito pubblico e modulo di contatto, art. 13 GDPR. Cookie policy: il sito non imposta cookie propri.
+- Bozze in `docs/bozze-legali/` (art. 28, delibera ex art. 71-ter, informativa per condominio, registro): tutte riferite al portale, cancellate. Restano nella cronologia git.
+
+### 7.2 Rilievi chiusi con la dismissione
+
+Non si applicano più: R-4 (delibera ex art. 71-ter), R-5 (titolarità condominio/amministratore), R-13 per la parte portale, R-17 (disponibilità del DB), R-22 parte B, R-23 (termini), R-24 (atto art. 28), oltre ai rilievi su RLS, multi-tenancy, MFA e conservazione dei dati del portale.
+
+### 7.3 Rilievi ancora aperti per la vetrina
+
+1. **P.IVA, REA (se c'è) e PEC** al posto dei segnaposto nel footer di `public/index.html` e in `app/privacy/page.tsx` (R-21).
+2. **Formspree**: trasferimento verso gli USA senza garanzia documentata (§ 6.1, punto 6). Da sostituire, ad esempio con un link `mailto:`, oppure da coprire con DPA e clausole contrattuali tipo. Con la sostituzione vanno aggiornate informativa, nota del modulo e CSP.
+3. **Vercel Hobby**: le fair use guidelines lo limitano all'uso non commerciale, e il sito di uno studio professionale è uso commerciale; il DPA vale solo da Pro (R-3). In alternativa, un hosting statico UE con DPA.
+
+### 7.4 Fuori dal codice (a cura del proprietario)
+
+- Cancellare il progetto Supabase dalla dashboard (irreversibile).
+- Togliere da Vercel le variabili `NEXT_PUBLIC_SUPABASE_*` e l'integrazione Supabase del team.
+- Eliminare la casella SMTP `portale@roccaamministrazioni.it` o cambiarne la password.
+- Togliere `quality/db-tests` dai check obbligatori della protezione di `main`.
