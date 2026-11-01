@@ -24,7 +24,16 @@ npm install
 npm run dev
 ```
 
-Non servono variabili d'ambiente.
+Per provare l'invio del modulo di contatto servono le credenziali della
+casella Aruba usata come mittente, in `.env.local` (mai nel repository):
+
+```
+SMTP_USER=casella@roccaamministrazioni.it
+SMTP_PASS=...
+```
+
+Senza, il sito funziona ma `/api/contatto` risponde 502. In produzione le
+due variabili stanno nelle Environment Variables di Vercel.
 
 ## Struttura
 
@@ -34,6 +43,8 @@ Non servono variabili d'ambiente.
 | `public/landing.js` | Tutto il JS della home (menu, FAQ, mappa su richiesta, modulo di contatto). |
 | `app/route.ts` | Serve `public/index.html` su `/` con una `Cache-Control` di un'ora. |
 | `app/privacy/`, `app/cookie-policy/` | Pagine legali in Next. |
+| `app/api/contatto/route.ts` | Riceve il modulo di contatto: controlla l'origine, limita le richieste per IP, scarta lo spam (campo trappola `sito_web`), valida i campi (`lib/contatto.ts`) e invia la mail con `lib/mailer.ts`. |
+| `lib/mailer.ts` | Invio con nodemailer tramite `smtps.aruba.it:465` (posta del dominio, server in Italia) verso la casella dello studio. Il visitatore va in `Reply-To`. |
 | `proxy.ts` | Content-Security-Policy (vedi sotto). |
 | `next.config.ts` | Header di sicurezza e redirect permanenti dei vecchi indirizzi del portale (`/auth`, `/portale/*`, `/api/auth/*`, `/termini`) verso `/`. |
 
@@ -65,8 +76,9 @@ Quindi:
   **Non reintrodurre `<script>` inline né attributi `onclick`/`onsubmit`**;
 - il `<style>` inline è concesso da `style-src 'unsafe-inline'`, limitato
   a questa rotta;
-- ogni dominio esterno va aggiunto esplicitamente: oggi Formspree in
-  `connect-src` e Google Maps in `frame-src`.
+- ogni dominio esterno va aggiunto esplicitamente: oggi solo Google Maps
+  in `frame-src`. Il modulo invia a `/api/contatto`, coperto da
+  `connect-src 'self'`.
 
 I font (`public/fonts/*.woff2`) sono self-hosted e condivisi: la home li
 dichiara via `@font-face`, le pagine Next li caricano con `next/font/local`.
@@ -80,5 +92,4 @@ due CSP.
 
 ## Aperti
 
-Vedi `docs/audit-legale.md` § 7: P.IVA, REA e PEC nel footer, sostituzione
-di Formspree, piano Vercel.
+Vedi `docs/audit-legale.md` § 7: P.IVA, REA e PEC nel footer, piano Vercel.

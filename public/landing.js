@@ -62,16 +62,12 @@ form.addEventListener('submit', async (e) => {
   btn.textContent = 'Invio in corso...'
 
   try {
-    const res = await fetch('https://formspree.io/f/xjkwqgpq', {
+    // Endpoint dello stesso sito (app/api/contatto): invia la mail tramite la
+    // posta Aruba del dominio, senza servizi terzi fuori dall'UE.
+    const res = await fetch('/api/contatto', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        name: `${data.nome} ${data.cognome}`,
-        email: data.email,
-        phone: data.telefono,
-        subject: data.oggetto,
-        message: data.messaggio,
-      }),
+      body: JSON.stringify(data),
     })
     if (res.ok) {
       succ.style.display = 'block'

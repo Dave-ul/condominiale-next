@@ -75,8 +75,12 @@ export default function PrivacyPage() {
           <h2 className={h2} style={{ color: 'var(--navy)' }}>Fornitori</h2>
           <ul className={ul}>
             <li>
-              <strong>Formspree, Inc.</strong> (Stati Uniti): riceve i messaggi del modulo di contatto e li tratta negli
-              Stati Uniti.
+              <strong>Aruba S.p.A.</strong> (Italia): servizio di posta del dominio, con cui il modulo di contatto ci
+              invia la tua richiesta via email. Server in Italia.
+            </li>
+            <li>
+              <strong>Yahoo EMEA Limited</strong> (Irlanda): fornitore della casella email dello studio, dove la
+              richiesta viene ricevuta e conservata.
             </li>
             <li>
               <strong>Vercel Inc.</strong> (Stati Uniti): hosting del sito; le funzioni dell&apos;applicazione girano
