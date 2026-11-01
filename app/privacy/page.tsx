@@ -8,6 +8,18 @@ export const metadata: Metadata = {
 
 const h2 = 'text-lg font-bold mt-8 mb-3'
 const p = 'text-sm leading-relaxed mb-3'
+const ul = 'text-sm leading-relaxed mb-3 pl-5 list-disc space-y-1'
+
+// Dati dello studio. I segnaposto tra parentesi quadre vanno sostituiti prima
+// della pubblicazione (art. 35 DPR 633/1972 e art. 7 D.Lgs. 70/2003).
+const STUDIO = {
+  nome: 'Pier Luigi Rocca — Rocca Amministrazioni',
+  sede: 'Via Don Giovanni Minzoni 1, 40067 Rastignano (BO)',
+  piva: '[P.IVA]',
+  email: 'pluigi.rocca@yahoo.com',
+  pec: '[PEC]',
+  tel: '+39 338 374 2204',
+}
 
 export default function PrivacyPage() {
   return (
@@ -27,58 +39,76 @@ export default function PrivacyPage() {
             Informativa Privacy
           </p>
           <p className="text-xs" style={{ color: 'var(--stone)' }}>
-            Ai sensi degli artt. 13-14 del Regolamento UE 2016/679 (GDPR) — ultimo aggiornamento: agosto 2026
+            Ai sensi dell&apos;art. 13 del Regolamento (UE) 2016/679 (GDPR) — ultimo aggiornamento: novembre 2026
           </p>
 
-          <h2 className={h2} style={{ color: 'var(--navy)' }}>Titolare del trattamento</h2>
+          <h2 className={h2} style={{ color: 'var(--navy)' }}>Chi siamo e come contattarci</h2>
           <p className={p}>
-            Pier Luigi Rocca — Rocca Amministrazioni, Via Don Giovanni Minzoni 1, 40067 Rastignano (BO).
-            Contatti: <a href="mailto:pluigi.rocca@yahoo.com" className="underline">pluigi.rocca@yahoo.com</a>, tel. <a href="tel:+393383742204" className="underline">+39 338 374 2204</a>.
+            {STUDIO.nome}, {STUDIO.sede}, P.IVA {STUDIO.piva}.
+            Email <a href={`mailto:${STUDIO.email}`} className="underline">{STUDIO.email}</a>, PEC {STUDIO.pec},
+            tel. <a href={`tel:${STUDIO.tel.replace(/\s/g, '')}`} className="underline">{STUDIO.tel}</a>.
+            Non è stato designato un responsabile della protezione dei dati (DPO).
           </p>
 
-          <h2 className={h2} style={{ color: 'var(--navy)' }}>Dati trattati</h2>
-          <p className={p}>
-            Nell&apos;ambito del servizio di amministrazione condominiale e del portale online trattiamo: dati anagrafici e di contatto
-            (nome, email, telefono, unità/interno di residenza), dati relativi a pagamenti e ricevute condominiali, documenti
-            condominiali (verbali, rendiconti, circolari) e le richieste/segnalazioni inviate tramite il portale. Chi utilizza il
-            modulo di contatto sul sito fornisce inoltre nome, email, telefono e il contenuto del messaggio.
-          </p>
+          <h2 className={h2} style={{ color: 'var(--navy)' }}>Titolare</h2>
+          <p className={p}>Il titolare del trattamento è lo studio indicato sopra.</p>
 
-          <h2 className={h2} style={{ color: 'var(--navy)' }}>Finalità e base giuridica</h2>
-          <p className={p}>
-            I dati dei residenti sono trattati per l&apos;esecuzione del mandato di amministrazione condominiale (art. 6.1.b GDPR —
-            esecuzione di un contratto/incarico). I dati raccolti tramite il modulo di contatto sono trattati per rispondere alla richiesta
-            ricevuta, anche in vista di un eventuale incarico (art. 6.1.b GDPR — misure precontrattuali).
-          </p>
+          <h2 className={h2} style={{ color: 'var(--navy)' }}>Dati, finalità e base giuridica</h2>
+          <ul className={ul}>
+            <li>
+              <strong>Modulo di contatto</strong> (nome, cognome, email, telefono, oggetto, messaggio): usati solo per
+              rispondere alla tua richiesta, anche in vista di un eventuale incarico. Base giuridica: misure
+              precontrattuali adottate su tua richiesta (art. 6.1.b GDPR). Senza questi dati non possiamo risponderti.
+            </li>
+            <li>
+              <strong>Dati di navigazione</strong> (indirizzo IP, browser, pagine richieste) registrati dai sistemi di
+              hosting per far funzionare e proteggere il sito. Base giuridica: legittimo interesse alla sicurezza del
+              sito (art. 6.1.f GDPR).
+            </li>
+            <li>
+              <strong>Mappa</strong>: la mappa di Google si carica solo se premi &quot;Mostra la mappa&quot;. Da quel
+              momento Google riceve il tuo indirizzo IP come titolare autonomo. Vedi la{' '}
+              <Link href="/cookie-policy" className="underline">Cookie Policy</Link>.
+            </li>
+          </ul>
 
-          <h2 className={h2} style={{ color: 'var(--navy)' }}>Destinatari e responsabili del trattamento</h2>
-          <p className={p}>
-            I dati sono trattati con l&apos;ausilio di fornitori terzi che agiscono come responsabili del trattamento:
-          </p>
-          <ul className="text-sm leading-relaxed mb-3 pl-5 list-disc space-y-1">
-            <li><strong>Supabase</strong> — hosting del database e autenticazione, infrastruttura nella regione UE (eu-central-1, Francoforte).</li>
-            <li><strong>Vercel</strong> — hosting dell&apos;applicazione web.</li>
-            <li><strong>Formspree</strong> — gestione del modulo di contatto del sito; il servizio ha sede negli Stati Uniti, il trasferimento dei dati è regolato dalle garanzie previste dal fornitore per i trasferimenti extra-UE.</li>
+          <h2 className={h2} style={{ color: 'var(--navy)' }}>Fornitori</h2>
+          <ul className={ul}>
+            <li>
+              <strong>Formspree, Inc.</strong> (Stati Uniti): riceve i messaggi del modulo di contatto e li tratta negli
+              Stati Uniti.
+            </li>
+            <li>
+              <strong>Vercel Inc.</strong> (Stati Uniti): hosting del sito; le funzioni dell&apos;applicazione girano
+              nella regione UE di Francoforte, la rete di distribuzione dei contenuti è globale.
+            </li>
           </ul>
 
           <h2 className={h2} style={{ color: 'var(--navy)' }}>Conservazione</h2>
           <p className={p}>
-            I dati dei residenti sono conservati per la durata del mandato di amministrazione e per il periodo successivo
-            richiesto dagli obblighi di legge (es. conservazione documentale fiscale/contabile). I dati raccolti tramite il
-            modulo di contatto sono conservati per il tempo necessario a evadere la richiesta.
+            I messaggi del modulo di contatto sono conservati per il tempo necessario a rispondere e, se ne nasce un
+            incarico, per la durata di quest&apos;ultimo. I dati di navigazione sono conservati secondo i tempi tecnici
+            del fornitore di hosting.
           </p>
 
-          <h2 className={h2} style={{ color: 'var(--navy)' }}>Diritti dell&apos;interessato</h2>
+          <h2 className={h2} style={{ color: 'var(--navy)' }}>I tuoi diritti</h2>
           <p className={p}>
-            È possibile richiedere in qualsiasi momento l&apos;accesso, la rettifica, la cancellazione o la limitazione del
-            trattamento dei propri dati, nonché la portabilità degli stessi, scrivendo a{' '}
-            <a href="mailto:pluigi.rocca@yahoo.com" className="underline">pluigi.rocca@yahoo.com</a>. È inoltre possibile proporre
-            reclamo al Garante per la protezione dei dati personali (www.garanteprivacy.it).
+            Puoi chiedere l&apos;accesso ai tuoi dati, la rettifica, la cancellazione, la limitazione e la portabilità,
+            e puoi opporti al trattamento basato sul legittimo interesse (artt. 15-22 GDPR), scrivendo ai contatti
+            indicati sopra.
           </p>
+          <p className={p}>
+            Puoi proporre reclamo al Garante per la protezione dei dati personali (
+            <a href="https://www.garanteprivacy.it" target="_blank" rel="noopener noreferrer" className="underline">
+              www.garanteprivacy.it
+            </a>
+            ), ai sensi dell&apos;art. 77 GDPR.
+          </p>
+          <p className={p}>Non sono effettuate decisioni automatizzate né profilazione.</p>
 
           <h2 className={h2} style={{ color: 'var(--navy)' }}>Cookie</h2>
           <p className={p}>
-            Per informazioni sui cookie utilizzati dal sito e dal portale consulta la{' '}
+            Per i cookie e i contenuti di terze parti consulta la{' '}
             <Link href="/cookie-policy" className="underline">Cookie Policy</Link>.
           </p>
         </div>

@@ -138,3 +138,76 @@ Dopo aver applicato la migration in produzione, il proprietario valida i vincoli
 
 ### Keep-alive rimosso (27/10/2026)
 Lo storico delle esecuzioni mostra che il workflow non impediva la pausa del progetto free: dopo ogni riattivazione (27/8, 29/9) il progetto tornava in pausa entro 7-9 giorni, anche con i ping riusciti, e i ping successivi fallivano con `curl` exit 6 (host non risolto, progetto in pausa). Il portale è rimasto senza database dal 7/9 al 28/9 e dall'8/10 al 26/10. Il workflow è stato quindi rimosso. La disponibilità resta aperta (rilievo R-17): la soluzione indicata è il piano a pagamento con backup.
+
+---
+
+## 6. Verifica del 1/11/2026 sulle fonti ufficiali
+
+Perimetro: `main@70df785` più questo branch. Le norme sono state lette dal testo vigente su Normattiva (MCP `it-eli-mcp`) e su EUR-Lex (MCP `eur-lex`), e le citazioni sono state controllate con `it_verify_citations`. Non sono stati letti dati di produzione.
+
+> Informazione generale, non consulenza legale. Le voci DOCUMENTO e AMMINISTRATORE vanno validate con un legale o un DPO.
+
+### 6.1 Incertezze del § 3 chiuse
+
+| # | Esito | Fonte |
+|---|---|---|
+| 1 | **Documento del Garante sul condominio**: al 1/11/2026 risulta ancora la sola bozza in consultazione (deliberazione n. 209 del 10/4/2025); non si trova un'adozione definitiva. Le qualificazioni di R-4 e R-5 restano quelle della bozza. | [docweb 10128634](https://www.garanteprivacy.it/home/docweb/-/docweb-display/docweb/10128634), [pagina "Condominio"](https://www.garanteprivacy.it/home/ricerca/-/search/argomento/Condominio) |
+| 3 | **Cass. 29323/2022 esiste**: Cass. civ. sez. I, ord. n. 29323, decisa il 27/9/2022 e depositata il 7/10/2022, materia "trattamento dati personali". Il testo integrale su SentenzeWeb è ancora "in fase di oscuramento", quindi il contenuto resta da confermare sul testo ufficiale. | [SentenzeWeb snciv2022129323O](https://www.italgiure.giustizia.it/sncass/#id=snciv2022129323O) |
+| 4 | **Art. 71-ter disp. att. c.c., letto su Normattiva**: "Su richiesta dell'assemblea, che delibera con la maggioranza di cui al secondo comma dell'articolo 1136 del codice, l'amministratore è tenuto ad attivare un sito internet del condominio che consenta agli aventi diritto di consultare ed estrarre copia in formato digitale dei documenti previsti dalla delibera assembleare. Le spese […] sono poste a carico dei condomini." Art. 63, primo comma, letto su Normattiva: l'amministratore "è tenuto a comunicare ai creditori non ancora soddisfatti che lo interpellino i dati dei condomini morosi". | `urn:nir:stato:regio.decreto:1942-03-30;318` ([Normattiva](https://www.normattiva.it/eli/id/1942/04/17/042U0318/CONSOLIDATED)) |
+| 6 | **Formspree**: la privacy policy dice che i dati sono trattati "in the United States". Non cita il Data Privacy Framework, né un DPA, né le clausole contrattuali tipo, e non è stato trovato un DPA pubblico. Il trasferimento verso gli USA resta quindi **senza una garanzia documentata** (artt. 44-46 GDPR). La deroga dell'art. 49 non copre un modulo usato in modo sistematico. | [Formspree privacy policy](https://formspree.io/legal/privacy-policy) |
+| 7 | **European Accessibility Act: non applicabile.** L'art. 2.2 della dir. 2019/882 elenca servizi chiusi (comunicazione elettronica, media audiovisivi, trasporti, servizi bancari, e-book, commercio elettronico) e il portale non rientra tra questi. In ogni caso l'art. 4.5 esenta le microimprese che forniscono servizi. Restano utili le buone pratiche WCAG. | CELEX [32019L0882](https://eur-lex.europa.eu/legal-content/IT/TXT/?uri=CELEX:32019L0882), artt. 2 e 4 |
+| 9 | **Vercel**: il piano è ancora Hobby (confermato dal proprietario). Le fair use guidelines limitano Hobby all'uso "non-commercial, personal" e il DPA vale solo per Pro ed Enterprise. | [Vercel fair use](https://vercel.com/docs/limits/fair-use-guidelines), [Vercel DPA](https://vercel.com/legal/dpa) |
+
+### 6.2 Nuovi rilievi
+
+| # | Problema | Norma | File | Gravità | Tipo |
+|---|---|---|---|---|---|
+| R-21 | **P.IVA assente dal sito.** Il numero di partita IVA "deve essere indicato […] nella home-page dell'eventuale sito web". L'art. 7 D.Lgs. 70/2003 chiede inoltre, in modo "diretto e permanente", nome, sede, email, numero REA o del registro delle imprese (se iscritto) e P.IVA. | art. 35, c. 1, DPR 633/1972 (`urn:nir:stato:decreto.presidente.repubblica:1972-10-26;633`); art. 7 D.Lgs. 70/2003 (`urn:nir:stato:decreto.legislativo:2003-04-09;70`) | `public/index.html` (footer) | media | CODICE (fatto, con segnaposto) + DATO DA FORNIRE |
+| R-22 | **L'informativa pubblicata non era stata aggiornata dopo R-5.** Indicava come unico titolare l'amministratore, la base 6.1.b per tutti i trattamenti, e non nominava Aruba, Stripe e l'art. 77. | GDPR artt. 6, 13, 14, 77 | `app/privacy/page.tsx` | alta | CODICE (fatto) |
+| R-23 | **Termini non allineati**: parlavano di "registrazione" con "accettazione" dell'informativa, mentre l'accesso è solo su invito. | GDPR art. 5.1.a (trasparenza) | `app/termini/page.tsx` | bassa | CODICE (fatto) |
+| R-24 | **Atto art. 28 incompleto.** Mancavano: le istruzioni sui trasferimenti verso Paesi terzi (28.3.a), l'avviso al titolare se un'istruzione è illecita (28.3, secondo comma), la responsabilità piena per i sub-responsabili (28.4) e la cancellazione delle copie (28.3.g). L'amministratore inoltre risultava firmare per entrambe le parti. | GDPR art. 28 (CELEX 32016R0679, letto su EUR-Lex) | `docs/bozze-legali/contratto-art28-portale.md` | media | DOCUMENTO (bozza corretta) |
+
+### 6.3 Cosa resta prima di poter dire "conforme"
+
+Il codice e i testi di questo branch sono pronti. **Da soli non bastano**: servono questi atti, in quest'ordine.
+
+1. **Vercel → Pro** (oppure un hosting UE con DPA). Senza questo passaggio mancano sia il contratto art. 28 con l'hoster sia il rispetto dei termini Vercel (R-3). L'informativa nuova descrive Vercel come sub-responsabile, e questo è vero solo con il DPA in vigore.
+2. **P.IVA, REA (se c'è) e PEC** dello studio, al posto dei segnaposto in `public/index.html` e `app/privacy/page.tsx` (R-21).
+3. **Delibera ex art. 71-ter per ogni condominio**, con l'elenco dei documenti, il riparto delle spese e la nomina art. 28: bozza in `docs/bozze-legali/delibera-sito-condominiale.md` (R-4). Fino alla delibera, il portale per quel condominio non ha la sua base civilistica.
+4. **Informativa per condominio** (`informativa-portale.md`, compilata) da consegnare con l'invito; **registro dei trattamenti** compilato (R-13).
+5. **Formspree**: sostituirlo con un modulo che non esca dall'UE (ad esempio una tabella Supabase con insert anonimo e RLS, oppure un semplice `mailto:`), oppure ottenere e firmare un DPA con clausole contrattuali tipo (vedi § 6.1, punto 6).
+6. **Disponibilità e backup** (R-17): il piano Supabase free va in pausa e non ha backup documentati.
+7. Validazione finale di un legale o di un DPO.
+
+---
+
+## 7. Portale dismesso (1/11/2026)
+
+L'amministratore ha deciso di usare il sito solo come vetrina. Il proprietario conferma che nel database Supabase non c'erano dati di condòmini reali.
+
+### 7.1 Cosa è stato tolto dal codice
+
+- Pagine `/auth`, `/portale/*`, `/termini` e route `/api/auth/*`; ora sono redirect permanenti verso `/` (`next.config.ts`).
+- Client Supabase, sessione e controllo MFA in `proxy.ts`; la CSP delle pagine Next non autorizza più `*.supabase.co`.
+- Cartella `supabase/` (configurazione Auth, migrazioni, test pgTAP, template email) e job CI `db-tests`.
+- Dipendenze `@supabase/ssr`, `@supabase/supabase-js`, `supabase`, `zod`, `clsx`, `tailwind-merge`.
+- Home: link e bottoni "Accedi al portale", sezione `#portale`, FAQ sul portale.
+- Informativa: tolta la parte B (portale); restano sito pubblico e modulo di contatto, art. 13 GDPR. Cookie policy: il sito non imposta cookie propri.
+- Bozze in `docs/bozze-legali/` (art. 28, delibera ex art. 71-ter, informativa per condominio, registro): tutte riferite al portale, cancellate. Restano nella cronologia git.
+
+### 7.2 Rilievi chiusi con la dismissione
+
+Non si applicano più: R-4 (delibera ex art. 71-ter), R-5 (titolarità condominio/amministratore), R-13 per la parte portale, R-17 (disponibilità del DB), R-22 parte B, R-23 (termini), R-24 (atto art. 28), oltre ai rilievi su RLS, multi-tenancy, MFA e conservazione dei dati del portale.
+
+### 7.3 Rilievi ancora aperti per la vetrina
+
+1. **P.IVA, REA (se c'è) e PEC** al posto dei segnaposto nel footer di `public/index.html` e in `app/privacy/page.tsx` (R-21).
+2. **Formspree**: trasferimento verso gli USA senza garanzia documentata (§ 6.1, punto 6). Da sostituire, ad esempio con un link `mailto:`, oppure da coprire con DPA e clausole contrattuali tipo. Con la sostituzione vanno aggiornate informativa, nota del modulo e CSP.
+3. **Vercel Hobby**: le fair use guidelines lo limitano all'uso non commerciale, e il sito di uno studio professionale è uso commerciale; il DPA vale solo da Pro (R-3). In alternativa, un hosting statico UE con DPA.
+
+### 7.4 Fuori dal codice (a cura del proprietario)
+
+- Cancellare il progetto Supabase dalla dashboard (irreversibile).
+- Togliere da Vercel le variabili `NEXT_PUBLIC_SUPABASE_*` e l'integrazione Supabase del team.
+- Eliminare la casella SMTP `portale@roccaamministrazioni.it` o cambiarne la password.
+- Togliere `quality/db-tests` dai check obbligatori della protezione di `main`.
