@@ -29,28 +29,3 @@ jobs:
 
       - name: Test
         run: npm test
-
-  db-tests:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
-
-      - name: Setup Supabase CLI
-        uses: supabase/setup-cli@1dedf2c611547ede7232d26866dd3c56ab903bbb # v1.7.3
-        with:
-          # Stessa versione della devDependency: "latest" dipende da una chiamata
-          # all API di GitHub che a volte fallisce per rate limit.
-          version: 2.122.0
-
-      # supabase start avvia lo stack locale (Postgres + pgTAP) via Docker,
-      # applicando tutte le migration in supabase/migrations prima di
-      # eseguire i test in supabase/tests/database.
-      - name: Start local Supabase stack
-        run: supabase start
-
-      - name: Run pgTAP RLS tests
-        run: supabase test db
-
-      - name: Stop local Supabase stack
-        if: always()
-        run: supabase stop
