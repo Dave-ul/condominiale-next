@@ -27,15 +27,13 @@ export default function CookiePolicyPage() {
             Cookie Policy
           </p>
           <p className="text-xs" style={{ color: 'var(--stone)' }}>
-            Ultimo aggiornamento: agosto 2026
+            Ultimo aggiornamento: novembre 2026
           </p>
 
-          <h2 className={h2} style={{ color: 'var(--navy)' }}>Cookie tecnici (sempre attivi)</h2>
+          <h2 className={h2} style={{ color: 'var(--navy)' }}>Cookie del sito</h2>
           <p className={p}>
-            Il portale condominiale (<code>/portale</code>) utilizza cookie tecnici di sessione impostati da Supabase Auth
-            (es. <code>sb-*-auth-token</code>) necessari per mantenere l&apos;accesso effettuato. Questi cookie sono strettamente
-            necessari al funzionamento del servizio richiesto dall&apos;utente e, per normativa del Garante Privacy, non richiedono
-            il consenso preventivo.
+            Il sito non imposta cookie propri: non ci sono aree riservate né accessi con credenziali, e le pagine si
+            consultano senza salvare nulla sul tuo dispositivo.
           </p>
 
           <h2 className={h2} style={{ color: 'var(--navy)' }}>Cookie di profilazione e analytics</h2>
@@ -55,8 +53,8 @@ export default function CookiePolicyPage() {
 
           <h2 className={h2} style={{ color: 'var(--navy)' }}>Come gestire i cookie</h2>
           <p className={p}>
-            I cookie tecnici di sessione possono essere rimossi in qualsiasi momento dalle impostazioni del browser; questo
-            comporterà la disconnessione dal portale. Per informazioni sul trattamento dei dati personali consulta
+            Gli eventuali cookie impostati da Google dopo che hai aperto la mappa si possono cancellare in qualsiasi momento
+            dalle impostazioni del browser. Per informazioni sul trattamento dei dati personali consulta
             l&apos;<Link href="/privacy" className="underline">Informativa Privacy</Link>.
           </p>
         </div>

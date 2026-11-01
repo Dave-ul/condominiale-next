@@ -84,8 +84,6 @@
     .btn:hover { opacity: .82; }
     .btn svg { width: 15px; height: 15px; flex-shrink: 0; }
     .btn-gold  { background: var(--gold); color: #fff; }
-    .btn-ghost { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.3); }
-    .btn-navy  { background: var(--navy); color: #fff; }
 
     /* ── NAVBAR ── */
     #navbar {
@@ -472,71 +470,6 @@
     .service-card h3 { font-size: 13px; font-weight: 600; color: var(--navy); margin-bottom: 6px; }
     .service-card p  { font-size: 12px; color: var(--stone); line-height: 1.6; }
 
-    /* ── PORTAL PREVIEW ── */
-    #portale {
-      background-color: var(--cream-mid);
-      padding: 96px 0;
-    }
-    .portal-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 64px;
-      align-items: center;
-    }
-    .portal-text h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2rem, 4vw, 2.8rem);
-      color: var(--navy);
-      line-height: 1.2;
-      margin-bottom: 20px;
-    }
-    .portal-text p { color: var(--stone); line-height: 1.7; margin-bottom: 32px; }
-    .portal-mockup {
-      border: 2px solid var(--navy);
-      background: var(--cream);
-    }
-    .mockup-bar {
-      background: var(--navy);
-      padding: 10px 18px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-    }
-    .mockup-logo { display: flex; align-items: center; gap: 8px; }
-    .mockup-logo-box {
-      width: 20px; height: 20px;
-      background: var(--gold);
-      color: var(--navy);
-      font-family: 'Playfair Display', serif;
-      font-size: 11px;
-      font-weight: 700;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .mockup-title { font-size: 11px; color: rgba(255,255,255,0.7); letter-spacing: 0.1em; }
-    .mockup-dots { display: flex; gap: 2px; }
-    .dot { width: 12px; height: 12px; }
-    .mockup-features {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1px;
-      background: var(--cream-dark);
-      padding: 1px;
-    }
-    .mockup-feature {
-      background: var(--cream);
-      padding: 20px;
-    }
-    .mf-icon {
-      width: 32px; height: 32px;
-      background: var(--navy);
-      display: flex; align-items: center; justify-content: center;
-      margin-bottom: 10px;
-    }
-    .mf-icon svg { width: 14px; height: 14px; color: var(--gold); }
-    .mockup-feature strong { font-size: 13px; color: var(--navy); display: block; margin-bottom: 2px; }
-    .mockup-feature span   { font-size: 11px; color: var(--stone); }
-
     /* ── FAQ ── */
     #faq {
       background-color: var(--cream);
@@ -763,7 +696,6 @@
       .hero-grid    { grid-template-columns: 1fr; }
       .stat-grid    { display: none; }
       .about-grid   { grid-template-columns: 1fr; }
-      .portal-grid  { grid-template-columns: 1fr; }
       .contact-grid { grid-template-columns: 1fr; }
       .footer-grid  { grid-template-columns: 1fr 1fr; }
       .services-grid { grid-template-columns: repeat(2, 1fr); }
@@ -792,12 +724,11 @@
     <nav class="nav-links">
       <a href="#chi-siamo">Chi Siamo</a>
       <a href="#servizi">Servizi</a>
-      <a href="#portale">Portale</a>
       <a href="#faq">FAQ</a>
       <a href="#contatti">Contatti</a>
     </nav>
     <div class="nav-btn">
-      <a href="/auth" class="btn btn-gold">Accedi al Portale</a>
+      <a href="#contatti" class="btn btn-gold">Richiedi un preventivo</a>
     </div>
     <button class="hamburger" id="hamburger" aria-label="Menu">
       <svg id="icon-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
@@ -810,10 +741,9 @@
 <div id="mobile-menu">
   <a href="#chi-siamo" class="mobile-link">Chi Siamo</a>
   <a href="#servizi" class="mobile-link">Servizi</a>
-  <a href="#portale" class="mobile-link">Portale</a>
   <a href="#faq" class="mobile-link">FAQ</a>
   <a href="#contatti" class="mobile-link">Contatti</a>
-  <a href="/auth" class="btn btn-gold" style="margin-top:4px">Accedi al Portale</a>
+  <a href="#contatti" class="btn btn-gold" style="margin-top:4px">Richiedi un preventivo</a>
 </div>
 
 <!-- HERO -->
@@ -837,7 +767,6 @@
             Richiedi un preventivo
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
-          <a href="/auth" class="btn btn-ghost">Accedi al portale</a>
         </div>
       </div>
 
@@ -1015,69 +944,6 @@
   </div>
 </div>
 
-<!-- PORTAL PREVIEW -->
-<section id="portale">
-  <div class="section-inner">
-    <div class="portal-grid">
-      <div class="portal-text">
-        <div class="eyebrow" style="margin-bottom:20px">
-          <div class="eyebrow-bar" style="background:var(--gold)"></div>
-          <span class="eyebrow-text" style="color:var(--gold)">Portale Condominiale</span>
-        </div>
-        <h2>Tutto il tuo condominio<br>a portata di click</h2>
-        <p>Il portale condominiale dedicato permette ai residenti di accedere a documenti, pagamenti e richieste direttamente dal browser, in qualsiasi momento.</p>
-        <a href="/auth" class="btn btn-navy">
-          Accedi al portale
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </a>
-      </div>
-      <div class="portal-mockup">
-        <div class="mockup-bar">
-          <div class="mockup-logo">
-            <div class="mockup-logo-box">R</div>
-            <span class="mockup-title">PORTALE CONDOMINIALE</span>
-          </div>
-          <div class="mockup-dots">
-            <div class="dot" style="background:#ef4444"></div>
-            <div class="dot" style="background:#f59e0b"></div>
-            <div class="dot" style="background:#22c55e"></div>
-          </div>
-        </div>
-        <div class="mockup-features">
-          <div class="mockup-feature">
-            <div class="mf-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
-            </div>
-            <strong>Documenti</strong>
-            <span>Verbali, rendiconti, circolari</span>
-          </div>
-          <div class="mockup-feature">
-            <div class="mf-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><rect x="1" y="4" width="22" height="16"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-            </div>
-            <strong>Pagamenti</strong>
-            <span>Bollette, ricevute, storico</span>
-          </div>
-          <div class="mockup-feature">
-            <div class="mf-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-            </div>
-            <strong>Richieste</strong>
-            <span>Segnalazioni e assistenza</span>
-          </div>
-          <div class="mockup-feature">
-            <div class="mf-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-            </div>
-            <strong>Assemblee</strong>
-            <span>Convocazioni e verbali</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- FAQ -->
 <section id="faq">
   <div class="faq-inner">
@@ -1108,20 +974,6 @@
         <button class="faq-btn">
           <div class="faq-btn-left">
             <span class="faq-n">02</span>
-            <span class="faq-q">Come posso accedere al portale condominiale?</span>
-          </div>
-          <span class="faq-icon">
-            <svg class="icon-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            <svg class="icon-minus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          </span>
-        </button>
-        <div class="faq-a">Riceverai un'email di invito con le credenziali di accesso. Potrai entrare dal menu in alto o direttamente su questo sito.</div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-btn">
-          <div class="faq-btn-left">
-            <span class="faq-n">03</span>
             <span class="faq-q">Come vengono gestite le emergenze notturne?</span>
           </div>
           <span class="faq-icon">
@@ -1129,13 +981,13 @@
             <svg class="icon-minus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><line x1="5" y1="12" x2="19" y2="12"/></svg>
           </span>
         </button>
-        <div class="faq-a">Garantiamo reperibilità 24 ore su 24 per emergenze condominiali. Puoi contattarci al numero dedicato o inviare una richiesta urgente dal portale.</div>
+        <div class="faq-a">Garantiamo reperibilità 24 ore su 24 per emergenze condominiali. Puoi contattarci al numero dedicato.</div>
       </div>
 
       <div class="faq-item">
         <button class="faq-btn">
           <div class="faq-btn-left">
-            <span class="faq-n">04</span>
+            <span class="faq-n">03</span>
             <span class="faq-q">Come avviene la transizione da un'altra amministrazione?</span>
           </div>
           <span class="faq-icon">
@@ -1149,21 +1001,7 @@
       <div class="faq-item">
         <button class="faq-btn">
           <div class="faq-btn-left">
-            <span class="faq-n">05</span>
-            <span class="faq-q">I documenti condominiali sono accessibili online?</span>
-          </div>
-          <span class="faq-icon">
-            <svg class="icon-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            <svg class="icon-minus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          </span>
-        </button>
-        <div class="faq-a">Sì, tramite il portale digitale tutti i condomini possono accedere a verbali, rendiconti, circolari e ogni altro documento in qualsiasi momento.</div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-btn">
-          <div class="faq-btn-left">
-            <span class="faq-n">06</span>
+            <span class="faq-n">04</span>
             <span class="faq-q">Come vengono gestiti i pagamenti delle quote condominiali?</span>
           </div>
           <span class="faq-icon">
@@ -1317,8 +1155,6 @@
       <div style="display:flex;gap:20px">
         <a href="/privacy">Privacy</a>
         <a href="/cookie-policy">Cookie</a>
-        <a href="/termini">Termini</a>
-        <a href="/auth">Portale condominiale &rarr;</a>
       </div>
     </div>
   </div>

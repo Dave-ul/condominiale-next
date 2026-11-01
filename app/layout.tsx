@@ -26,8 +26,8 @@ const inter = localFont({
 // nonce durante il server-side rendering, leggendolo dagli header della
 // richiesta, mentre una pagina prerenderizzata a build time non ha nessuna
 // richiesta da cui leggerlo e finirebbe servita con script privi di nonce —
-// che 'strict-dynamic' bloccherebbe. Senza questa riga /auth (la pagina di
-// login, un client component senza API dinamiche) è statica e resta inerte.
+// che 'strict-dynamic' bloccherebbe. Vale anche per /privacy e /cookie-policy,
+// che senza questa riga sarebbero prerenderizzate.
 // La landing pubblica non è coinvolta: la serve app/route.ts, fuori da questo
 // layout, con una CSP senza nonce e la propria Cache-Control.
 export const dynamic = 'force-dynamic'

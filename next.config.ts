@@ -18,6 +18,16 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   // Non dichiarare il framework nell'header x-powered-by.
   poweredByHeader: false,
+  // Il portale condominiale è stato dismesso (il sito è solo vetrina): i
+  // vecchi indirizzi, presenti nelle email di invito e nei segnalibri,
+  // portano alla home invece di dare 404.
+  async redirects() {
+    return ['/auth', '/portale/:path*', '/api/auth/:path*', '/termini'].map((source) => ({
+      source,
+      destination: '/',
+      permanent: true,
+    }))
+  },
   async headers() {
     return [
       {
