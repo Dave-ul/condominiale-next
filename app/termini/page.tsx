@@ -27,15 +27,16 @@ export default function TerminiPage() {
             Termini di Servizio
           </p>
           <p className="text-xs" style={{ color: 'var(--stone)' }}>
-            Portale Condominiale — Rocca Amministrazioni — ultimo aggiornamento: agosto 2026
+            Portale Condominiale — Rocca Amministrazioni — ultimo aggiornamento: novembre 2026
           </p>
 
           <h2 className={h2} style={{ color: 'var(--navy)' }}>Accesso al portale</h2>
           <p className={p}>
-            L&apos;accesso al portale condominiale (<code>/portale</code>) è riservato ai residenti e agli amministratori dei
-            condomini gestiti da Rocca Amministrazioni. La registrazione richiede l&apos;accettazione dell&apos;
-            <Link href="/privacy" className="underline">Informativa Privacy</Link>. Le credenziali di accesso sono personali
-            e non devono essere condivise con terzi.
+            L&apos;accesso al portale condominiale (<code>/portale</code>) è riservato agli aventi diritto dei condomini
+            che hanno deliberato il sito ai sensi dell&apos;art. 71-ter disp. att. c.c. Non è possibile registrarsi
+            liberamente: l&apos;amministratore invia un invito personale dopo aver verificato il titolo. Le credenziali e il
+            fattore di verifica in due passaggi sono personali e non vanno condivisi. Come sono trattati i dati è spiegato
+            nell&apos;<Link href="/privacy" className="underline">Informativa Privacy</Link>.
           </p>
 
           <h2 className={h2} style={{ color: 'var(--navy)' }}>Contenuti e funzionalità</h2>
@@ -50,6 +51,14 @@ export default function TerminiPage() {
             Rocca Amministrazioni si impegna a mantenere il servizio disponibile e i dati aggiornati, ma non garantisce
             l&apos;assenza di interruzioni tecniche. Eventuali errori nei documenti o nei dati pubblicati vanno segnalati
             tramite l&apos;apposita sezione richieste del portale o ai contatti indicati nella pagina Contatti del sito.
+            Restano salve le responsabilità che la legge non consente di escludere.
+          </p>
+
+          <h2 className={h2} style={{ color: 'var(--navy)' }}>Fine dell&apos;accesso</h2>
+          <p className={p}>
+            L&apos;accesso termina quando cessa il diritto sull&apos;unità immobiliare o l&apos;incarico
+            dell&apos;amministratore. Dalla pagina Account puoi scaricare i tuoi dati e cancellare l&apos;account in
+            qualsiasi momento.
           </p>
 
           <h2 className={h2} style={{ color: 'var(--navy)' }}>Modifiche</h2>

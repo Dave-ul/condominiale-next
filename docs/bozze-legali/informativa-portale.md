@@ -31,7 +31,7 @@ Contatti per l'esercizio dei diritti: [email professionale / PEC].
 | Gestione di richieste e segnalazioni di manutenzione | Esecuzione del rapporto condominiale / mandato, art. 6.1.b; per chi non è parte (es. inquilini) legittimo interesse del condominio alla manutenzione delle parti comuni, art. 6.1.f |
 | Sicurezza del portale (autenticazione, log) | Obbligo di sicurezza, art. 32, e legittimo interesse, art. 6.1.f |
 
-Il conferimento dei dati di contatto è necessario per ricevere le credenziali di accesso. L'uso del portale è facoltativo: i documenti restano consultabili presso l'amministratore (art. 1129 c. 2 c.c.).
+Il conferimento dei dati di contatto è necessario per ricevere le credenziali di accesso. L'uso del portale è facoltativo. I registri condominiali restano consultabili presso l'amministratore (art. 1129, secondo comma, c.c.), e la rendicontazione periodica resta consultabile su richiesta (art. 1129, settimo comma, c.c.).
 
 ## 4. Chi può vedere i dati
 - Ogni utente vede solo i **propri** pagamenti, ricevute e richieste, e i documenti del **proprio** condominio.
