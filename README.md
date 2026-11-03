@@ -94,4 +94,5 @@ due CSP.
 
 ## Aperti
 
-Vedi `docs/audit-legale.md` § 7: P.IVA, REA e PEC nel footer.
+Nessun rilievo legale aperto per la vetrina: vedi `docs/audit-legale.md` § 7.7.
+Da valutare: casella `@roccaamministrazioni.it` al posto di Yahoo per il modulo.

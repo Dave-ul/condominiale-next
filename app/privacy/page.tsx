@@ -10,14 +10,14 @@ const h2 = 'text-lg font-bold mt-8 mb-3'
 const p = 'text-sm leading-relaxed mb-3'
 const ul = 'text-sm leading-relaxed mb-3 pl-5 list-disc space-y-1'
 
-// Dati dello studio. I segnaposto tra parentesi quadre vanno sostituiti prima
-// della pubblicazione (art. 35 DPR 633/1972 e art. 7 D.Lgs. 70/2003).
+// Dati dello studio (art. 35 DPR 633/1972 e art. 7 D.Lgs. 70/2003), confermati
+// dal titolare il 3/11/2026. Tenere allineati con il footer di public/index.html.
 const STUDIO = {
   nome: 'Pier Luigi Rocca — Rocca Amministrazioni',
   sede: 'Via Don Giovanni Minzoni 1, 40067 Rastignano (BO)',
-  piva: '[P.IVA]',
+  piva: '03741891208',
   email: 'pluigi.rocca@yahoo.com',
-  pec: '[PEC]',
+  pec: 'studio@pec.roccaamministrazioni.it',
   tel: '+39 338 374 2204',
 }
 
