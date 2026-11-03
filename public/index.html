@@ -602,7 +602,7 @@
     .alert {
       padding: 12px 16px;
       font-size: 13px;
-      margin-bottom: 20px;
+      margin-top: 16px;
       display: none;
     }
     .alert-success { background: rgba(34,197,94,0.15); color: #4ade80; border: 1px solid rgba(34,197,94,0.3); }
@@ -1066,8 +1066,6 @@
       </div>
 
       <form class="contact-form" id="contact-form">
-        <div id="alert-success" class="alert alert-success">Messaggio inviato! Ti risponderemo entro 24 ore.</div>
-        <div id="alert-error"   class="alert alert-error">Errore nell'invio. Riprova o chiamaci direttamente.</div>
         <div class="form-row">
           <div>
             <label>Nome *</label>
@@ -1104,6 +1102,10 @@
           <label>Non compilare questo campo <input type="text" name="sito_web" tabindex="-1" autocomplete="off" /></label>
         </div>
         <button type="submit" class="btn-submit" id="submit-btn">Invia messaggio</button>
+        <!-- Esito sotto il pulsante, dove il visitatore sta guardando; role
+             status/alert lo fanno leggere anche agli screen reader. -->
+        <div id="alert-success" class="alert alert-success" role="status">Messaggio inviato! Ti risponderemo entro 24 ore.</div>
+        <div id="alert-error"   class="alert alert-error" role="alert">Errore nell'invio. Riprova o chiamaci direttamente.</div>
         <p class="form-note">
           I dati inseriti sono usati solo per rispondere alla tua richiesta e ci arrivano via email tramite il
           servizio di posta Aruba (Italia). Dettagli e diritti nell'<a href="/privacy">informativa privacy</a>.
