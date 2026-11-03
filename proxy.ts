@@ -61,8 +61,8 @@ export function buildLandingCSP(): string {
     `style-src 'self' 'unsafe-inline'`,
     `img-src 'self' data:`,
     `font-src 'self'`,
-    // Form contatti (Formspree).
-    `connect-src 'self' https://formspree.io`,
+    // Il modulo contatti invia a /api/contatto, sullo stesso sito.
+    `connect-src 'self'`,
     // Mappa Google incorporata nella sezione contatti.
     `frame-src https://maps.google.com https://www.google.com`,
     `frame-ancestors 'self'`,

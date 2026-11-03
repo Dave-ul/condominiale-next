@@ -22,6 +22,20 @@ describe('landing statica (sito vetrina)', () => {
   })
 })
 
+describe('modulo di contatto', () => {
+  const js = readFileSync(join(process.cwd(), 'public/landing.js'), 'utf-8')
+
+  it('invia a /api/contatto e non più a Formspree', () => {
+    expect(js).toContain("fetch('/api/contatto'")
+    expect(js.toLowerCase()).not.toContain('formspree')
+    expect(html.toLowerCase()).not.toContain('formspree')
+  })
+
+  it('ha il campo trappola nascosto per lo spam', () => {
+    expect(html).toMatch(/name="sito_web"[^>]*tabindex="-1"/)
+  })
+})
+
 describe('redirect delle vecchie pagine del portale', () => {
   it('manda alla home in modo permanente', async () => {
     const redirects = await nextConfig.redirects?.()

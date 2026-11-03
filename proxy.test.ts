@@ -18,8 +18,9 @@ describe('CSP delle pagine Next', () => {
 describe('CSP della landing', () => {
   const csp = buildLandingCSP()
 
-  it('permette solo il modulo Formspree e la mappa Google', () => {
-    expect(csp).toContain(`connect-src 'self' https://formspree.io`)
+  it('permette solo la mappa Google: il modulo invia allo stesso sito', () => {
+    expect(csp).toContain(`connect-src 'self';`)
+    expect(csp).not.toContain('formspree')
     expect(csp).toContain('frame-src https://maps.google.com https://www.google.com')
     expect(csp).toContain(`script-src 'self'`)
   })

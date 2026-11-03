@@ -202,7 +202,7 @@ Non si applicano più: R-4 (delibera ex art. 71-ter), R-5 (titolarità condomini
 ### 7.3 Rilievi ancora aperti per la vetrina
 
 1. **P.IVA, REA (se c'è) e PEC** al posto dei segnaposto nel footer di `public/index.html` e in `app/privacy/page.tsx` (R-21).
-2. **Formspree**: trasferimento verso gli USA senza garanzia documentata (§ 6.1, punto 6). Da sostituire, ad esempio con un link `mailto:`, oppure da coprire con DPA e clausole contrattuali tipo. Con la sostituzione vanno aggiornate informativa, nota del modulo e CSP.
+2. ~~**Formspree**~~: **risolto il 1/11/2026** (§ 7.5).
 3. **Vercel Hobby**: le fair use guidelines lo limitano all'uso non commerciale, e il sito di uno studio professionale è uso commerciale; il DPA vale solo da Pro (R-3). In alternativa, un hosting statico UE con DPA.
 
 ### 7.4 Fuori dal codice (a cura del proprietario)
@@ -211,3 +211,13 @@ Non si applicano più: R-4 (delibera ex art. 71-ter), R-5 (titolarità condomini
 - Togliere da Vercel le variabili `NEXT_PUBLIC_SUPABASE_*` e l'integrazione Supabase del team.
 - Eliminare la casella SMTP `portale@roccaamministrazioni.it` o cambiarne la password.
 - Togliere `quality/db-tests` dai check obbligatori della protezione di `main`.
+
+### 7.5 Formspree sostituito (1/11/2026)
+
+Il modulo di contatto (richieste di preventivo) resta, su richiesta dell'amministratore. Non passa più da Formspree (USA, nessuna garanzia per il trasferimento): invia a `/api/contatto`, una funzione del sito nella regione Vercel di Francoforte. Questa spedisce la mail con nodemailer tramite `smtps.aruba.it`, cioè la posta Aruba del dominio con server in Italia, alla casella dello studio.
+
+- Misure: controllo dell'`Origin`, limite di 5 richieste ogni 10 minuti per IP (in memoria, per istanza), campo trappola contro lo spam, validazione con lunghezze massime, `Reply-To` senza a capo, nessun dato del visitatore nei log.
+- CSP della home: `connect-src 'self'`, Formspree tolto.
+- Informativa e nota sotto il modulo: Formspree sostituito da Aruba S.p.A.; aggiunta Yahoo EMEA Limited (Irlanda) come fornitore della casella che riceve le richieste.
+- Credenziali SMTP solo nelle variabili d'ambiente di Vercel (`SMTP_USER`, `SMTP_PASS`).
+- Da valutare: far arrivare le richieste a una casella `@roccaamministrazioni.it` invece che a Yahoo, così tutta la catena resta su Aruba.
