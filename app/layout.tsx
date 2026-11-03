@@ -35,7 +35,7 @@ export const dynamic = 'force-dynamic'
 export const metadata: Metadata = {
   title: 'Rocca Amministrazioni - Gestione Condominiale Bologna',
   description:
-    'Amministrazione condominiale professionale a Bologna e provincia. Gestione digitale, assemblee, contabilita e assistenza 24h.',
+    'Amministrazione condominiale professionale a Bologna e provincia: assemblee, contabilità e assistenza 24h.',
   keywords: 'amministratore condominio Bologna, gestione condominiale, assemblee condominio',
 }
 
