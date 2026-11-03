@@ -201,7 +201,7 @@ Non si applicano più: R-4 (delibera ex art. 71-ter), R-5 (titolarità condomini
 
 ### 7.3 Rilievi ancora aperti per la vetrina
 
-1. **P.IVA, REA (se c'è) e PEC** al posto dei segnaposto nel footer di `public/index.html` e in `app/privacy/page.tsx` (R-21).
+1. ~~**P.IVA, REA (se c'è) e PEC**~~: **risolto il 3/11/2026** (§ 7.7).
 2. ~~**Formspree**~~: **risolto il 1/11/2026** (§ 7.5).
 3. ~~**Vercel Hobby**~~: **risolto il 3/11/2026** con il passaggio a Netlify (§ 7.6).
 
@@ -234,3 +234,18 @@ Vercel Hobby non ammette l'uso commerciale e non ha DPA (R-3). Il sito passa a N
 - **Header di sicurezza**: su Netlify quelli di `next.config.ts` arrivano solo alle pagine Next, non alla home né ai file statici. Sono ripetuti in `netlify.toml` (`[[headers]]` su `/*`); verificato sul branch deploy che arrivano ovunque e senza doppioni.
 - **Progetto Netlify**: `rocca-amministrazioni`, badge "Powered by Netlify" spento (avrebbe iniettato markup nelle pagine).
 - **A cura del proprietario**: creare il sito su Netlify collegato al repository, impostare `SMTP_USER` e `SMTP_PASS`, spostare i record DNS di `roccaamministrazioni.it` e `www` (Aruba) da Vercel a Netlify, verificare il modulo, poi eliminare il progetto Vercel.
+
+### 7.7 Dati dello studio e affermazioni del sito (3/11/2026)
+
+Dati e conferme forniti dal titolare il 3/11/2026.
+
+- **P.IVA e PEC** nel footer della home (art. 35 c. 1 DPR 633/1972; art. 7 c. 1 lett. c e g D.Lgs. 70/2003) e nell'informativa.
+- **REA**: tolto. Lo studio non è iscritto al Registro delle imprese, quindi l'art. 7 c. 1 lett. d D.Lgs. 70/2003 non si applica.
+- **L. 4/2013**: aggiunto nel footer "Professione disciplinata ai sensi della Legge 14 gennaio 2013, n. 4", con l'iscrizione ANAPI n. P8594. Riferimento richiesto in ogni documento e rapporto scritto con il cliente (art. 1 c. 3, letto su Normattiva); l'omissione è pratica commerciale scorretta. Il titolare lo aggiunge anche a firma email, preventivi e lettere di incarico.
+- **Affermazioni corrette per non essere ingannevoli**:
+  - "professionalità certificata" diventa "qualificata": nessuna certificazione (es. UNI 10801);
+  - "50+ condomini" diventa "30+" (32 gestiti);
+  - tolta la reperibilità 24 ore su 24 (statistica, FAQ, meta description, "sempre disponibile"): la FAQ sulle emergenze rimanda al numero dello studio;
+  - conferma del modulo: "Di solito rispondiamo entro 24 ore";
+  - confermati dal titolare: aggiornamento professionale e assicurazione RC professionale.
+- **Casella che riceve il modulo**: resta `pluigi.rocca@yahoo.com` finché la casella dello studio non è operativa.

@@ -683,9 +683,12 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px 24px;
       padding-top: 24px;
       border-top: 1px solid rgba(255,255,255,0.06);
     }
+    .footer-bottom p { line-height: 1.7; }
     .footer-bottom p, .footer-bottom a {
       font-size: 11px;
       color: rgba(255,255,255,0.25);
@@ -763,7 +766,7 @@
           <span class="eyebrow-text">Amministrazione Condominiale · Bologna</span>
         </div>
         <h1>Gestiamo il tuo<br>condominio <span>con<br>professionalità</span></h1>
-        <p class="hero-desc">Studio professionale a Bologna. Amministrazione trasparente e sempre disponibile.</p>
+        <p class="hero-desc">Studio professionale a Bologna. Amministrazione trasparente.</p>
         <div class="hero-cta">
           <a href="#contatti" class="btn btn-gold">
             Richiedi un preventivo
@@ -787,12 +790,12 @@
           <span class="eyebrow-text">Chi siamo</span>
         </div>
         <h2>Professionalità al servizio<br>del vostro condominio</h2>
-        <blockquote>"La mia missione è semplificare la vita dei condomini attraverso una gestione trasparente e sempre disponibile."</blockquote>
-        <p class="about-desc">Pier Luigi Rocca, fondatore e amministratore principale, opera nell'ambito della gestione condominiale a Bologna e provincia. Il nostro studio garantisce professionalità certificata nella gestione del patrimonio immobiliare.</p>
+        <blockquote>"La mia missione è semplificare la vita dei condomini attraverso una gestione trasparente."</blockquote>
+        <p class="about-desc">Pier Luigi Rocca, fondatore e amministratore principale, opera nell'ambito della gestione condominiale a Bologna e provincia. Il nostro studio garantisce professionalità qualificata nella gestione del patrimonio immobiliare.</p>
         <ul class="creds">
           <li>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><polyline points="20 6 9 17 4 12"/></svg>
-            <span>Iscritto ANAPI</span>
+            <span>Iscritto ANAPI n. P8594</span>
           </li>
           <li>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><polyline points="20 6 9 17 4 12"/></svg>
@@ -812,12 +815,8 @@
     </div>
     <div class="stat-bar" style="border-top:1px solid rgba(255,255,255,0.15);margin-top:48px;padding-top:28px">
       <div class="stat-bar-item">
-        <div class="stat-bar-val">50+</div>
+        <div class="stat-bar-val">30+</div>
         <div class="stat-bar-lbl">Condomini gestiti</div>
-      </div>
-      <div class="stat-bar-item">
-        <div class="stat-bar-val">24h</div>
-        <div class="stat-bar-lbl">Reperibilità</div>
       </div>
     </div>
   </div>
@@ -968,14 +967,14 @@
         <button class="faq-btn">
           <div class="faq-btn-left">
             <span class="faq-n">02</span>
-            <span class="faq-q">Come vengono gestite le emergenze notturne?</span>
+            <span class="faq-q">Come vengono gestite le emergenze?</span>
           </div>
           <span class="faq-icon">
             <svg class="icon-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
             <svg class="icon-minus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><line x1="5" y1="12" x2="19" y2="12"/></svg>
           </span>
         </button>
-        <div class="faq-a">Garantiamo reperibilità 24 ore su 24 per emergenze condominiali. Puoi contattarci al numero dedicato.</div>
+        <div class="faq-a">Per le emergenze condominiali puoi chiamare lo studio al +39 338 374 2204.</div>
       </div>
 
       <div class="faq-item">
@@ -1096,7 +1095,7 @@
         <button type="submit" class="btn-submit" id="submit-btn">Invia messaggio</button>
         <!-- Esito sotto il pulsante, dove il visitatore sta guardando; role
              status/alert lo fanno leggere anche agli screen reader. -->
-        <div id="alert-success" class="alert alert-success" role="status">Messaggio inviato! Ti risponderemo entro 24 ore.</div>
+        <div id="alert-success" class="alert alert-success" role="status">Messaggio inviato! Di solito rispondiamo entro 24 ore.</div>
         <div id="alert-error"   class="alert alert-error" role="alert">Errore nell'invio. Riprova o chiamaci direttamente.</div>
         <p class="form-note">
           I dati inseriti sono usati solo per rispondere alla tua richiesta e ci arrivano via email tramite il
@@ -1148,9 +1147,11 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <!-- Dati obbligatori: art. 35 c. 1 DPR 633/1972 (P.IVA in home page) e art. 7 D.Lgs. 70/2003.
-           Sostituire i segnaposto prima del merge; togliere il REA se lo studio non e' iscritto. -->
-      <p>&copy; 2026 Pier Luigi Rocca &mdash; Rocca Amministrazioni &middot; Via Don Giovanni Minzoni 1, 40067 Rastignano (BO) &middot; P.IVA [P.IVA] &middot; REA [REA] &middot; <a href="mailto:pluigi.rocca@yahoo.com">pluigi.rocca@yahoo.com</a></p>
+      <!-- Dati obbligatori: art. 35 c. 1 DPR 633/1972 (P.IVA in home page), art. 7 D.Lgs. 70/2003
+           e art. 1 c. 3 L. 4/2013 (riferimento alla legge per le professioni non organizzate).
+           Niente REA: lo studio non e' iscritto al Registro delle imprese (conferma del titolare, 3/11/2026). -->
+      <p>&copy; 2026 Pier Luigi Rocca &mdash; Rocca Amministrazioni &middot; Via Don Giovanni Minzoni 1, 40067 Rastignano (BO) &middot; P.IVA 03741891208 &middot; PEC <a href="mailto:studio@pec.roccaamministrazioni.it">studio@pec.roccaamministrazioni.it</a> &middot; <a href="mailto:pluigi.rocca@yahoo.com">pluigi.rocca@yahoo.com</a><br>
+        Professione disciplinata ai sensi della Legge 14 gennaio 2013, n. 4 &middot; Iscritto ANAPI n. P8594</p>
       <div style="display:flex;gap:20px">
         <a href="/privacy">Privacy</a>
         <a href="/cookie-policy">Cookie</a>
