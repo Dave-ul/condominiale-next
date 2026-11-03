@@ -111,7 +111,7 @@ interface RateLimiterOptions {
   now?: () => number
 }
 
-// Limite per IP in memoria. Su Vercel ogni istanza ha la sua memoria, quindi
+// Limite per IP in memoria. Sulle funzioni serverless (Netlify) ogni istanza ha la sua memoria, quindi
 // è un freno contro gli invii a raffica, non un limite garantito.
 export function createRateLimiter({ max, windowMs, now = Date.now }: RateLimiterOptions) {
   const hits = new Map<string, number[]>()

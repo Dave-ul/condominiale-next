@@ -203,7 +203,7 @@ Non si applicano più: R-4 (delibera ex art. 71-ter), R-5 (titolarità condomini
 
 1. **P.IVA, REA (se c'è) e PEC** al posto dei segnaposto nel footer di `public/index.html` e in `app/privacy/page.tsx` (R-21).
 2. ~~**Formspree**~~: **risolto il 1/11/2026** (§ 7.5).
-3. **Vercel Hobby**: le fair use guidelines lo limitano all'uso non commerciale, e il sito di uno studio professionale è uso commerciale; il DPA vale solo da Pro (R-3). In alternativa, un hosting statico UE con DPA.
+3. ~~**Vercel Hobby**~~: **risolto il 3/11/2026** con il passaggio a Netlify (§ 7.6).
 
 ### 7.4 Fuori dal codice (a cura del proprietario)
 
@@ -214,10 +214,23 @@ Non si applicano più: R-4 (delibera ex art. 71-ter), R-5 (titolarità condomini
 
 ### 7.5 Formspree sostituito (1/11/2026)
 
-Il modulo di contatto (richieste di preventivo) resta, su richiesta dell'amministratore. Non passa più da Formspree (USA, nessuna garanzia per il trasferimento): invia a `/api/contatto`, una funzione del sito nella regione Vercel di Francoforte. Questa spedisce la mail con nodemailer tramite `smtps.aruba.it`, cioè la posta Aruba del dominio con server in Italia, alla casella dello studio.
+Il modulo di contatto (richieste di preventivo) resta, su richiesta dell'amministratore. Non passa più da Formspree (USA, nessuna garanzia per il trasferimento): invia a `/api/contatto`, una funzione del sito (dal 3/11/2026 su Netlify, negli Stati Uniti: § 7.6). Questa spedisce la mail con nodemailer tramite `smtps.aruba.it`, cioè la posta Aruba del dominio con server in Italia, alla casella dello studio.
 
 - Misure: controllo dell'`Origin`, limite di 5 richieste ogni 10 minuti per IP (in memoria, per istanza), campo trappola contro lo spam, validazione con lunghezze massime, `Reply-To` senza a capo, nessun dato del visitatore nei log.
 - CSP della home: `connect-src 'self'`, Formspree tolto.
 - Informativa e nota sotto il modulo: Formspree sostituito da Aruba S.p.A.; aggiunta Yahoo EMEA Limited (Irlanda) come fornitore della casella che riceve le richieste.
-- Credenziali SMTP solo nelle variabili d'ambiente di Vercel (`SMTP_USER`, `SMTP_PASS`).
+- Credenziali SMTP solo nelle variabili d'ambiente dell'hosting (`SMTP_USER`, `SMTP_PASS`; dal 3/11/2026 su Netlify).
 - Da valutare: far arrivare le richieste a una casella `@roccaamministrazioni.it` invece che a Yahoo, così tutta la catena resta su Aruba.
+
+### 7.6 Hosting spostato su Netlify (3/11/2026)
+
+Vercel Hobby non ammette l'uso commerciale e non ha DPA (R-3). Il sito passa a Netlify, piano gratuito.
+
+- **Uso commerciale**: il Self-Serve Subscription Agreement non lo esclude per il "Free Usage Tier". In cambio il piano gratuito non ha SLA e Netlify può sospendere il sito senza preavviso (§ 6.1 del contratto).
+- **DPA**: il Netlify Data Processing Agreement (versione del 9/6/2026) "forms part of" il Self-Serve Subscription Agreement, quindi vale anche per il piano gratuito senza firma separata. Netlify è responsabile ex art. 28; notifica delle violazioni entro 48 ore (§ 10.1); sub-responsabili elencati nel Trust Center, con 30 giorni di preavviso e diritto di opposizione (§ 6).
+- **Trasferimento USA**: base EU-US Data Privacy Framework (§ 14.2). Netlify, Inc. risulta "Active" nell'elenco ufficiale dataprivacyframework.gov per UE, Svizzera e UK (dati non-HR), verificato il 3/11/2026. Se il DPF cade, si applicano le SCC modulo 2, legge e foro irlandesi (§ 14.3).
+- **Regione delle funzioni**: sul piano gratuito resta quella predefinita, `cmh` (Ohio). La scelta della regione (es. `fra`) è solo dei piani Pro ed Enterprise. Quindi anche i dati del modulo di contatto passano per gli Stati Uniti prima di arrivare ad Aruba. L'informativa lo dice.
+- **Codice**: `netlify.toml` (build e Node 24) al posto di `vercel.json`. Il proxy (`proxy.ts`) diventa una Edge Function; route e pagine diventano una funzione Node. Provato in locale con `netlify build` e `netlify serve` (netlify-cli 27.13.0): pagine, redirect del vecchio portale, header di sicurezza e nonce della CSP coerente tra header e markup.
+- **Header di sicurezza**: su Netlify quelli di `next.config.ts` arrivano solo alle pagine Next, non alla home né ai file statici. Sono ripetuti in `netlify.toml` (`[[headers]]` su `/*`); verificato sul branch deploy che arrivano ovunque e senza doppioni.
+- **Progetto Netlify**: `rocca-amministrazioni`, badge "Powered by Netlify" spento (avrebbe iniettato markup nelle pagine).
+- **A cura del proprietario**: creare il sito su Netlify collegato al repository, impostare `SMTP_USER` e `SMTP_PASS`, spostare i record DNS di `roccaamministrazioni.it` e `www` (Aruba) da Vercel a Netlify, verificare il modulo, poi eliminare il progetto Vercel.

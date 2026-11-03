@@ -2,7 +2,7 @@ import { createTransport } from 'nodemailer'
 import type { ContattoEmail } from '@/lib/contatto'
 
 // Invio tramite la posta Aruba del dominio (server in Italia). Le credenziali
-// stanno solo nelle variabili d'ambiente di Vercel, mai nel repository.
+// stanno solo nelle variabili d'ambiente dell'hosting (Netlify), mai nel repository.
 const DESTINATARIO = 'pluigi.rocca@yahoo.com'
 const SMTP_HOST = 'smtps.aruba.it'
 const SMTP_PORT = 465

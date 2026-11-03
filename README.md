@@ -7,8 +7,9 @@ portale condominiale che c'era prima è stato dismesso il 1/11/2026 (vedi
 `docs/audit-legale.md` § 7).
 
 Stack: [Next.js](https://nextjs.org) (App Router) e Tailwind CSS per le
-pagine legali; la home è un file HTML statico. Il deploy è su Vercel
-tramite l'integrazione Vercel↔GitHub.
+pagine legali; la home è un file HTML statico. Il deploy è su Netlify
+(piano gratuito) tramite l'integrazione Netlify↔GitHub; la configurazione
+è in `netlify.toml`.
 
 > **Nota per chi sviluppa con AI**: questa versione di Next.js ha
 > convenzioni diverse da quelle "storiche" (es. il middleware si chiama
@@ -33,7 +34,8 @@ SMTP_PASS=...
 ```
 
 Senza, il sito funziona ma `/api/contatto` risponde 502. In produzione le
-due variabili stanno nelle Environment Variables di Vercel.
+due variabili stanno nelle Environment variables del sito su Netlify
+(Project configuration → Environment variables).
 
 ## Struttura
 
@@ -92,4 +94,4 @@ due CSP.
 
 ## Aperti
 
-Vedi `docs/audit-legale.md` § 7: P.IVA, REA e PEC nel footer, piano Vercel.
+Vedi `docs/audit-legale.md` § 7: P.IVA, REA e PEC nel footer.
