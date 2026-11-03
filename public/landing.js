@@ -50,14 +50,42 @@ document.querySelectorAll('.faq-btn').forEach((btn) => {
 
 // Form contatti
 const form = document.getElementById('contact-form')
+const succ = document.getElementById('alert-success')
+const err = document.getElementById('alert-error')
+const ERRORE_GENERICO = err.textContent
+
+function mostraEsito(el) {
+  el.style.display = 'block'
+  // Il pulsante può essere in fondo allo schermo: porta l'esito in vista.
+  el.scrollIntoView({ block: 'nearest' })
+}
+
+function nascondiEsiti() {
+  succ.style.display = 'none'
+  err.style.display = 'none'
+}
+
+// Gli esiti restano visibili finché il visitatore non torna a scrivere: un
+// timer li faceva sparire prima che fossero letti.
+form.addEventListener('input', nascondiEsiti)
+
+// Il messaggio d'errore dell'API (app/api/contatto) è già pensato per il
+// visitatore; se manca o non è leggibile resta il testo generico.
+async function messaggioErrore(res) {
+  try {
+    const body = await res.json()
+    return typeof body.error === 'string' && body.error ? body.error : ERRORE_GENERICO
+  } catch {
+    return ERRORE_GENERICO
+  }
+}
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault()
   const btn = document.getElementById('submit-btn')
-  const succ = document.getElementById('alert-success')
-  const err = document.getElementById('alert-error')
   const data = Object.fromEntries(new FormData(form))
 
+  nascondiEsiti()
   btn.disabled = true
   btn.textContent = 'Invio in corso...'
 
@@ -70,21 +98,19 @@ form.addEventListener('submit', async (e) => {
       body: JSON.stringify(data),
     })
     if (res.ok) {
-      succ.style.display = 'block'
       form.reset()
+      mostraEsito(succ)
     } else {
-      err.style.display = 'block'
+      err.textContent = await messaggioErrore(res)
+      mostraEsito(err)
     }
   } catch {
-    err.style.display = 'block'
+    err.textContent = ERRORE_GENERICO
+    mostraEsito(err)
   }
 
   btn.disabled = false
   btn.textContent = 'Invia messaggio'
-  setTimeout(() => {
-    succ.style.display = 'none'
-    err.style.display = 'none'
-  }, 5000)
 })
 
 // Mappa Google su richiesta esplicita (Linee guida cookie del Garante, 2021):
