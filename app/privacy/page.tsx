@@ -83,8 +83,11 @@ export default function PrivacyPage() {
               richiesta viene ricevuta e conservata.
             </li>
             <li>
-              <strong>Vercel Inc.</strong> (Stati Uniti): hosting del sito; le funzioni dell&apos;applicazione girano
-              nella regione UE di Francoforte, la rete di distribuzione dei contenuti è globale.
+              <strong>Netlify, Inc.</strong> (Stati Uniti): hosting del sito. Le funzioni del sito, compreso l&apos;invio
+              del modulo di contatto, girano negli Stati Uniti; la rete di distribuzione dei contenuti è globale. Il
+              trasferimento si basa sull&apos;adesione di Netlify al Data Privacy Framework UE-USA (decisione di
+              adeguatezza della Commissione europea del 10 luglio 2023, art. 45 GDPR), con le clausole contrattuali
+              tipo della Commissione come garanzia di riserva.
             </li>
           </ul>
 

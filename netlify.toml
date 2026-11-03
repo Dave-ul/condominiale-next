@@ -1,0 +1,10 @@
+# Deploy su Netlify (piano gratuito). Next.js è riconosciuto in automatico:
+# l'adattatore OpenNext di Netlify trasforma le route in funzioni e il proxy
+# in una Edge Function, senza configurazione aggiuntiva.
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  # Stessa versione della CI (.github/workflows/deploy.yml).
+  NODE_VERSION = "24"
